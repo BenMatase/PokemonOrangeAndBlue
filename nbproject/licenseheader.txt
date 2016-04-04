@@ -1,0 +1,15 @@
+/* *****************************************
+* CSCI205 - Software Engineering and Design
+* Spring 2016
+*
+* Name: Benjamin Matase, Jason Corriveau, Eric Marshall, Alexander Murph
+* Date: ${date}
+* Time: ${time}
+*
+* Project: ${project.name}
+* Package: ${package}
+* File: ${name}
+* Description:
+*
+* ****************************************
+*/
