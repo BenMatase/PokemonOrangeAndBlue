@@ -8,6 +8,7 @@
 
 # Package Files #
 *.jar
+!externals/*.jar
 *.war
 *.ear
 
