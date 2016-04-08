@@ -52,7 +52,8 @@ public class PokemonLoaderUtility {
     }
 
     private static void loadMoveNode() {
-
+        SAXBuilder builder = new SAXBuilder();
+        File xmlFile = new File("./data/mov.xml");
     }
 
     public static List<String> getPokemonNames() {
