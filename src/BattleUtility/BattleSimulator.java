@@ -46,33 +46,38 @@ public class BattleSimulator {
 
     }
 
-    public Events[] simulate() {
+    public ArrayList<Events> simulate() {
 
-        Events[] eventArray1 = getFirstBattle();
+        ArrayList<Events> battleEvents = new ArrayList<Events>;
+
+        ArrayList<Events> eventArray1 = getFirstBattle();
+
+        battleEvents.addall(eventArray1);
 
         if (secondPokemon.isFainted()) {
-            String event3 = String.format("%s fainted!", secondPokemon.getName());
-            return eventArray;
+            String deadString = String.format("%s fainted!",
+                                              secondPokemon.getName());
+            Event event3 = new textOutputEvent(deadString);
+            battleEvents.add(event3);
+            return battleEvents;
         }
 
-        BattleCalculator secondBattle
-                         = new BattleCalculator(secondPokemon, firstPokemon,
-                                                pokeMove2);
-        String event4 = String.format("%s used %s! \n", secondPokemon.getName(),
-                                      pokeMove2.getName());
+        ArrayList<Events> eventArray2 = getSecondBattle();
 
-        firstPokemon.reduceHealth(secondBattle.damageCalculator());
-
-        String event5 = secondBattle.getOutcome();
+        battleEvents.addall(eventArray2);
 
         if (firstPokemon.isFainted()) {
-            String event6 = String.format("%s fainted!", firstPokemon.getName());
+            String deadString = String.format("%s fainted!",
+                                              firstPokemon.getName());
+            Event event3 = new textOutputEvent(deadString);
+            battleEvents.add(event3);
+            return battleEvents;
         }
 
         return eventArray;
     }
 
-    private Events[] getFirstBattle() throws IOException {
+    private ArrayList<Events> getFirstBattle() throws IOException {
 
         ArrayList<Events> battleEvents = new ArrayList<Events>;
         BattleCalculator firstBattle
