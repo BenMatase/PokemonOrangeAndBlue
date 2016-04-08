@@ -20,7 +20,7 @@ import org.newdawn.slick.state.StateBasedGame;
  *
  * @author Eric
  */
-public class PokémonOB extends StateBasedGame {
+public class PokemonOB extends StateBasedGame {
 
     // Application Properties
     public static final int WIDTH = 512;
@@ -29,7 +29,7 @@ public class PokémonOB extends StateBasedGame {
     public static final double VERSION = 0.1;
 
     // Class Constructor
-    public PokémonOB(String appName) {
+    public PokemonOB(String appName) {
         super(appName);
 
     }
@@ -48,7 +48,8 @@ public class PokémonOB extends StateBasedGame {
     // Main Method
     public static void main(String[] args) {
         try {
-            AppGameContainer app = new AppGameContainer(new PokémonOB("Pokémon Orange and Blue v" + VERSION));
+            AppGameContainer app = new AppGameContainer(new PokemonOB(
+                    "Pokémon Orange and Blue v" + VERSION));
             app.setDisplayMode(WIDTH, HEIGHT, false);
             app.setTargetFrameRate(FPS);
             app.setShowFPS(true);
