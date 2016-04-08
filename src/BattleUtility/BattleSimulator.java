@@ -57,7 +57,7 @@ public class BattleSimulator {
         if (secondPokemon.isFainted()) {
             String deadString = String.format("%s fainted!",
                                               secondPokemon.getName());
-            Event event3 = new textOutputEvent(deadString);
+            Event event3 = new TextOutputEvent(deadString);
             battleEvents.add(event3);
             return battleEvents;
         }
@@ -69,12 +69,11 @@ public class BattleSimulator {
         if (firstPokemon.isFainted()) {
             String deadString = String.format("%s fainted!",
                                               firstPokemon.getName());
-            Event event3 = new textOutputEvent(deadString);
+            Event event3 = new TextOutputEvent(deadString);
             battleEvents.add(event3);
-            return battleEvents;
         }
 
-        return eventArray;
+        return battleEvents;
     }
 
     private ArrayList<Events> getFirstBattle() throws IOException {
@@ -83,13 +82,17 @@ public class BattleSimulator {
         BattleCalculator firstBattle
                          = new BattleCalculator(firstPokemon, secondPokemon,
                                                 pokeMove1);
-        String event1 = String.format("%s used %s! \n", firstPokemon.getName(),
-                                      pokeMove1.getName());
+        String openingText = String.format("%s used %s! \n",
+                                           firstPokemon.getName(),
+                                           pokeMove1.getName());
+
+        Event event1 = new TextOutputEvent(openingText);
+
         battleEvents.add(event1);
 
         secondPokemon.reduceHealth(firstBattle.damageCalculator());
 
-        Event event2 = new updateHealthBarEvent();
+        Event event2 = new UpdateHealthBarEvent();
         battleEvents.add(event2);
 
         String battleText = firstBattle.getOutcome();
@@ -99,8 +102,8 @@ public class BattleSimulator {
 
         String line = null;
         while ((line = bufReader.readLine()) != null) {
-            Event textEvent = new textOutputEvent(line);
-            battleEvents.add(event);
+            Event textEvent = new TextOutputEvent(line);
+            battleEvents.add(textEvent);
         }
 
         return battleEvents;
@@ -112,13 +115,17 @@ public class BattleSimulator {
         BattleCalculator secondBattle
                          = new BattleCalculator(secondPokemon, firstPokemon,
                                                 pokeMove2);
-        String event1 = String.format("%s used %s! \n", secondPokemon.getName(),
-                                      pokeMove2.getName());
+        String openingText = String.format("%s used %s! \n",
+                                           secondPokemon.getName(),
+                                           pokeMove2.getName());
+
+        Event event1 = new TextOutputEvent(openingText);
+
         battleEvents.add(event1);
 
         firstPokemon.reduceHealth(firstBattle.damageCalculator());
 
-        Event event2 = new updateHealthBarEvent();
+        Event event2 = new UpdateHealthBarEvent();
         battleEvents.add(event2);
 
         String battleText = secondBattle.getOutcome();
@@ -128,8 +135,8 @@ public class BattleSimulator {
 
         String line = null;
         while ((line = bufReader.readLine()) != null) {
-            Event textEvent = new textOutputEvent(line);
-            battleEvents.add(event);
+            Event textEvent = new TextOutputEvent(line);
+            battleEvents.add(textEvent);
         }
 
         return battleEvents;
