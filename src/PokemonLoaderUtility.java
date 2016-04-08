@@ -26,21 +26,24 @@ import org.jdom2.input.SAXBuilder;
 /**
  * https://github.com/r4vi/zipper-demo/blob/master/resources/pokemon.xml
  *
+ * https://github.com/cathyjf/PokemonLabBot/blob/master/moves.xml
+ *
  * @author Benjamin Matase
  */
 public class PokemonLoaderUtility {
-    private static Element rootNode;
+    private static Element pokemonNode;
+    private static Element moveNode;
 
     /**
      * http://www.mkyong.com/java/how-to-read-xml-file-in-java-jdom-example/
      */
-    private static void loadTree() {
+    private static void loadPokemonNode() {
         SAXBuilder builder = new SAXBuilder();
         File xmlFile = new File("./data/pokemon.xml");
 
         try {
             Document document = (Document) builder.build(xmlFile);
-            rootNode = document.getRootElement();
+            pokemonNode = document.getRootElement();
         } catch (IOException io) {
             System.out.println(io.getMessage());
         } catch (JDOMException jdomex) {
@@ -48,12 +51,16 @@ public class PokemonLoaderUtility {
         }
     }
 
+    private static void loadMoveNode() {
+
+    }
+
     public static List<String> getPokemonNames() {
-        if (rootNode == null) {
-            loadTree();
+        if (pokemonNode == null) {
+            loadPokemonNode();
         }
 
-        List<Element> pokemonNodes = rootNode.getChildren("pokemon");
+        List<Element> pokemonNodes = pokemonNode.getChildren("pokemon");
         List<String> pokemonNames = new ArrayList<String>();
 
         for (Element node : pokemonNodes) {
@@ -64,8 +71,8 @@ public class PokemonLoaderUtility {
     }
 
     public static List<String> getMovesForPokemon(String pokemonName) {
-        if (rootNode == null) {
-            loadTree();
+        if (pokemonNode == null) {
+            loadPokemonNode();
         }
 
         List<String> movesStr = new ArrayList<String>();
@@ -84,8 +91,15 @@ public class PokemonLoaderUtility {
         return movesStr;
     }
 
+    public static Move fillMoveAttr(Move move) {
+        if (moveNode == null) {
+            loadMoveNode();
+        }
+        List<Element> moveNodes = moveNode.getChildren();
+    }
+
     private static Element getPokemonNode(String pokemonName) {
-        List<Element> pokemonNodes = rootNode.getChildren("pokemon");
+        List<Element> pokemonNodes = pokemonNode.getChildren("pokemon");
         for (Element pokemon : pokemonNodes) {
             if (pokemon.getText() == pokemonName) {
                 return pokemon;
