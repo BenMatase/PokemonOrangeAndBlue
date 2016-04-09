@@ -7,7 +7,6 @@ package gameStates;
 
 import guiComponents.GUIButton;
 import guiComponents.GUIButtonManager;
-import guiComponents.GUITextView;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -35,8 +34,9 @@ public class Battle implements GameState {
     private GUIButtonManager fightMenuButtons;
     private GUIButtonManager pokemonMenuButtons;
 
-    // Textview
-    private GUITextView textView;
+    // Textviews
+    private GUIButtonManager mainMenuLeftTextView;
+    private GUIButtonManager fightMenuCancelView;
 
     // Constants for drawing
     private static final float X_PADDING = 5f;
@@ -62,12 +62,13 @@ public class Battle implements GameState {
             case MAIN:
                 drawBattleScene(container, g);
                 g.setColor(Color.white);
-//                g.fill(new RoundedRectangle(5, bgdImage.getHeight() + 5, container.getWidth() * 1 / 2 - 7.5f, container.getHeight() - bgdImage.getHeight() - 10, 5));
-                textView.render(container, g);
+                mainMenuLeftTextView.render(container, g);
                 mainMenuButtons.render(container, g);
                 break;
             case FIGHT:
                 drawBattleScene(container, g);
+                fightMenuButtons.render(container, g);
+                fightMenuCancelView.render(container, g);
                 break;
             case RUN:
                 drawBattleScene(container, g);
@@ -112,24 +113,51 @@ public class Battle implements GameState {
         // Load the battle background image
         bgdImage = new Image("res/Images/Battle/BattleGrass.png");
 
-        // Main Menu Buttons
-        RoundedRectangle mainMenuDrawRect = new RoundedRectangle(container.getWidth() / 2 + 0.5f * X_PADDING,
-                                                                 bgdImage.getHeight() + Y_PADDING,
-                                                                 (container.getWidth() * 1 / 2 - 1.5f * X_PADDING),
-                                                                 container.getHeight() - bgdImage.getHeight() - 2 * Y_PADDING,
+        RoundedRectangle rightSideDrawRect = new RoundedRectangle(container.getWidth() / 2 + 0.5f * X_PADDING,
+                                                                  bgdImage.getHeight() + Y_PADDING,
+                                                                  (container.getWidth() * 1 / 2 - 1.5f * X_PADDING),
+                                                                  container.getHeight() - bgdImage.getHeight() - 2 * Y_PADDING,
+                                                                  5);
+        RoundedRectangle leftSideDrawRect = new RoundedRectangle(X_PADDING,
+                                                                 rightSideDrawRect.getY(),
+                                                                 rightSideDrawRect.getWidth(),
+                                                                 rightSideDrawRect.getHeight(),
                                                                  5);
-        mainMenuButtons = new GUIButtonManager(mainMenuDrawRect, 2, 2);
+        RoundedRectangle leftWideDrawRect = new RoundedRectangle(X_PADDING,
+                                                                 rightSideDrawRect.getY(),
+                                                                 rightSideDrawRect.getWidth() * 3f / 2,
+                                                                 rightSideDrawRect.getHeight(),
+                                                                 5);
+        RoundedRectangle rightNarrowDrawRect = new RoundedRectangle(leftWideDrawRect.getX() + leftWideDrawRect.getWidth() + X_PADDING,
+                                                                    rightSideDrawRect.getY(),
+                                                                    container.getWidth() - leftWideDrawRect.getWidth() - 3 * X_PADDING,
+                                                                    rightSideDrawRect.getHeight(),
+                                                                    5);
+
+        // MAIN MENU
+        // Right side buttons
+        mainMenuButtons = new GUIButtonManager(rightSideDrawRect, 2, 2);
         mainMenuButtons.set(0, 0, new GUIButton("Fight"));
         mainMenuButtons.set(1, 0, new GUIButton("Bag"));
         mainMenuButtons.set(0, 1, new GUIButton("Run"));
         mainMenuButtons.set(1, 1, new GUIButton("Pokemon"));
+        // Left Side text view
+        mainMenuLeftTextView = new GUIButtonManager(leftSideDrawRect, 1, 1);
+        GUIButton b = new GUIButton("What will you do?", Color.white);
+        b.setEnabled(false);
+        mainMenuLeftTextView.set(0, 0, b);
 
-        RoundedRectangle textViewDrawRect = new RoundedRectangle(X_PADDING,
-                                                                 mainMenuDrawRect.getY(),
-                                                                 mainMenuDrawRect.getWidth(),
-                                                                 mainMenuDrawRect.getHeight(),
-                                                                 5);
-        textView = new GUITextView(mainMenuDrawRect, "What will you do?");
+        // FIGHT MENU
+        // Right side buttons
+        fightMenuButtons = new GUIButtonManager(leftWideDrawRect, 2, 2);
+        fightMenuButtons.set(0, 0, new GUIButton("Whip"));
+        fightMenuButtons.set(0, 1, new GUIButton("Tackle"));
+        fightMenuButtons.set(1, 0, new GUIButton("Quick Attack"));
+        fightMenuButtons.set(1, 1, new GUIButton("Splash"));
+        // Left Side text view
+        fightMenuCancelView = new GUIButtonManager(rightNarrowDrawRect, 1, 1);
+        fightMenuCancelView.set(0, 0, new GUIButton("Cancel", Color.blue));
+
     }
 
     @Override
@@ -154,6 +182,16 @@ public class Battle implements GameState {
         }
     }
 
+    public void handleFightMenuSelection() {
+        switch (fightMenuButtons.getSelected().getText()) {
+
+        }
+    }
+
+    public void handleFightCancelSelection() {
+        state = BattleMenuState.MAIN;
+    }
+
     //========================
     // Mark: - Mouse Listeners
     //========================
@@ -167,10 +205,17 @@ public class Battle implements GameState {
     public void mouseClicked(int button, int x, int y, int clickCount) {
         switch (state) {
             case MAIN:
-                handleMainMenuSelection();
+                if (mainMenuButtons.getSelected().contains(x, y)) {
+                    handleMainMenuSelection();
+                }
                 break;
             case FIGHT:
-                break;
+                if (fightMenuButtons.getSelected().contains(x, y)) {
+                    handleFightMenuSelection();
+                } else if (fightMenuCancelView.getSelected().contains(x, y)) {
+                    handleFightCancelSelection();
+                    break;
+                }
             case BAG:
                 break;
             case POKEMON:
@@ -195,6 +240,13 @@ public class Battle implements GameState {
                 for (GUIButton btn : mainMenuButtons.getButtons()) {
                     if (btn.contains(newx, newy)) {
                         mainMenuButtons.setSelected(btn);
+                    }
+                }
+                break;
+            case FIGHT:
+                for (GUIButton btn : fightMenuButtons.getButtons()) {
+                    if (btn.contains(newx, newy)) {
+                        fightMenuButtons.setSelected(btn);
                     }
                 }
                 break;
@@ -242,6 +294,33 @@ public class Battle implements GameState {
             case MAIN:
                 handleMainMenuKeyPress(key, c);
                 break;
+            case FIGHT:
+                handleFightMenuKeyPress(key, c);
+        }
+    }
+
+    private void handleFightMenuKeyPress(int key, char c) {
+        switch (key) {
+            case Input.KEY_LEFT:
+                fightMenuButtons.setSelected(fightMenuButtons.getLeft());
+                break;
+            case Input.KEY_RIGHT:
+                fightMenuButtons.setSelected(fightMenuButtons.getRight());
+                break;
+            case Input.KEY_DOWN:
+                fightMenuButtons.setSelected(fightMenuButtons.getDown());
+                break;
+            case Input.KEY_UP:
+                fightMenuButtons.setSelected(fightMenuButtons.getUp());
+                break;
+            case Input.KEY_SPACE:
+            case Input.KEY_ENTER:
+                handleMainMenuSelection();
+                break;
+            case Input.KEY_BACK:
+            case Input.KEY_ESCAPE:
+                state = BattleMenuState.MAIN;
+                break;
         }
     }
 
@@ -262,6 +341,7 @@ public class Battle implements GameState {
             case Input.KEY_SPACE:
             case Input.KEY_ENTER:
                 handleMainMenuSelection();
+                break;
         }
     }
 

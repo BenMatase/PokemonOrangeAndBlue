@@ -23,13 +23,20 @@ public class GUIButton {
     private RoundedRectangle button;
     private TrueTypeFont font;
     private boolean isHighlighted = false;
+    private Color highlightColor;
+    private boolean enabled = true;
 
     public GUIButton(String text) {
-        this(1, 1, 1, 1, text);
+        this(text, Color.red);
     }
 
-    public GUIButton(float x, float y, float width, float height, String text) {
+    public GUIButton(String text, Color highlightColor) {
+        this(0, 0, 0, 0, text, highlightColor);
+    }
+
+    public GUIButton(float x, float y, float width, float height, String text, Color highlightColor) {
         this.text = text;
+        this.highlightColor = highlightColor;
         button = new RoundedRectangle(x, y, width, height, 5);
         try {
             font = FontManager.getStdPixelFont();
@@ -39,7 +46,7 @@ public class GUIButton {
 
     public void render(GUIContext container, Graphics g) {
         if (isHighlighted) {
-            g.setColor(Color.red);
+            g.setColor(highlightColor);
             g.draw(button);
         }
         font.drawString(centerStringX(text), centerStringY(text), text, Color.black);
@@ -96,6 +103,14 @@ public class GUIButton {
 
     public boolean contains(float x, float y) {
         return button.contains(x, y);
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     //================
