@@ -5,6 +5,7 @@
  */
 package guiComponents;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.RoundedRectangle;
 import org.newdawn.slick.gui.GUIContext;
@@ -132,7 +133,7 @@ public class GUIButtonManager {
 
     public void setSelected(GUIButton b) {
         int[] tmp = find(b);
-        if (buttonMatrix[selected[0]][selected[1]] != b && tmp != null) {
+        if (buttonMatrix[selected[0]][selected[1]] != b && tmp != null && buttonMatrix[tmp[0]][tmp[1]].isEnabled()) {
             buttonMatrix[selected[0]][selected[1]].setHighlighted(false);
             selected = tmp;
             buttonMatrix[selected[0]][selected[1]].setHighlighted(true);
@@ -157,6 +158,7 @@ public class GUIButtonManager {
     }
 
     public void render(GUIContext container, Graphics g) {
+        g.setColor(Color.white);
         g.fill(drawArea);
         for (GUIButton b : buttonArray) {
             b.render(container, g);
