@@ -46,30 +46,31 @@ public class BattleSimulator {
 
     }
 
-    public ArrayList<Events> simulate() {
+    public ArrayList<Events> simulate() throws IOException {
 
-        ArrayList<Events> battleEvents = new ArrayList<Events>;
+        ArrayList<Events> battleEvents = new ArrayList<>();
+        ;
 
         ArrayList<Events> eventArray1 = getFirstBattle();
 
-        battleEvents.addall(eventArray1);
+        battleEvents.addAll(eventArray1);
 
         if (secondPokemon.isFainted()) {
             String deadString = String.format("%s fainted!",
                                               secondPokemon.getName());
-            Event event3 = new TextOutputEvent(deadString);
+            TextOutputEvent event3 = new TextOutputEvent(deadString);
             battleEvents.add(event3);
             return battleEvents;
         }
 
         ArrayList<Events> eventArray2 = getSecondBattle();
 
-        battleEvents.addall(eventArray2);
+        battleEvents.addAll(eventArray2);
 
         if (firstPokemon.isFainted()) {
             String deadString = String.format("%s fainted!",
                                               firstPokemon.getName());
-            Event event3 = new TextOutputEvent(deadString);
+            TextOutputEvent event3 = new TextOutputEvent(deadString);
             battleEvents.add(event3);
         }
 
@@ -78,7 +79,7 @@ public class BattleSimulator {
 
     private ArrayList<Events> getFirstBattle() throws IOException {
 
-        ArrayList<Events> battleEvents = new ArrayList<Events>;
+        ArrayList<Events> battleEvents = new ArrayList<>();
         BattleCalculator firstBattle
                          = new BattleCalculator(firstPokemon, secondPokemon,
                                                 pokeMove1);
@@ -86,13 +87,13 @@ public class BattleSimulator {
                                            firstPokemon.getName(),
                                            pokeMove1.getName());
 
-        Event event1 = new TextOutputEvent(openingText);
+        TextOutputEvent event1 = new TextOutputEvent(openingText);
 
         battleEvents.add(event1);
 
         secondPokemon.reduceHealth(firstBattle.damageCalculator());
 
-        Event event2 = new UpdateHealthBarEvent();
+        UpdateHealthBarEvent event2 = new UpdateHealthBarEvent();
         battleEvents.add(event2);
 
         String battleText = firstBattle.getOutcome();
@@ -102,16 +103,16 @@ public class BattleSimulator {
 
         String line = null;
         while ((line = bufReader.readLine()) != null) {
-            Event textEvent = new TextOutputEvent(line);
+            TextOutputEvent textEvent = new TextOutputEvent(line);
             battleEvents.add(textEvent);
         }
 
         return battleEvents;
     }
 
-    private Events[] getSecondBattle() throws IOException {
+    private ArrayList<Events> getSecondBattle() throws IOException {
 
-        ArrayList<Events> battleEvents = new ArrayList<Events>;
+        ArrayList<Events> battleEvents = new ArrayList<>();
         BattleCalculator secondBattle
                          = new BattleCalculator(secondPokemon, firstPokemon,
                                                 pokeMove2);
@@ -119,13 +120,13 @@ public class BattleSimulator {
                                            secondPokemon.getName(),
                                            pokeMove2.getName());
 
-        Event event1 = new TextOutputEvent(openingText);
+        TextOutputEvent event1 = new TextOutputEvent(openingText);
 
         battleEvents.add(event1);
 
-        firstPokemon.reduceHealth(firstBattle.damageCalculator());
+        firstPokemon.reduceHealth(secondBattle.damageCalculator());
 
-        Event event2 = new UpdateHealthBarEvent();
+        UpdateHealthBarEvent event2 = new UpdateHealthBarEvent();
         battleEvents.add(event2);
 
         String battleText = secondBattle.getOutcome();
@@ -135,7 +136,7 @@ public class BattleSimulator {
 
         String line = null;
         while ((line = bufReader.readLine()) != null) {
-            Event textEvent = new TextOutputEvent(line);
+            TextOutputEvent textEvent = new TextOutputEvent(line);
             battleEvents.add(textEvent);
         }
 

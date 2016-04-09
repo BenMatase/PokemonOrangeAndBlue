@@ -143,7 +143,8 @@ public class BattleCalculator {
 
     private double getStab() {
         double stab = 1.0;
-        if (AtkPoke.getPokemonType1() == move.getType() || AtkPoke.getPokemonType2() == move.getType()) {
+        if (AtkPoke.getPokemonType1() == move.getType()
+            || AtkPoke.getPokemonType2() == move.getType()) {
             stab = 1.5;
         }
         return stab;
