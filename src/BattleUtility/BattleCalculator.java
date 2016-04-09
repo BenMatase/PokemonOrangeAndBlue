@@ -15,6 +15,10 @@
  */
 package BattleUtility;
 
+import PokemonObjects.Move;
+import PokemonObjects.Pokemon;
+import pokemonObjects.Move.attackType;
+
 /**
  *
  * @author Murph
@@ -45,18 +49,20 @@ public class BattleCalculator {
     private Pokemon DefPoke;
     private Move move;
     private double criticalModifier;
+    private double accuracyModifier;
 
     public BattleCalculator(Pokemon AtkPoke, Pokemon DefPoke, Move move) {
         this.AtkPoke = AtkPoke;
         this.DefPoke = DefPoke;
         this.move = move;
         this.criticalModifier = getCriticalModifier();
+        this.accuracyModifier = getAccuracyModifier();
     }
 
     public double damageCalculator() {
-        AttackType attackType = move.getAttackType();
+        attackType attackType = move.getAttackType();
         double damage;
-        if (attackType.ordinal() == AttackType.SPECIAL.ordinal()) {
+        if (attackType.ordinal() == attackType.SPECIAL.ordinal()) {
             damage = specialDamageCalculator();
         } else {
             damage = physicalDamageCalculator();
@@ -68,7 +74,7 @@ public class BattleCalculator {
     private double physicalDamageCalculator() {
         double modifier = getModifier1();
         double modifier2;
-        if (DefPoke.getType2 != null) {
+        if (DefPoke.getType2() != null) {
             modifier2 = getModifier2();
             modifier = modifier * modifier2;
         }
@@ -86,7 +92,7 @@ public class BattleCalculator {
     private double specialDamageCalculator() {
         double modifier = getModifier1();
         double modifier2;
-        if (DefPoke.getType2 != null) {
+        if (DefPoke.getType2() != null) {
             modifier2 = getModifier2();
             modifier = modifier * modifier2;
         }
@@ -96,17 +102,16 @@ public class BattleCalculator {
         double moveDmg = move.getDamage();
 
         double damage = ((attack / defense) * (moveDmg) * modifier
-                         * stab * criticalModifier);
+                         * stab * criticalModifier * accuracyModifier);
 
         return damage;
     }
 
     public String getOutcome() {
-        String response = String.format("%s used %s! \n", AtkPoke.getName(),
-                                        move.getName());
+        String response = null;
         double modifier = getModifier1();
         double modifier2;
-        if (DefPoke.getPokemonType2 != null) {
+        if (DefPoke.getPokemonType2() != null) {
             modifier2 = getModifier2();
             modifier = modifier * modifier2;
         }
@@ -115,6 +120,8 @@ public class BattleCalculator {
             response += "It's super effective! \n";
         } else if (modifier <= 0.5 && modifier >= 0.0) {
             response += "It's not very effective... \n";
+        } else if (accuracyModifier == 0.0) {
+            response += "It missed!";
         } else {
             response += String.format("It doesn't affect %s...",
                                       DefPoke.getName());
@@ -152,10 +159,19 @@ public class BattleCalculator {
 
     private double getCriticalModifier() {
         double random = Math.random();
-        double criticalModifier = 1.0;
+        double critMod = 1.0;
         if (random <= 0.0625) {
-            criticalModifier = 1.5;
+            critMod = 1.5;
         }
-        return criticalModifier;
+        return critMod;
+    }
+
+    private double getAccuracyModifier() {
+        double random = Math.random();
+        double accMod = 1.0;
+        if ((move.getAccuracy() / 100.0) <= random) {
+            accMod = 0.0;
+        }
+        return accMod;
     }
 }
