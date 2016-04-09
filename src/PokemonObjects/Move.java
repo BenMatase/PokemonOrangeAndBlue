@@ -13,7 +13,7 @@
  *
  * ****************************************
  */
-package PokemonObjects;
+package pokemonObjects;
 
 /**
  *
@@ -21,4 +21,17 @@ package PokemonObjects;
  */
 public class Move {
 
+    public enum attackType {
+        SPECIAL, PHYSICAL
+    };
+
+    private attackType type;
+    private int damage;
+    private int accuracy;
+
+    public Move(attackType type, int damage, int accuarcy) {
+        this.type = type;
+        this.damage = damage;
+        this.accuracy = accuracy;
+    }
 }
