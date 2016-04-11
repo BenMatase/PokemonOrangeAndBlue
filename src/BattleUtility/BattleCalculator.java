@@ -74,7 +74,7 @@ public class BattleCalculator {
     private double physicalDamageCalculator() {
         double modifier = getModifier1();
         double modifier2;
-        if (DefPoke.getType2() != null) {
+        if (DefPoke.getPokemonType2() != null) {
             modifier2 = getModifier2();
             modifier = modifier * modifier2;
         }
@@ -92,7 +92,7 @@ public class BattleCalculator {
     private double specialDamageCalculator() {
         double modifier = getModifier1();
         double modifier2;
-        if (DefPoke.getType2() != null) {
+        if (DefPoke.getPokemonType2() != null) {
             modifier2 = getModifier2();
             modifier = modifier * modifier2;
         }
@@ -121,7 +121,7 @@ public class BattleCalculator {
         } else if (modifier <= 0.5 && modifier >= 0.0) {
             response += "It's not very effective... \n";
         } else if (accuracyModifier == 0.0) {
-            response += "It missed!";
+            response += "But it missed!";
         } else {
             response += String.format("It doesn't affect %s...",
                                       DefPoke.getName());
