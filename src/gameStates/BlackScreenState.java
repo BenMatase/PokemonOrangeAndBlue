@@ -18,11 +18,11 @@ import org.newdawn.slick.state.transition.FadeInTransition;
  *
  * @author Eric
  */
-public class BlackScreen extends BasicGameState {
+public class BlackScreenState extends BasicGameState {
 
     private int ID;
 
-    public BlackScreen(int BLACKSCREEN) {
+    public BlackScreenState(int BLACKSCREEN) {
         ID = BLACKSCREEN;
     }
 

@@ -5,12 +5,12 @@
  */
 package main;
 
-import gameStates.Battle;
-import gameStates.BlackScreen;
+import gameStates.BattleState;
+import gameStates.BlackScreenState;
 import gameStates.GameStateType;
-import gameStates.MainMenu;
-import gameStates.Overworld;
-import gameStates.SplashScreen;
+import gameStates.MainMenuState;
+import gameStates.OverworldState;
+import gameStates.SplashScreenState;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
@@ -38,18 +38,18 @@ public class PokemonOB extends StateBasedGame {
     @Override
     public void initStatesList(GameContainer gc) throws SlickException {
         // The first state added will be the one that is loaded first, when the application is launched
-        this.addState(new BlackScreen(GameStateType.BLACKSCREEN.getValue()));
-        this.addState(new SplashScreen(GameStateType.SPLASHSCREEN.getValue()));
-        this.addState(new MainMenu(GameStateType.MAINMENU.getValue()));
-        this.addState(new Overworld(GameStateType.OVERWORLD.getValue()));
-        this.addState(new Battle(GameStateType.BATTLE.getValue()));
+        this.addState(new BlackScreenState(GameStateType.BLACKSCREEN.getValue()));
+        this.addState(new SplashScreenState(GameStateType.SPLASHSCREEN.getValue()));
+        this.addState(new MainMenuState(GameStateType.MAINMENU.getValue()));
+        this.addState(new OverworldState(GameStateType.OVERWORLD.getValue()));
+        this.addState(new BattleState(GameStateType.BATTLE.getValue()));
     }
 
     // Main Method
     public static void main(String[] args) {
         try {
             AppGameContainer app = new AppGameContainer(new PokemonOB(
-                    "Pokémon Orange and Blue v" + VERSION));
+                "Pokémon Orange and Blue v" + VERSION));
             app.setDisplayMode(WIDTH, HEIGHT, false);
             app.setTargetFrameRate(FPS);
             app.setShowFPS(true);

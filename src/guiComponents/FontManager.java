@@ -38,7 +38,7 @@ public class FontManager {
 
     public static TrueTypeFont getStdPixelFont() throws SlickException {
         if (stdPxFont == null) {
-            stdPxFont = getPixelFontWithSize(30f);
+            stdPxFont = getPixelFontWithSize(32f);
         }
         return stdPxFont;
     }

@@ -16,28 +16,28 @@ import org.newdawn.slick.gui.GUIContext;
  *
  * @author Eric
  */
-public class GUIButton {
+public class MenuButton {
 
     // Data for rendering
-    private String text;
-    private RoundedRectangle button;
-    private TrueTypeFont font;
-    private boolean isHighlighted = false;
-    private Color highlightColor;
-    private boolean enabled = true;
+    protected String text;
+    protected RoundedRectangle drawArea;
+    protected TrueTypeFont font;
+    protected boolean isHighlighted = false;
+    protected Color highlightColor;
+    protected boolean enabled = true;
 
-    public GUIButton(String text) {
+    public MenuButton(String text) {
         this(text, Color.red);
     }
 
-    public GUIButton(String text, Color highlightColor) {
+    public MenuButton(String text, Color highlightColor) {
         this(0, 0, 0, 0, text, highlightColor);
     }
 
-    public GUIButton(float x, float y, float width, float height, String text, Color highlightColor) {
+    public MenuButton(float x, float y, float width, float height, String text, Color highlightColor) {
         this.text = text;
         this.highlightColor = highlightColor;
-        button = new RoundedRectangle(x, y, width, height, 5);
+        drawArea = new RoundedRectangle(x, y, width, height, 5);
         try {
             font = FontManager.getStdPixelFont();
         } catch (SlickException ex) {
@@ -47,38 +47,41 @@ public class GUIButton {
     public void render(GUIContext container, Graphics g) {
         if (isHighlighted) {
             g.setColor(highlightColor);
-            g.draw(button);
+            g.draw(drawArea);
         }
-        font.drawString(centerStringX(text), centerStringY(text), text, Color.black);
+
+        g.setFont(font);
+        g.setColor(Color.black);
+        g.drawString(text, centerStringX(text), centerStringY(text));
     }
 
     public void setSize(float width, float height) {
-        button.setWidth(width);
-        button.setHeight(height);
-        button.setCornerRadius(5);
-        button.prune();
+        drawArea.setWidth(width);
+        drawArea.setHeight(height);
+        drawArea.setCornerRadius(5);
+        drawArea.prune();
     }
 
     public void setPosition(float x, float y) {
-        button.setX(x);
-        button.setY(y);
-        button.prune();
+        drawArea.setX(x);
+        drawArea.setY(y);
+        drawArea.prune();
     }
 
     public float getX() {
-        return button.getWidth();
+        return drawArea.getWidth();
     }
 
     public float getY() {
-        return button.getY();
+        return drawArea.getY();
     }
 
     public float getWidth() {
-        return button.getWidth();
+        return drawArea.getWidth();
     }
 
     public float getHeight() {
-        return button.getHeight();
+        return drawArea.getHeight();
     }
 
     public boolean getHighlighted() {
@@ -90,7 +93,7 @@ public class GUIButton {
     }
 
     public float[] getCenter() {
-        return button.getCenter();
+        return drawArea.getCenter();
     }
 
     public String getText() {
@@ -102,7 +105,7 @@ public class GUIButton {
     }
 
     public boolean contains(float x, float y) {
-        return button.contains(x, y);
+        return drawArea.contains(x, y);
     }
 
     public boolean isEnabled() {
@@ -117,11 +120,11 @@ public class GUIButton {
     // Mark: - Helpers
     //================
     private float centerStringX(String s) {
-        return button.getX() + button.getWidth() / 2 - font.getWidth(text) / 2;
+        return drawArea.getX() + drawArea.getWidth() / 2 - font.getWidth(text) / 2;
     }
 
     private float centerStringY(String s) {
-        return button.getY() + button.getHeight() / 2 - font.getHeight(text) / 2;
+        return drawArea.getY() + drawArea.getHeight() / 2 - font.getHeight(text) / 2;
     }
 
 }
