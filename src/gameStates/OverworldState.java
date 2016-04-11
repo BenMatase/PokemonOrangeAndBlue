@@ -16,11 +16,11 @@ import org.newdawn.slick.state.StateBasedGame;
  *
  * @author Eric
  */
-public class Overworld implements GameState {
+public class OverworldState implements GameState {
 
     private int ID;
 
-    public Overworld(int GAME) {
+    public OverworldState(int GAME) {
         ID = GAME;
     }
 
