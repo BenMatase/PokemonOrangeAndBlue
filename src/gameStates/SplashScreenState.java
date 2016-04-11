@@ -24,7 +24,7 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
  *
  * @author Eric
  */
-public class SplashScreen implements GameState {
+public class SplashScreenState implements GameState {
 
     //=========================
     // Mark: - Member Variables
@@ -46,7 +46,7 @@ public class SplashScreen implements GameState {
     //====================
     // Mark: - Constructor
     //====================
-    public SplashScreen(int SPLASHSCREEN) {
+    public SplashScreenState(int SPLASHSCREEN) {
         ID = SPLASHSCREEN;
     }
 
