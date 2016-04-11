@@ -16,11 +16,11 @@ import org.newdawn.slick.state.StateBasedGame;
  *
  * @author Eric
  */
-public class MainMenu implements GameState {
+public class MainMenuState implements GameState {
 
     private int ID;
 
-    public MainMenu(int MAINMENU) {
+    public MainMenuState(int MAINMENU) {
         ID = MAINMENU;
     }
 

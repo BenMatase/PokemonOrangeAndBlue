@@ -34,83 +34,8 @@ public class Pokemon {
     private String nickname;
     private TrainerType trainer = null;
     private Move[] moves;
-
-    //INSERT ENUM TYPE HERE
     private PokemonType pokemonType1;
     private PokemonType pokemonType2;
-    //INSERT ENUM FOR EACH MOVE HERE & getters and setters
-
-    /**
-     *
-     * @param health
-     * @param attack
-     * @param spcAttack
-     * @param defense
-     * @param spcDefense
-     * @param speed
-     * @param pokemonType1
-     * @param name
-     * @param moves
-     */
-    public Pokemon(int health, int attack, int spcAttack, int defense,
-                   int spcDefense, int speed, PokemonType pokemonType1,
-                   String name, Move[] moves) {
-        this.health = health;
-        this.curHealth = health;
-        this.attack = attack;
-        this.spcAttack = spcAttack;
-        this.defense = defense;
-        this.spcDefense = defense;
-        this.speed = speed;
-        this.pokemonType1 = pokemonType1;
-        this.pokemonType2 = null;
-        this.name = name;
-        this.nickname = null;
-        this.moves = moves;
-    }
-
-    /**
-     * Constructor for pokemon of two different types
-     *
-     * @param health
-     * @param attack
-     * @param spcAttack
-     * @param defense
-     * @param spcDefense
-     * @param speed
-     * @param pokemonType1
-     * @param pokemonType2
-     */
-    public Pokemon(int health, int attack, int spcAttack, int defense,
-                   int spcDefense, int speed, PokemonType pokemonType1,
-                   String name, Move[] moves, PokemonType pokemonType2) {
-        this(health, attack, spcAttack, defense,
-             spcDefense, speed, pokemonType1,
-             name, moves);
-        this.pokemonType2 = pokemonType2;
-    }
-
-    /**
-     * Constructor for pokemon of one type and a nickname
-     *
-     * @param health
-     * @param attack
-     * @param spcAttack
-     * @param defense
-     * @param spcDefense
-     * @param speed
-     * @param pokemonType1
-     * @param pokemonType2
-     */
-    public Pokemon(int health, int attack, int spcAttack, int defense,
-                   int spcDefense, int speed, PokemonType pokemonType1,
-                   String name, Move[] moves, String nickname
-    ) {
-        this(health, attack, spcAttack, defense,
-             spcDefense, speed, pokemonType1,
-             name, moves);
-        this.nickname = nickname;
-    }
 
     /**
      * Constructor for pokemon of two types and a nickname
@@ -125,14 +50,26 @@ public class Pokemon {
      * @param pokemonType2
      */
     public Pokemon(int health, int attack, int spcAttack, int defense,
-                   int spcDefense, int speed, PokemonType pokemonType1,
-                   String name, Move[] moves, PokemonType pokemonType2,
-                   String nickname) {
-        this(health, attack, spcAttack, defense,
-             spcDefense, speed, pokemonType1,
-             name, moves);
-        this.nickname = nickname;
+                   int spcDefense, int speed,
+                   String name, String nickname, Move[] moves,
+                   PokemonType pokemonType1, PokemonType pokemonType2
+    ) {
+        this.health = health;
+        this.attack = attack;
+        this.spcAttack = spcAttack;
+        this.defense = defense;
+        this.spcDefense = spcDefense;
+        this.speed = speed;
+        this.name = name;
+        this.moves = moves;
+        this.pokemonType1 = pokemonType1;
         this.pokemonType2 = pokemonType2;
+
+        if (nickname == null) {
+            this.nickname = name;
+        } else {
+            this.nickname = nickname;
+        }
     }
 
     public int getCurHealth() {
