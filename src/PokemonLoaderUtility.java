@@ -1,4 +1,5 @@
 
+import PokemonObjects.Pokemon;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -7,6 +8,7 @@ import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
+import pokemonObjects.Move;
 
 /* *****************************************
  * CSCI205 - Software Engineering and Design
@@ -100,12 +102,18 @@ public class PokemonLoaderUtility {
         return movesStr;
     }
 
-//    public static Move fillMoveAttr(Move move) {
-//        String moveName = move.getName();
-//
-//        Element move = getMoveNode(moveName);
-//
-//    }
+    public static Move fillMoveAttr(Move move) {
+        String moveName = move.getName();
+
+        Element moveNode = getMoveNode(moveName);
+
+        //TODO: add type to move
+        move.setType(moveNode.getChildText("type"));
+
+        //TODO: set power
+        //TODO: set accuracy
+    }
+
     private static Element getMoveNode(String moveName) {
         if (moveNode == null) {
             loadMoveNode();
@@ -134,12 +142,26 @@ public class PokemonLoaderUtility {
         return null;
     }
 
-//    public static void fillPokemonAttr(Pokemon pokemon) {
-//        //TODO: fix this to fit with Jason's public interface for Pokemon
-//        String pokemonName = pokemon.getName();
-//
-//        Element pokemon = getPokemonNode(pokemonName);
-//
-//        //use that node to fill in stats, type, national dex num, etc
-//    }
+    public static void fillPokemonAttr(Pokemon pokemon) {
+        //TODO: fix this to fit with Jason's public interface for Pokemon
+        String pokemonName = pokemon.getName();
+
+        Element pokemonNode = getPokemonNode(pokemonName);
+
+        //TODO: add types
+        //fill Pokemon nation dex number
+        int natDexNum = Integer.parseInt(
+                pokemonNode.getAttribute("id").getValue());
+
+        //fill in Pokemon's stats
+        Element stats = pokemonNode.getChild("stats");
+
+        pokemon.setHealth(Integer.parseInt(stats.getChildText("HP")));
+        pokemon.setAttack(Integer.parseInt(stats.getChildText("ATK")));
+        pokemon.setDefense(Integer.parseInt(stats.getChildText("DEF")));
+        pokemon.setSpeed(Integer.parseInt(stats.getChildText("SPD")));
+        pokemon.setSpcAttack(Integer.parseInt(stats.getChildText("SAT")));
+        pokemon.setSpcDefense(Integer.parseInt(stats.getChildText("SDF")));
+
+    }
 }
