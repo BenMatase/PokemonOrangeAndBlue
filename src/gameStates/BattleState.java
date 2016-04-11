@@ -116,12 +116,8 @@ public class BattleState implements GameState {
 
         // HP BARS
         hpBarViewManager = new MenuLayoutManager(new RoundedRectangle(0, 0, container.getWidth(), bgdImage.getHeight(), 0), 2, 3, false);
-        b = new InfoPanel(19, 100, "Testname1, plz ignore", 2);
-        b.setEnabled(false);
-        hpBarViewManager.set(0, 0, b);
-        b = new InfoPanel(80, 100, "Testname2, plz ignore", 17);
-        b.setEnabled(false);
-        hpBarViewManager.set(1, 2, b);
+        hpBarViewManager.set(0, 0, new InfoPanel(19, 100, "Testname1, plz ignore", 2));
+        hpBarViewManager.set(1, 2, new InfoPanel(80, 100, "Testname2, plz ignore", 17));
     }
 
     @Override
