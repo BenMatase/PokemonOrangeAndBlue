@@ -15,6 +15,8 @@
  */
 package pokemonObjects;
 
+import BattleUtility.PokemonType;
+
 /**
  *
  * @author Jason
@@ -25,13 +27,39 @@ public class Move {
         SPECIAL, PHYSICAL
     };
 
-    private attackType type;
-    private int damage;
-    private int accuracy;
+    private final attackType type;
+    private final PokemonType damageType;
+    private final int damage;
+    private final int accuracy;
+    private final String name;
 
-    public Move(attackType type, int damage, int accuarcy) {
+    public Move(attackType type, PokemonType damageType, int damage,
+                int accuracy, String name) {
         this.type = type;
+        this.damageType = damageType;
         this.damage = damage;
         this.accuracy = accuracy;
+        this.name = name;
     }
+
+    public attackType getType() {
+        return type;
+    }
+
+    public PokemonType getDamageType() {
+        return damageType;
+    }
+
+    public int getDamage() {
+        return damage;
+    }
+
+    public int getAccuracy() {
+        return accuracy;
+    }
+
+    public String getName() {
+        return name;
+    }
+
 }
