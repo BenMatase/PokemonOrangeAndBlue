@@ -5,8 +5,9 @@
  */
 package gameStates;
 
-import guiComponents.GUIButton;
-import guiComponents.GUIButtonManager;
+import guiComponents.InfoPanel;
+import guiComponents.MenuButton;
+import guiComponents.MenuLayoutManager;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -21,7 +22,7 @@ import org.newdawn.slick.state.StateBasedGame;
  *
  * @author Eric
  */
-public class Battle implements GameState {
+public class BattleState implements GameState {
 
     private int ID;
     private String character1;
@@ -30,19 +31,20 @@ public class Battle implements GameState {
     private BattleMenuState state;
 
     // Buttons
-    private GUIButtonManager mainMenuButtons;
-    private GUIButtonManager fightMenuButtons;
-    private GUIButtonManager pokemonMenuButtons;
+    private MenuLayoutManager mainMenuButtons;
+    private MenuLayoutManager fightMenuButtons;
+    private MenuLayoutManager pokemonMenuButtons;
+    private MenuLayoutManager hpBarViewManager;
 
     // Textviews
-    private GUIButtonManager mainMenuLeftTextView;
-    private GUIButtonManager fightMenuCancelView;
+    private MenuLayoutManager mainMenuLeftTextView;
+    private MenuLayoutManager fightMenuCancelView;
 
     // Constants for drawing
     private static final float X_PADDING = 5f;
     private static final float Y_PADDING = 5f;
 
-    public Battle(int BATTLE) {
+    public BattleState(int BATTLE) {
         ID = BATTLE;
     }
 
@@ -51,64 +53,18 @@ public class Battle implements GameState {
         return ID;
     }
 
+    //==========================================
+    // Mark: - Data Initialization & Destruction
+    //==========================================
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
         state = BattleMenuState.MAIN;
     }
 
     @Override
-    public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-        switch (state) {
-            case MAIN:
-                drawBattleScene(container, g);
-                g.setColor(Color.white);
-                mainMenuLeftTextView.render(container, g);
-                mainMenuButtons.render(container, g);
-                break;
-            case FIGHT:
-                drawBattleScene(container, g);
-                fightMenuButtons.render(container, g);
-                fightMenuCancelView.render(container, g);
-                break;
-            case RUN:
-                drawBattleScene(container, g);
-                break;
-            case POKEMON:
-                drawPokemon(container, g);
-                break;
-            case BAG:
-                drawBag(container, g);
-                break;
-        }
-    }
-
-    public void setCharacters(String c1, String c2) {
-        this.character1 = c1;
-        this.character2 = c2;
-    }
-
-    private void drawBattleScene(GameContainer container, Graphics g) {
-        g.setBackground(Color.darkGray);
-        g.drawImage(bgdImage, 0, 0, container.getWidth(), bgdImage.getHeight(), 0, 0, bgdImage.getWidth(), bgdImage.getHeight());
-    }
-
-    private void drawBag(GameContainer container, Graphics g) {
-        g.setBackground(Color.magenta);
-    }
-
-    private void drawPokemon(GameContainer container, Graphics g) {
-        g.setBackground(Color.green);
-    }
-
-    @Override
-    public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
-
-    }
-
-    @Override
     public void enter(GameContainer container, StateBasedGame game) throws SlickException {
         if (character1 == null || character2 == null) {
-
+//            throw new SlickException("Characters don't exist");
         }
         // Load the battle background image
         bgdImage = new Image("res/Images/Battle/BattleGrass.png");
@@ -136,32 +92,91 @@ public class Battle implements GameState {
 
         // MAIN MENU
         // Right side buttons
-        mainMenuButtons = new GUIButtonManager(rightSideDrawRect, 2, 2);
-        mainMenuButtons.set(0, 0, new GUIButton("Fight"));
-        mainMenuButtons.set(1, 0, new GUIButton("Bag"));
-        mainMenuButtons.set(0, 1, new GUIButton("Run"));
-        mainMenuButtons.set(1, 1, new GUIButton("Pokemon"));
+        mainMenuButtons = new MenuLayoutManager(rightSideDrawRect, 2, 2);
+        mainMenuButtons.set(0, 0, new MenuButton("Fight"));
+        mainMenuButtons.set(1, 0, new MenuButton("Bag"));
+        mainMenuButtons.set(1, 1, new MenuButton("Run"));
+        mainMenuButtons.set(0, 1, new MenuButton("Pokemon"));
         // Left Side text view
-        mainMenuLeftTextView = new GUIButtonManager(leftSideDrawRect, 1, 1);
-        GUIButton b = new GUIButton("What will you do?", Color.white);
+        mainMenuLeftTextView = new MenuLayoutManager(leftSideDrawRect, 1, 1);
+        MenuButton b = new MenuButton("What will you do?", Color.white);
         b.setEnabled(false);
         mainMenuLeftTextView.set(0, 0, b);
 
         // FIGHT MENU
         // Right side buttons
-        fightMenuButtons = new GUIButtonManager(leftWideDrawRect, 2, 2);
-        fightMenuButtons.set(0, 0, new GUIButton("Whip"));
-        fightMenuButtons.set(0, 1, new GUIButton("Tackle"));
-        fightMenuButtons.set(1, 0, new GUIButton("Quick Attack"));
-        fightMenuButtons.set(1, 1, new GUIButton("Splash"));
+        fightMenuButtons = new MenuLayoutManager(leftWideDrawRect, 2, 2);
+        fightMenuButtons.set(0, 0, new MenuButton("Whip"));
+        fightMenuButtons.set(0, 1, new MenuButton("Tackle"));
+        fightMenuButtons.set(1, 0, new MenuButton("Quick Attack"));
+        fightMenuButtons.set(1, 1, new MenuButton("Splash"));
         // Left Side text view
-        fightMenuCancelView = new GUIButtonManager(rightNarrowDrawRect, 1, 1);
-        fightMenuCancelView.set(0, 0, new GUIButton("Cancel", Color.blue));
+        fightMenuCancelView = new MenuLayoutManager(rightNarrowDrawRect, 1, 1);
+        fightMenuCancelView.set(0, 0, new MenuButton("Cancel", Color.blue));
 
+        // HP BARS
+        hpBarViewManager = new MenuLayoutManager(new RoundedRectangle(0, 0, container.getWidth(), bgdImage.getHeight(), 0), 2, 3, false);
+        b = new InfoPanel(19, 100, "Testname1, plz ignore", 2);
+        b.setEnabled(false);
+        hpBarViewManager.set(0, 0, b);
+        b = new InfoPanel(80, 100, "Testname2, plz ignore", 17);
+        b.setEnabled(false);
+        hpBarViewManager.set(1, 2, b);
     }
 
     @Override
     public void leave(GameContainer container, StateBasedGame game) throws SlickException {
+
+    }
+
+    //==================
+    // Mark: - Rendering
+    //==================
+    @Override
+    public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
+        switch (state) {
+            case MAIN:
+                drawBattleScene(container, g);
+                g.setColor(Color.white);
+                mainMenuLeftTextView.render(container, g);
+                mainMenuButtons.render(container, g);
+                break;
+            case FIGHT:
+                drawBattleScene(container, g);
+                fightMenuButtons.render(container, g);
+                fightMenuCancelView.render(container, g);
+                break;
+            case RUN:
+                drawBattleScene(container, g);
+                break;
+            case POKEMON:
+                drawPokemon(container, g);
+                break;
+            case BAG:
+                drawBag(container, g);
+                break;
+        }
+    }
+
+    private void drawBattleScene(GameContainer container, Graphics g) {
+        g.setBackground(Color.darkGray);
+        g.drawImage(bgdImage, 0, 0, container.getWidth(), bgdImage.getHeight(), 0, 0, bgdImage.getWidth(), bgdImage.getHeight());
+        hpBarViewManager.render(container, g);
+    }
+
+    private void drawBag(GameContainer container, Graphics g) {
+        g.setBackground(Color.magenta);
+    }
+
+    private void drawPokemon(GameContainer container, Graphics g) {
+        g.setBackground(Color.green);
+    }
+
+    //========================
+    // Mark: - Logical Updates
+    //========================
+    @Override
+    public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 
     }
 
@@ -190,6 +205,11 @@ public class Battle implements GameState {
 
     public void handleFightCancelSelection() {
         state = BattleMenuState.MAIN;
+    }
+
+    public void setCharacters(String c1, String c2) {
+        this.character1 = c1;
+        this.character2 = c2;
     }
 
     //========================
@@ -237,14 +257,14 @@ public class Battle implements GameState {
     public void mouseMoved(int oldx, int oldy, int newx, int newy) {
         switch (state) {
             case MAIN:
-                for (GUIButton btn : mainMenuButtons.getButtons()) {
+                for (MenuButton btn : mainMenuButtons.getButtons()) {
                     if (btn.contains(newx, newy)) {
                         mainMenuButtons.setSelected(btn);
                     }
                 }
                 break;
             case FIGHT:
-                for (GUIButton btn : fightMenuButtons.getButtons()) {
+                for (MenuButton btn : fightMenuButtons.getButtons()) {
                     if (btn.contains(newx, newy)) {
                         fightMenuButtons.setSelected(btn);
                     }
