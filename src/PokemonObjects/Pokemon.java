@@ -15,6 +15,8 @@
  */
 package PokemonObjects;
 
+import BattleUtility.PokemonType;
+
 /**
  * Class that will be used to represent a Pokemon
  *
@@ -30,6 +32,8 @@ public class Pokemon {
     private int speed;
     private String name;
     private String nickname;
+    private TrainerType trainer = null;
+    private Move[] moves;
 
     //INSERT ENUM TYPE HERE
     private PokemonType pokemonType1;
@@ -37,7 +41,6 @@ public class Pokemon {
     //INSERT ENUM FOR EACH MOVE HERE & getters and setters
 
     /**
-     * Constructor for when pokemon has only 1 type of pokmeon in it
      *
      * @param health
      * @param attack
@@ -46,10 +49,12 @@ public class Pokemon {
      * @param spcDefense
      * @param speed
      * @param pokemonType1
+     * @param name
+     * @param moves
      */
     public Pokemon(int health, int attack, int spcAttack, int defense,
                    int spcDefense, int speed, PokemonType pokemonType1,
-                   String name) {
+                   String name, Move[] moves) {
         this.health = health;
         this.curHealth = health;
         this.attack = attack;
@@ -61,6 +66,7 @@ public class Pokemon {
         this.pokemonType2 = null;
         this.name = name;
         this.nickname = null;
+        this.moves = moves;
     }
 
     /**
@@ -77,10 +83,10 @@ public class Pokemon {
      */
     public Pokemon(int health, int attack, int spcAttack, int defense,
                    int spcDefense, int speed, PokemonType pokemonType1,
-                   String name, PokemonType pokemonType2) {
-        pokemon(health, attack, spcAttack, defense,
-                spcDefense, speed, pokemonType1,
-                name)
+                   String name, Move[] moves, PokemonType pokemonType2) {
+        this(health, attack, spcAttack, defense,
+             spcDefense, speed, pokemonType1,
+             name, moves);
         this.pokemonType2 = pokemonType2;
     }
 
@@ -98,11 +104,11 @@ public class Pokemon {
      */
     public Pokemon(int health, int attack, int spcAttack, int defense,
                    int spcDefense, int speed, PokemonType pokemonType1,
-                   String name, String nickname
+                   String name, Move[] moves, String nickname
     ) {
-        pokemon(health, attack, spcAttack, defense,
-                spcDefense, speed, pokemonType1,
-                name);
+        this(health, attack, spcAttack, defense,
+             spcDefense, speed, pokemonType1,
+             name, moves);
         this.nickname = nickname;
     }
 
@@ -120,10 +126,11 @@ public class Pokemon {
      */
     public Pokemon(int health, int attack, int spcAttack, int defense,
                    int spcDefense, int speed, PokemonType pokemonType1,
-                   String name, PokemonType pokemonType2, String nickname) {
-        pokemon(health, attack, spcAttack, defense,
-                spcDefense, speed, pokemonType1,
-                name);
+                   String name, Move[] moves, PokemonType pokemonType2,
+                   String nickname) {
+        this(health, attack, spcAttack, defense,
+             spcDefense, speed, pokemonType1,
+             name, moves);
         this.nickname = nickname;
         this.pokemonType2 = pokemonType2;
     }
@@ -202,6 +209,40 @@ public class Pokemon {
         } else {
             this.curHealth -= healthLoss;
         }
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public Move[] getMoves() {
+        return moves;
+    }
+
+    public void setMoves(Move[] moves) {
+        this.moves = moves;
+    }
+
+    public void setMove(Move newMove, int moveIndex) {
+        if (!(moveIndex > 4) && !(moveIndex < 0)) {
+            this.moves[moveIndex] = newMove;
+        }
+    }
+
+    public void setTrainerType(TrainerType type) {
+        this.trainer = type;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public TrainerType getTrainer() {
+        return trainer;
     }
 
 }
