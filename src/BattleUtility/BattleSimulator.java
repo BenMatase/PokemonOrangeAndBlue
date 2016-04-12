@@ -15,10 +15,12 @@
  */
 package BattleUtility;
 
+import PokemonObjects.Pokemon;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
+import pokemonObjects.Move;
 
 /**
  *
@@ -32,7 +34,17 @@ public class BattleSimulator {
     private Move pokeMove2;
 
     public BattleSimulator(Pokemon poke1, Pokemon poke2, Move move1, Move move2) {
-        if (poke1.getSpeed() > poke2.getSpeed) {
+        if (move1 == null) {
+            this.firstPokemon = poke2;
+            this.pokeMove1 = move2;
+            this.secondPokemon = poke1;
+            this.pokeMove2 = move1;
+        } else if (move2 == null) {
+            this.firstPokemon = poke1;
+            this.pokeMove1 = move1;
+            this.secondPokemon = poke2;
+            this.pokeMove2 = move2;
+        } else if (poke1.getSpeed() > poke2.getSpeed()) {
             this.firstPokemon = poke1;
             this.pokeMove1 = move1;
             this.secondPokemon = poke2;
@@ -47,19 +59,80 @@ public class BattleSimulator {
     }
 
     public ArrayList<Events> simulate() throws IOException {
-
         ArrayList<Events> battleEvents = new ArrayList<>();
-        ;
+
+        if (pokeMove1 == null && pokeMove2 == null) {
+            battleEvents = simulateBothSwitch();
+        } else if (pokeMove1 == null || pokeMove2 == null) {
+            battleEvents = simulateOneSwitch();
+        } else {
+            battleEvents = simulateNoSwitch();
+        }
+        return battleEvents;
+    }
+
+    private ArrayList<Events> simulateBothSwitch() throws IOException {
+        ArrayList<Events> battleEvents = new ArrayList<>();
+
+        SwitchPokemonEvent event1 = new SwitchPokemonEvent(firstPokemon);
+        TextOutputEvent event2 = new TextOutputEvent(String.format(
+                "Go! %s", firstPokemon.getName()));
+        SwitchPokemonEvent event3 = new SwitchPokemonEvent(secondPokemon);
+        TextOutputEvent event4 = new TextOutputEvent(String.format(
+                "Go! %s", secondPokemon.getName()));
+
+        battleEvents.add(event1);
+        battleEvents.add(event2);
+        battleEvents.add(event3);
+        battleEvents.add(event4);
+
+        return battleEvents;
+    }
+
+    private ArrayList<Events> simulateOneSwitch() throws IOException {
+        ArrayList<Events> battleEvents = new ArrayList<>();
+
+        SwitchPokemonEvent event1 = new SwitchPokemonEvent(secondPokemon);
+
+        TextOutputEvent event2 = new TextOutputEvent(String.format(
+                "Go! %s", secondPokemon.getName()));
+
+        battleEvents.add(event1);
+        battleEvents.add(event2);
 
         ArrayList<Events> eventArray1 = getFirstBattle();
 
         battleEvents.addAll(eventArray1);
 
-        if (secondPokemon.isFainted()) {
+        if (!secondPokemon.isAlive()) {
             String deadString = String.format("%s fainted!",
                                               secondPokemon.getName());
             TextOutputEvent event3 = new TextOutputEvent(deadString);
+            PokemonFaintEvent event4 = new PokemonFaintEvent(
+                    secondPokemon.getTrainer());
             battleEvents.add(event3);
+            battleEvents.add(event4);
+        }
+
+        return battleEvents;
+    }
+
+    private ArrayList<Events> simulateNoSwitch() throws IOException {
+
+        ArrayList<Events> battleEvents = new ArrayList<>();
+
+        ArrayList<Events> eventArray1 = getFirstBattle();
+
+        battleEvents.addAll(eventArray1);
+
+        if (!secondPokemon.isAlive()) {
+            String deadString = String.format("%s fainted!",
+                                              secondPokemon.getName());
+            TextOutputEvent event3 = new TextOutputEvent(deadString);
+            PokemonFaintEvent event4 = new PokemonFaintEvent(
+                    secondPokemon.getTrainer());
+            battleEvents.add(event3);
+            battleEvents.add(event4);
             return battleEvents;
         }
 
@@ -67,11 +140,14 @@ public class BattleSimulator {
 
         battleEvents.addAll(eventArray2);
 
-        if (firstPokemon.isFainted()) {
+        if (!firstPokemon.isAlive()) {
             String deadString = String.format("%s fainted!",
                                               firstPokemon.getName());
             TextOutputEvent event3 = new TextOutputEvent(deadString);
+            PokemonFaintEvent event4 = new PokemonFaintEvent(
+                    firstPokemon.getTrainer());
             battleEvents.add(event3);
+            battleEvents.add(event4);
         }
 
         return battleEvents;
@@ -91,9 +167,11 @@ public class BattleSimulator {
 
         battleEvents.add(event1);
 
-        secondPokemon.reduceHealth(firstBattle.damageCalculator());
+        secondPokemon.reduceHealth((int) firstBattle.damageCalculator());
 
-        UpdateHealthBarEvent event2 = new UpdateHealthBarEvent();
+        UpdateHealthBarEvent event2
+                             = new UpdateHealthBarEvent(
+                        secondPokemon.getTrainer(), secondPokemon.getCurHealth());
         battleEvents.add(event2);
 
         String battleText = firstBattle.getOutcome();
@@ -124,9 +202,10 @@ public class BattleSimulator {
 
         battleEvents.add(event1);
 
-        firstPokemon.reduceHealth(secondBattle.damageCalculator());
+        firstPokemon.reduceHealth((int) secondBattle.damageCalculator());
 
-        UpdateHealthBarEvent event2 = new UpdateHealthBarEvent();
+        UpdateHealthBarEvent event2 = new UpdateHealthBarEvent(
+                firstPokemon.getTrainer(), firstPokemon.getCurHealth());
         battleEvents.add(event2);
 
         String battleText = secondBattle.getOutcome();

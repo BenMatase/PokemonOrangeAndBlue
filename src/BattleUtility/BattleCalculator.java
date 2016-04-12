@@ -15,9 +15,9 @@
  */
 package BattleUtility;
 
-import PokemonObjects.Move;
 import PokemonObjects.Pokemon;
-import pokemonObjects.Move.AttackType;
+import pokemonObjects.Move;
+import pokemonObjects.Move.attackType;
 
 /**
  *
@@ -74,7 +74,7 @@ public class BattleCalculator {
     private double physicalDamageCalculator() {
         double modifier = getModifier1();
         double modifier2;
-        if (DefPoke.getType2() != null) {
+        if (DefPoke.getPokemonType2() != null) {
             modifier2 = getModifier2();
             modifier = modifier * modifier2;
         }
@@ -92,7 +92,7 @@ public class BattleCalculator {
     private double specialDamageCalculator() {
         double modifier = getModifier1();
         double modifier2;
-        if (DefPoke.getType2() != null) {
+        if (DefPoke.getPokemonType2() != null) {
             modifier2 = getModifier2();
             modifier = modifier * modifier2;
         }
@@ -121,7 +121,7 @@ public class BattleCalculator {
         } else if (modifier <= 0.5 && modifier >= 0.0) {
             response += "It's not very effective... \n";
         } else if (accuracyModifier == 0.0) {
-            response += "It missed!";
+            response += "But it missed!";
         } else {
             response += String.format("It doesn't affect %s...",
                                       DefPoke.getName());
@@ -135,14 +135,14 @@ public class BattleCalculator {
     }
 
     private double getModifier1() {
-        PokemonType moveType = move.getType();
+        PokemonType moveType = move.getDamageType();
         PokemonType defType = DefPoke.getPokemonType1();
         double modifier = TypeChart[moveType.ordinal()][defType.ordinal()];
         return modifier;
     }
 
     private double getModifier2() {
-        PokemonType moveType = move.getType();
+        PokemonType moveType = move.getDamageType();
         PokemonType defType = DefPoke.getPokemonType2();
         double modifier = TypeChart[moveType.ordinal()][defType.ordinal()];
         return modifier;
@@ -150,8 +150,8 @@ public class BattleCalculator {
 
     private double getStab() {
         double stab = 1.0;
-        if (AtkPoke.getPokemonType1() == move.getType()
-            || AtkPoke.getPokemonType2() == move.getType()) {
+        if (AtkPoke.getPokemonType1() == move.getDamageType()
+            || AtkPoke.getPokemonType2() == move.getDamageType()) {
             stab = 1.5;
         }
         return stab;
