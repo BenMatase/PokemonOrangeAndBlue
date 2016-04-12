@@ -15,6 +15,9 @@
  */
 package BattleUtility;
 
+import PokemonObjects.Pokemon;
+import PokemonObjects.TrainerType;
+
 /**
  *
  * @author Murph
@@ -37,8 +40,47 @@ class TextOutputEvent extends Events {
 
 class UpdateHealthBarEvent extends Events {
 
+    TrainerType trainerType;
+    int newCurrHealth;
+
+    public UpdateHealthBarEvent(TrainerType type, int healthLeft) {
+        this.trainerType = type;
+        this.newCurrHealth = healthLeft;
+    }
+
+    public TrainerType getTrainerType() {
+        return trainerType;
+    }
+
+    public int getNewCurrHealth() {
+        return newCurrHealth;
+    }
+
 }
 
 class AnimationEvent extends Events {
+
+}
+
+class PokemonFaintEvent extends Events {
+
+    TrainerType trainerType;
+
+    public PokemonFaintEvent(TrainerType type) {
+        this.trainerType = type;
+    }
+
+    public TrainerType getTrainerType() {
+        return trainerType;
+    }
+}
+
+class SwitchPokemonEvent extends Events {
+
+    Pokemon switchPokemon = null;
+
+    public SwitchPokemonEvent(Pokemon PokeSwitch) {
+        this.switchPokemon = PokeSwitch;
+    }
 
 }
