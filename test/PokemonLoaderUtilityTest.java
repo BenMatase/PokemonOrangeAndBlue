@@ -14,6 +14,8 @@
  * ****************************************
  */
 
+import PokemonObjects.Move;
+import PokemonObjects.Pokemon;
 import java.util.List;
 import org.junit.After;
 import static org.junit.Assert.assertEquals;
@@ -44,11 +46,12 @@ public class PokemonLoaderUtilityTest {
     @Test
     public void testGetPokemonNames() {
         System.out.println("getPokemonNames");
-        List<String> expResult = null;
-        List<String> result = PokemonLoaderUtility.getPokemonNames();
+
+        //kind of ridiculous to check if this long list is the same, so
+        //I compare the number of Pokemon extracted with expected value
+        int expResult = 493;
+        int result = PokemonLoaderUtility.getPokemonNames().size();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -57,10 +60,46 @@ public class PokemonLoaderUtilityTest {
     @Test
     public void testGetMovesForPokemon() {
         System.out.println("getMovesForPokemon");
-        String pokemonName = "";
-        List<String> expResult = null;
-        List<String> result = PokemonLoaderUtility.getMovesForPokemon(
-                pokemonName);
+        //again testing number of moves vs. exact correct moves
+        String pokemonName = "BULBASAUR";
+        int expResult = 54;
+        int result = PokemonLoaderUtility.getMovesForPokemon(
+                pokemonName).size();
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of createMove method, of class PokemonLoaderUtility.
+     */
+    @Test
+    public void testCreateMove() {
+        System.out.println("createMove");
+        String moveName = "";
+        Move expResult = null;
+        Move result = PokemonLoaderUtility.createMove(moveName);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of createPokemon method, of class PokemonLoaderUtility.
+     */
+    @Test
+    public void testCreatePokemon() {
+        System.out.println("createPokemon");
+
+        //chosen attributes for a bulbasaur
+        String pokemonName = "BULBASAUR";
+        String nickname = "Bulby";
+        List<String> moveNames = new List<String>();
+        moveNames.add("Vine Whip");
+        moveNames.add("Sludge Bomb");
+        moveNames.add("Leaf Storm");
+
+        Pokemon expResult = null;
+        Pokemon result = PokemonLoaderUtility.createPokemon(pokemonName,
+                                                            nickname, moveNames);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");

@@ -17,7 +17,7 @@ package BattleUtility;
 
 import PokemonObjects.Move;
 import PokemonObjects.Pokemon;
-import pokemonObjects.Move.attackType;
+import pokemonObjects.Move.AttackType;
 
 /**
  *
@@ -60,7 +60,7 @@ public class BattleCalculator {
     }
 
     public double damageCalculator() {
-        attackType attackType = move.getAttackType();
+        AttackType attackType = move.getAttackType();
         double damage;
         if (attackType.ordinal() == attackType.SPECIAL.ordinal()) {
             damage = specialDamageCalculator();

@@ -13,7 +13,7 @@
  *
  * ****************************************
  */
-package pokemonObjects;
+package PokemonObjects;
 
 import BattleUtility.PokemonType;
 
@@ -22,18 +22,18 @@ import BattleUtility.PokemonType;
  * @author Jason
  */
 public class Move {
-
-    public enum attackType {
-        SPECIAL, PHYSICAL
+    //TODO: added Other and should probably move elsewhere where all classes can see
+    public enum AttackType {
+        SPECIAL, PHYSICAL, OTHER
     };
 
-    private final attackType type;
+    private final AttackType type;
     private final PokemonType damageType;
     private final int damage;
     private final int accuracy;
     private final String name;
 
-    public Move(attackType type, PokemonType damageType, int damage,
+    public Move(AttackType type, PokemonType damageType, int damage,
                 int accuracy, String name) {
         this.type = type;
         this.damageType = damageType;
@@ -42,7 +42,7 @@ public class Move {
         this.name = name;
     }
 
-    public attackType getType() {
+    public AttackType getType() {
         return type;
     }
 
