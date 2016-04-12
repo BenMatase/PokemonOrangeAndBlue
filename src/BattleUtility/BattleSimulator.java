@@ -15,12 +15,12 @@
  */
 package BattleUtility;
 
+import PokemonObjects.Move;
 import PokemonObjects.Pokemon;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
-import pokemonObjects.Move;
 
 /**
  *
