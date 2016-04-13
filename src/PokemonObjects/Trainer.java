@@ -25,11 +25,13 @@ public abstract class Trainer {
     private String name;
     private Pokemon[] pokemon;
     private int numPokemon;
+    private Pokemon curPokemon;
 
     public Trainer(String name) {
         this.name = name;
         this.pokemon = new Pokemon[6];
-        numPokemon = 0;
+        this.curPokemon = pokemon[0];
+        this.numPokemon = 0;
     }
 
     public abstract void addPokemon(Pokemon pkmn);
@@ -58,6 +60,18 @@ public abstract class Trainer {
 
     public Pokemon[] getPokemon() {
         return pokemon;
+    }
+
+    public Pokemon getCurPokemon() {
+        return curPokemon;
+    }
+
+    public void setCurPokemon(Pokemon curPokemon) {
+        this.curPokemon = curPokemon;
+    }
+
+    public int getNumPokemon() {
+        return numPokemon;
     }
 
 }
