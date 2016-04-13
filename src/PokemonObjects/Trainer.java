@@ -52,4 +52,12 @@ public abstract class Trainer {
         return false;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public Pokemon[] getPokemon() {
+        return pokemon;
+    }
+
 }
