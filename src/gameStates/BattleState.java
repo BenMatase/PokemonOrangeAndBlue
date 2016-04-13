@@ -123,6 +123,7 @@ public class BattleState implements GameState {
         fightMenuButtons.set(0, 1, new MenuButton("Tackle"));
         fightMenuButtons.set(1, 0, new MenuButton("Quick Attack"));
         fightMenuButtons.set(1, 1, new MenuButton("Splash"));
+
         // Left Side text view
         fightMenuCancelButton = new MenuLayoutManager(rightNarrowDrawRect, 1, 1);
         fightMenuCancelButton.set(0, 0, new MenuButton("Cancel", Color.blue));

@@ -150,12 +150,14 @@ public class MenuLayoutManager {
     public void disable() {
         for (MenuButton b : getButtons()) {
             b.setEnabled(false);
+            b.setHighlighted(false);
         }
     }
 
     public void enable() {
         for (MenuButton b : buttonArray) {
             b.setEnabled(true);
+            b.setHighlighted(false);
         }
         setSelected(getSelected());
     }
