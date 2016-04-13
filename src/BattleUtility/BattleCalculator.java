@@ -134,6 +134,16 @@ public class BattleCalculator {
         return response;
     }
 
+    public double AIMoveAdvantage() {
+        double modifier = getModifier1();
+        double modifier2;
+        if (DefPoke.getPokemonType2() != null) {
+            modifier2 = getModifier2();
+            modifier = modifier * modifier2;
+        }
+        return modifier;
+    }
+
     private double getModifier1() {
         PokemonType moveType = move.getDamageType();
         PokemonType defType = DefPoke.getPokemonType1();

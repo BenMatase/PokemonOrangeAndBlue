@@ -58,8 +58,8 @@ public class BattleSimulator {
 
     }
 
-    public ArrayList<Events> simulate() throws IOException {
-        ArrayList<Events> battleEvents = new ArrayList<>();
+    public ArrayList<Event> simulate() throws IOException {
+        ArrayList<Event> battleEvents = new ArrayList<>();
 
         if (pokeMove1 == null && pokeMove2 == null) {
             battleEvents = simulateBothSwitch();
@@ -71,8 +71,8 @@ public class BattleSimulator {
         return battleEvents;
     }
 
-    private ArrayList<Events> simulateBothSwitch() throws IOException {
-        ArrayList<Events> battleEvents = new ArrayList<>();
+    private ArrayList<Event> simulateBothSwitch() throws IOException {
+        ArrayList<Event> battleEvents = new ArrayList<>();
 
         SwitchPokemonEvent event1 = new SwitchPokemonEvent(firstPokemon);
         TextOutputEvent event2 = new TextOutputEvent(String.format(
@@ -89,8 +89,8 @@ public class BattleSimulator {
         return battleEvents;
     }
 
-    private ArrayList<Events> simulateOneSwitch() throws IOException {
-        ArrayList<Events> battleEvents = new ArrayList<>();
+    private ArrayList<Event> simulateOneSwitch() throws IOException {
+        ArrayList<Event> battleEvents = new ArrayList<>();
 
         SwitchPokemonEvent event1 = new SwitchPokemonEvent(secondPokemon);
 
@@ -100,7 +100,7 @@ public class BattleSimulator {
         battleEvents.add(event1);
         battleEvents.add(event2);
 
-        ArrayList<Events> eventArray1 = getFirstBattle();
+        ArrayList<Event> eventArray1 = getFirstBattle();
 
         battleEvents.addAll(eventArray1);
 
@@ -117,11 +117,11 @@ public class BattleSimulator {
         return battleEvents;
     }
 
-    private ArrayList<Events> simulateNoSwitch() throws IOException {
+    private ArrayList<Event> simulateNoSwitch() throws IOException {
 
-        ArrayList<Events> battleEvents = new ArrayList<>();
+        ArrayList<Event> battleEvents = new ArrayList<>();
 
-        ArrayList<Events> eventArray1 = getFirstBattle();
+        ArrayList<Event> eventArray1 = getFirstBattle();
 
         battleEvents.addAll(eventArray1);
 
@@ -136,7 +136,7 @@ public class BattleSimulator {
             return battleEvents;
         }
 
-        ArrayList<Events> eventArray2 = getSecondBattle();
+        ArrayList<Event> eventArray2 = getSecondBattle();
 
         battleEvents.addAll(eventArray2);
 
@@ -153,9 +153,9 @@ public class BattleSimulator {
         return battleEvents;
     }
 
-    private ArrayList<Events> getFirstBattle() throws IOException {
+    private ArrayList<Event> getFirstBattle() throws IOException {
 
-        ArrayList<Events> battleEvents = new ArrayList<>();
+        ArrayList<Event> battleEvents = new ArrayList<>();
         BattleCalculator firstBattle
                          = new BattleCalculator(firstPokemon, secondPokemon,
                                                 pokeMove1);
@@ -188,9 +188,9 @@ public class BattleSimulator {
         return battleEvents;
     }
 
-    private ArrayList<Events> getSecondBattle() throws IOException {
+    private ArrayList<Event> getSecondBattle() throws IOException {
 
-        ArrayList<Events> battleEvents = new ArrayList<>();
+        ArrayList<Event> battleEvents = new ArrayList<>();
         BattleCalculator secondBattle
                          = new BattleCalculator(secondPokemon, firstPokemon,
                                                 pokeMove2);
