@@ -30,11 +30,11 @@ public class Move {
     private final AttackType type;
     private final PokemonType damageType;
     private final int damage;
-    private final int accuracy;
+    private final float accuracy;
     private final String name;
 
     public Move(AttackType type, PokemonType damageType, int damage,
-                int accuracy, String name) {
+                float accuracy, String name) {
         this.type = type;
         this.damageType = damageType;
         this.damage = damage;
@@ -54,7 +54,7 @@ public class Move {
         return damage;
     }
 
-    public int getAccuracy() {
+    public float getAccuracy() {
         return accuracy;
     }
 

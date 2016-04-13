@@ -24,12 +24,14 @@ public class EnemyTrainer extends Trainer {
     private String name;
     private Pokemon[] pokemon;
     private int numPokemon;
-    private String message;
+    private String OverworldMessage;
+    private String battleEndMessage;
 
-    public EnemyTrainer(String name, String text) {
+    public EnemyTrainer(String name, String OverworldMessage,
+                        String battleEndMessage) {
         super(name);
-        this.message = text;
-
+        this.OverworldMessage = OverworldMessage;
+        this.battleEndMessage = battleEndMessage;
     }
 
     /**
@@ -44,6 +46,14 @@ public class EnemyTrainer extends Trainer {
             pokemon[numPokemon] = pkmn;
             numPokemon++;
         }
+    }
+
+    public String getOverworldMessage() {
+        return OverworldMessage;
+    }
+
+    public String getBattleEndMessage() {
+        return battleEndMessage;
     }
 
 }
