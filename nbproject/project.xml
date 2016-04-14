@@ -14,5 +14,9 @@
         <libraries xmlns="http://www.netbeans.org/ns/ant-project-libraries/1">
             <definitions>externals/nblibraries.properties</definitions>
         </libraries>
+        <spellchecker-wordlist xmlns="http://www.netbeans.org/ns/spellchecker-wordlist/1">
+            <word>Pokemon</word>
+            <word>xml</word>
+        </spellchecker-wordlist>
     </configuration>
 </project>
