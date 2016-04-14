@@ -44,8 +44,8 @@ public class BattleSimulatorTest {
     public void testSimulate() throws Exception {
         System.out.println("simulate");
         BattleSimulator instance = null;
-        ArrayList<Events> expResult = null;
-        ArrayList<Events> result = instance.simulate();
+        ArrayList<Event> expResult = null;
+        ArrayList<Event> result = instance.simulate();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");

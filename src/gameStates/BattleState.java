@@ -5,9 +5,12 @@
  */
 package gameStates;
 
+import guiComponents.Animation;
 import guiComponents.InfoPanel;
 import guiComponents.MenuButton;
 import guiComponents.MenuLayoutManager;
+import java.util.ArrayList;
+import java.util.concurrent.LinkedBlockingQueue;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -25,25 +28,34 @@ import org.newdawn.slick.state.StateBasedGame;
 public class BattleState implements GameState {
 
     private int ID;
-    private String character1;
-    private String character2;
     private Image bgdImage;
     private BattleMenuState state;
+//    private PokeModel model;
+//    private BattleControl control;
 
     // Buttons
     private MenuLayoutManager mainMenuButtons;
     private MenuLayoutManager fightMenuButtons;
     private MenuLayoutManager pokemonMenuButtons;
     private MenuLayoutManager hpBarViewManager;
+    private MenuLayoutManager fightMenuCancelButton;
 
     // Textviews
-    private MenuLayoutManager mainMenuLeftTextView;
-    private MenuLayoutManager fightMenuCancelView;
+    private MenuLayoutManager mainMenuTextDisplay;
 
+    // Text Display and animation
+    private LinkedBlockingQueue<String> textDisplayQueue;
+    private ArrayList<Animation> animationList;
+
+    // Whether or not the view is animating
     // Constants for drawing
     private static final float X_PADDING = 5f;
     private static final float Y_PADDING = 5f;
 
+//    public BattleState(int BATTLE, PokeModel model) {
+//        this(BATTLE);
+//        this.model = model;
+//    }
     public BattleState(int BATTLE) {
         ID = BATTLE;
     }
@@ -63,9 +75,9 @@ public class BattleState implements GameState {
 
     @Override
     public void enter(GameContainer container, StateBasedGame game) throws SlickException {
-        if (character1 == null || character2 == null) {
+//        if (model.getOpponent() != null) {
 //            throw new SlickException("Characters don't exist");
-        }
+//        }
         // Load the battle background image
         bgdImage = new Image("res/Images/Battle/BattleGrass.png");
 
@@ -98,49 +110,74 @@ public class BattleState implements GameState {
         mainMenuButtons.set(1, 1, new MenuButton("Run"));
         mainMenuButtons.set(0, 1, new MenuButton("Pokemon"));
         // Left Side text view
-        mainMenuLeftTextView = new MenuLayoutManager(leftSideDrawRect, 1, 1);
+        mainMenuTextDisplay = new MenuLayoutManager(leftSideDrawRect, 1, 1);
         MenuButton b = new MenuButton("What will you do?", Color.white);
         b.setEnabled(false);
-        mainMenuLeftTextView.set(0, 0, b);
+        mainMenuTextDisplay.set(0, 0, b);
 
         // FIGHT MENU
         // Right side buttons
         fightMenuButtons = new MenuLayoutManager(leftWideDrawRect, 2, 2);
-        fightMenuButtons.set(0, 0, new MenuButton("Whip"));
+        // Currently placeholder strings
+        fightMenuButtons.set(0, 0, new MenuButton("Mud Slap"));
         fightMenuButtons.set(0, 1, new MenuButton("Tackle"));
         fightMenuButtons.set(1, 0, new MenuButton("Quick Attack"));
         fightMenuButtons.set(1, 1, new MenuButton("Splash"));
+
         // Left Side text view
-        fightMenuCancelView = new MenuLayoutManager(rightNarrowDrawRect, 1, 1);
-        fightMenuCancelView.set(0, 0, new MenuButton("Cancel", Color.blue));
+        fightMenuCancelButton = new MenuLayoutManager(rightNarrowDrawRect, 1, 1);
+        fightMenuCancelButton.set(0, 0, new MenuButton("Cancel", Color.blue));
 
         // HP BARS
         hpBarViewManager = new MenuLayoutManager(new RoundedRectangle(0, 0, container.getWidth(), bgdImage.getHeight(), 0), 2, 3, false);
         hpBarViewManager.set(0, 0, new InfoPanel(19, 100, "Testname1, plz ignore", 2));
         hpBarViewManager.set(1, 2, new InfoPanel(80, 100, "Testname2, plz ignore", 17));
+        hpBarViewManager.disable();
+
+        // Init queues for animation and displaying text
+        textDisplayQueue = new LinkedBlockingQueue<>();
+        animationList = new ArrayList<>();
+
+        // Battle Controller
+//        control = new BattleControl(model);
+//        control.getInitMessages();
     }
 
     @Override
     public void leave(GameContainer container, StateBasedGame game) throws SlickException {
+        // Clean up menu buttons
+        mainMenuButtons = null;
+        fightMenuButtons = null;
+        pokemonMenuButtons = null;
+        hpBarViewManager = null;
+        fightMenuCancelButton = null;
+        // Clean up text views
+        mainMenuTextDisplay = null;
+        // Clean up images
+        bgdImage = null;
+        // Clean up controller
+//        control = null;
 
+        textDisplayQueue = null;
+        animationList = null;
     }
 
-    //==================
-    // Mark: - Rendering
-    //==================
+    //=========================
+    // Mark: - Rendering (View)
+    //=========================
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
         switch (state) {
             case MAIN:
                 drawBattleScene(container, g);
                 g.setColor(Color.white);
-                mainMenuLeftTextView.render(container, g);
+                mainMenuTextDisplay.render(container, g);
                 mainMenuButtons.render(container, g);
                 break;
             case FIGHT:
                 drawBattleScene(container, g);
                 fightMenuButtons.render(container, g);
-                fightMenuCancelView.render(container, g);
+                fightMenuCancelButton.render(container, g);
                 break;
             case RUN:
                 drawBattleScene(container, g);
@@ -168,12 +205,18 @@ public class BattleState implements GameState {
         g.setBackground(Color.green);
     }
 
-    //========================
-    // Mark: - Logical Updates
-    //========================
+    //=====================================
+    // Mark: - Logical Updates (Controller)
+    //=====================================
     @Override
     public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 
+    }
+
+    public void handleAnimationAction() {
+//        if (!animating) {
+
+//        }
     }
 
     public void handleMainMenuSelection() {
@@ -203,20 +246,17 @@ public class BattleState implements GameState {
         state = BattleMenuState.MAIN;
     }
 
-    public void setCharacters(String c1, String c2) {
-        this.character1 = c1;
-        this.character2 = c2;
-    }
-
+//    public void setModel(PokeModel model) {
+//        this.model = model;
+//    }
+//    private void handleNewEvents(List<Event> newEvents) {
+//        while (!newEvents.isEmpty()) {
+//
+//        }
+//    }
     //========================
     // Mark: - Mouse Listeners
     //========================
-    //<editor-fold>
-    @Override
-    public void mouseWheelMoved(int change) {
-
-    }
-
     @Override
     public void mouseClicked(int button, int x, int y, int clickCount) {
         switch (state) {
@@ -228,7 +268,7 @@ public class BattleState implements GameState {
             case FIGHT:
                 if (fightMenuButtons.getSelected().contains(x, y)) {
                     handleFightMenuSelection();
-                } else if (fightMenuCancelView.getSelected().contains(x, y)) {
+                } else if (fightMenuCancelButton.getSelected().contains(x, y)) {
                     handleFightCancelSelection();
                     break;
                 }
@@ -237,16 +277,6 @@ public class BattleState implements GameState {
             case POKEMON:
                 break;
         }
-    }
-
-    @Override
-    public void mousePressed(int button, int x, int y) {
-
-    }
-
-    @Override
-    public void mouseReleased(int button, int x, int y) {
-
     }
 
     @Override
@@ -269,6 +299,23 @@ public class BattleState implements GameState {
         }
     }
 
+    // Unused listeners
+    //<editor-fold>
+    @Override
+    public void mouseWheelMoved(int change) {
+
+    }
+
+    @Override
+    public void mousePressed(int button, int x, int y) {
+
+    }
+
+    @Override
+    public void mouseReleased(int button, int x, int y) {
+
+    }
+
     @Override
     public void mouseDragged(int oldx, int oldy, int newx, int newy) {
 
@@ -276,34 +323,8 @@ public class BattleState implements GameState {
     // </editor-fold>
 
     //====================================
-    // Mark: - Accepting and Setting Input
+    // Mark: - Key handling and listening
     //====================================
-    //<editor-fold>
-    @Override
-    public void setInput(Input input) {
-
-    }
-
-    @Override
-    public boolean isAcceptingInput() {
-        return true;
-    }
-
-    @Override
-    public void inputEnded() {
-
-    }
-
-    @Override
-    public void inputStarted() {
-
-    }
-    //</editor-fold>
-
-    //=====================
-    // Mark: - Key handlers
-    //=====================
-    //<editor-fold>
     @Override
     public void keyPressed(int key, char c) {
         switch (state) {
@@ -331,7 +352,7 @@ public class BattleState implements GameState {
                 break;
             case Input.KEY_SPACE:
             case Input.KEY_ENTER:
-                handleMainMenuSelection();
+                handleFightMenuSelection();
                 break;
             case Input.KEY_BACK:
             case Input.KEY_ESCAPE:
@@ -361,15 +382,47 @@ public class BattleState implements GameState {
         }
     }
 
+    //============================================
+    // MARK: - Everything past this line is unused
+    //============================================
+    //<editor-fold>
+    //====================================
+    // Mark: - Accepting and Setting Input
+    //====================================
+    //<editor-fold>
     @Override
     public void keyReleased(int key, char c) {
+    }
+    // </editor-fold>
+
+    //====================================
+    // Mark: - Accepting and Setting Input
+    //====================================
+    //<editor-fold>
+    @Override
+    public void setInput(Input input) {
+
+    }
+
+    @Override
+    public boolean isAcceptingInput() {
+        return true;
+    }
+
+    @Override
+    public void inputEnded() {
+
+    }
+
+    @Override
+    public void inputStarted() {
 
     }
     //</editor-fold>
 
-    //======================================================
-    // Mark: - Unused Functions for Implementing Controllers
-    //======================================================
+    //======================================
+    // Mark: - Unused Functions for Gamepads
+    //======================================
     //<editor-fold defaultstate="collapsed">
     @Override
     public void controllerLeftPressed(int controller) {
@@ -421,5 +474,5 @@ public class BattleState implements GameState {
 
     }
     // </editor-fold>
-
+    // </editor-fold>
 }

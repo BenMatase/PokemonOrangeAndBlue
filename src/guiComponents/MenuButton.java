@@ -45,7 +45,7 @@ public class MenuButton {
     }
 
     public void render(GUIContext container, Graphics g) {
-        if (isHighlighted) {
+        if (isHighlighted && enabled) {
             g.setColor(highlightColor);
             g.draw(drawArea);
         }
