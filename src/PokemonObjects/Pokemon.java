@@ -65,6 +65,9 @@ public class Pokemon {
         this.pokemonType1 = pokemonType1;
         this.pokemonType2 = pokemonType2;
 
+        //initialize current health to full health
+        this.curHealth = this.health;
+
         if (nickname == null) {
             this.nickname = name;
         } else {

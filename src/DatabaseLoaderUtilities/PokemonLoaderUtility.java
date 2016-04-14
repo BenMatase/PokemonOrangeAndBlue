@@ -1,17 +1,3 @@
-
-import BattleUtility.PokemonType;
-import PokemonObjects.Move;
-import PokemonObjects.Move.AttackType;
-import PokemonObjects.Pokemon;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import org.jdom2.Document;
-import org.jdom2.Element;
-import org.jdom2.JDOMException;
-import org.jdom2.input.SAXBuilder;
-
 /* *****************************************
  * CSCI205 - Software Engineering and Design
  * Spring 2016
@@ -36,6 +22,21 @@ import org.jdom2.input.SAXBuilder;
  *
  * @author Benjamin Matase
  */
+package DatabaseLoaderUtilities;
+
+import BattleUtility.PokemonType;
+import PokemonObjects.Move;
+import PokemonObjects.Move.AttackType;
+import PokemonObjects.Pokemon;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.JDOMException;
+import org.jdom2.input.SAXBuilder;
+
 public class PokemonLoaderUtility {
     private static final String POKEMON_FILE_PATH = "./res/Database/pokemon.xml";
     private static final String MOVES_FILE_PATH = "./res/Database/moves.xml";
@@ -120,7 +121,7 @@ public class PokemonLoaderUtility {
         float accuracy = Float.parseFloat(moveNode.getChildText("accuracy"));
 
         //TODO: this is not finished, need to figure out battletype and how to deal with accuracy
-        Move move = new Move(attType, type, damage, (int) accuracy, moveName);
+        Move move = new Move(attType, type, damage, accuracy, moveName);
 
         return move;
     }
