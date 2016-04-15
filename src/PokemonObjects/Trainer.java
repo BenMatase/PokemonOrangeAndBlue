@@ -16,7 +16,7 @@
 package PokemonObjects;
 
 /**
- * Class that will be base parent for both user and ai pokemon trainers
+ * Class that will be base abstraction for both user and ai pokemon trainers
  *
  * @author Jason
  */
@@ -25,12 +25,12 @@ public abstract class Trainer {
     private String name;
     private Pokemon[] pokemon;
     private int numPokemon;
-    private Pokemon curPokemon;
+    private Pokemon curPokemon; //current pokemon selected (using in battle)
 
     public Trainer(String name) {
         this.name = name;
         this.pokemon = new Pokemon[6];
-        this.curPokemon = pokemon[0];
+        this.curPokemon = null; //won't select until first pokemon added
         this.numPokemon = 0;
     }
 
@@ -43,7 +43,7 @@ public abstract class Trainer {
     /**
      * Helper method used to determine if trainer has any living pokemon left
      *
-     * @return
+     * @return boolean: true if trainer has any pokemon that are living
      */
     public boolean pokemonLiving() {
         for (Pokemon poke : pokemon) {

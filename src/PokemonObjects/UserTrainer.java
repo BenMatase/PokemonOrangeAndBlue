@@ -16,6 +16,7 @@
 package PokemonObjects;
 
 /**
+ * Class that will represent the UserTrainer and hold its pokemon
  *
  * @author Jason
  */
@@ -24,6 +25,7 @@ public class UserTrainer extends Trainer {
     private String name;
     private Pokemon[] pokemon;
     private int numPokemon;
+    private Pokemon curPokemon;
 
     public UserTrainer(String name) {
         super(name);
@@ -32,7 +34,7 @@ public class UserTrainer extends Trainer {
     /**
      * adds pokemon to the user
      *
-     * @param pkmn
+     * @param pkmn The pokemon to add
      */
     @Override
     public void addPokemon(Pokemon pkmn) {
@@ -40,6 +42,9 @@ public class UserTrainer extends Trainer {
         if (numPokemon < 6) {
             pokemon[numPokemon] = pkmn;
             numPokemon++;
+        }
+        if (this.curPokemon == null) {
+            this.setCurPokemon(pokemon[0]);
         }
     }
 }

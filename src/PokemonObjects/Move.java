@@ -18,21 +18,30 @@ package PokemonObjects;
 import BattleUtility.PokemonType;
 
 /**
+ * Class representation of a move that pokemon will hold
  *
  * @author Jason
  */
 public class Move {
-    //TODO: added Other and should probably move elsewhere where all classes can see
     public enum AttackType {
         SPECIAL, PHYSICAL, OTHER
     };
 
-    private final AttackType type;
-    private final PokemonType damageType;
+    private final AttackType type; //determines which pokemon stat determines total damage delt
+    private final PokemonType damageType; // determines which pokemon type determines total damage delt
     private final int damage;
     private final float accuracy;
     private final String name;
 
+    /**
+     * Constructor for a Move
+     *
+     * @param type
+     * @param damageType
+     * @param damage
+     * @param accuracy
+     * @param name
+     */
     public Move(AttackType type, PokemonType damageType, int damage,
                 float accuracy, String name) {
         this.type = type;
