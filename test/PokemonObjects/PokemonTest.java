@@ -16,6 +16,9 @@
 package PokemonObjects;
 
 import BattleUtility.PokemonType;
+import DatabaseLoaderUtilities.PokemonLoaderUtility;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.After;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
@@ -34,9 +37,12 @@ public class PokemonTest {
 
     @Before
     public void setUp() {
-        pkmn = new Pokemon(100, 50, 50, 50,
-                           50, 50, "Squirtle", null, null,
-                           PokemonType.WATER, null);
+        List<String> moves = new ArrayList<>();
+        moves.add("Tackle");
+        moves.add("Tail Whip");
+        moves.add("Bubble");
+
+        pkmn = PokemonLoaderUtility.createPokemon("SQUIRTLE", "Squirty", moves);
     }
 
     @After

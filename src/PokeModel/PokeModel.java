@@ -15,6 +15,7 @@
  */
 package PokeModel;
 
+import DatabaseLoaderUtilities.PokemonLoaderUtility;
 import PokemonObjects.EnemyTrainer;
 import PokemonObjects.Trainer;
 import PokemonObjects.UserTrainer;
@@ -31,7 +32,9 @@ public class PokeModel {
     private List<Trainer> trainers;
 
     public PokeModel() {
+        user = new UserTrainer("Brian King");
 
+        user.addPokemon(PokemonLoaderUtility.createPokemon(null, null, null));
     }
 
     public UserTrainer getUser() {
