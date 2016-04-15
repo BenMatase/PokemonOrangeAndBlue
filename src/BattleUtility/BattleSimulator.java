@@ -74,17 +74,17 @@ public class BattleSimulator {
     private ArrayList<Event> simulateBothSwitch() throws IOException {
         ArrayList<Event> battleEvents = new ArrayList<>();
 
-        SwitchPokemonEvent event1 = new SwitchPokemonEvent(firstPokemon);
-        TextOutputEvent event2 = new TextOutputEvent(String.format(
-                "Go! %s", firstPokemon.getName()));
-        SwitchPokemonEvent event3 = new SwitchPokemonEvent(secondPokemon);
-        TextOutputEvent event4 = new TextOutputEvent(String.format(
-                "Go! %s", secondPokemon.getName()));
+        SwitchPokemonEvent event1 = new SwitchPokemonEvent(firstPokemon,
+                                                           String.format(
+                                                                   "Go! %s",
+                                                                   firstPokemon.getName()));
+        SwitchPokemonEvent event3 = new SwitchPokemonEvent(secondPokemon,
+                                                           String.format(
+                                                                   "Go! %s",
+                                                                   secondPokemon.getName()));
 
         battleEvents.add(event1);
-        battleEvents.add(event2);
         battleEvents.add(event3);
-        battleEvents.add(event4);
 
         return battleEvents;
     }
@@ -92,13 +92,12 @@ public class BattleSimulator {
     private ArrayList<Event> simulateOneSwitch() throws IOException {
         ArrayList<Event> battleEvents = new ArrayList<>();
 
-        SwitchPokemonEvent event1 = new SwitchPokemonEvent(secondPokemon);
-
-        TextOutputEvent event2 = new TextOutputEvent(String.format(
-                "Go! %s", secondPokemon.getName()));
+        SwitchPokemonEvent event1 = new SwitchPokemonEvent(secondPokemon,
+                                                           String.format(
+                                                                   "Go! %s",
+                                                                   secondPokemon.getName()));
 
         battleEvents.add(event1);
-        battleEvents.add(event2);
 
         ArrayList<Event> eventArray1 = getFirstBattle();
 

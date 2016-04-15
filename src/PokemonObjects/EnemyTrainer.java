@@ -23,12 +23,12 @@ package PokemonObjects;
  */
 public class EnemyTrainer extends Trainer {
 
-    private String name; //name of EnemyTrainer
-    private Pokemon[] pokemon;
-    private int numPokemon;
+    //private String name; //name of EnemyTrainer
+    //private Pokemon[] pokemon;
+    //private int numPokemon;
     private String OverworldMessage; //message Enemy says when user talks to the in open world
     private String battleEndMessage; //message Enemy says when they lose in a battle
-    private Pokemon curPokemon; //current pokemon selected for battle
+    //private Pokemon curPokemon; //current pokemon selected for battle
 
     public EnemyTrainer(String name, String OverworldMessage,
                         String battleEndMessage) {

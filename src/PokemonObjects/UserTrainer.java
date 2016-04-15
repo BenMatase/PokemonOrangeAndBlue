@@ -22,11 +22,10 @@ package PokemonObjects;
  */
 public class UserTrainer extends Trainer {
 
-    private String name;
-    private Pokemon[] pokemon;
-    private int numPokemon;
-    private Pokemon curPokemon;
-
+//    private String name;
+//    private Pokemon[] pokemon;
+//    private int numPokemon;
+//    private Pokemon curPokemon;
     public UserTrainer(String name) {
         super(name);
     }
