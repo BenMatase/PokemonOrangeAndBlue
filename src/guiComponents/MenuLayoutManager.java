@@ -23,6 +23,7 @@ public class MenuLayoutManager {
     private RoundedRectangle drawArea;
     private float[] buttonRectSize;
     private boolean drawBackground;
+    private boolean shouldShowHighlight = true;
 
     // Constants for drawing
     private static final float X_PADDING = 5;
@@ -144,6 +145,21 @@ public class MenuLayoutManager {
             selected = tmp;
             buttonMatrix[selected[0]][selected[1]].setHighlighted(true);
         }
+    }
+
+    public void disable() {
+        for (MenuButton b : getButtons()) {
+            b.setEnabled(false);
+            b.setHighlighted(false);
+        }
+    }
+
+    public void enable() {
+        for (MenuButton b : buttonArray) {
+            b.setEnabled(true);
+            b.setHighlighted(false);
+        }
+        setSelected(getSelected());
     }
 
     public MenuButton getButton(int x, int y) {

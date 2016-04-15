@@ -123,6 +123,7 @@ public class BattleState implements GameState {
         fightMenuButtons.set(0, 1, new MenuButton("Tackle"));
         fightMenuButtons.set(1, 0, new MenuButton("Quick Attack"));
         fightMenuButtons.set(1, 1, new MenuButton("Splash"));
+
         // Left Side text view
         fightMenuCancelButton = new MenuLayoutManager(rightNarrowDrawRect, 1, 1);
         fightMenuCancelButton.set(0, 0, new MenuButton("Cancel", Color.blue));
@@ -131,6 +132,7 @@ public class BattleState implements GameState {
         hpBarViewManager = new MenuLayoutManager(new RoundedRectangle(0, 0, container.getWidth(), bgdImage.getHeight(), 0), 2, 3, false);
         hpBarViewManager.set(0, 0, new InfoPanel(19, 100, "Testname1, plz ignore", 2));
         hpBarViewManager.set(1, 2, new InfoPanel(80, 100, "Testname2, plz ignore", 17));
+        hpBarViewManager.disable();
 
         // Init queues for animation and displaying text
         textDisplayQueue = new LinkedBlockingQueue<>();
