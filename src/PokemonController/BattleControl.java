@@ -21,6 +21,7 @@ import BattleUtility.Event;
 import BattleUtility.SwitchPokemonEvent;
 import BattleUtility.TextOutputEvent;
 import BattleUtility.UserDefeatEvent;
+import PokeModel.PokeModel;
 import PokemonObjects.EnemyTrainer;
 import PokemonObjects.Move;
 import PokemonObjects.Pokemon;
@@ -65,6 +66,8 @@ public class BattleControl {
             ArrayList<Event> events = new ArrayList<>();
             TextOutputEvent event1 = new TextOutputEvent(String.format(
                     "% is already in battle", user.getCurPokemon().getName()));
+            events.add(event1);
+            return events;
         }
         user.setCurPokemon(newCurrPokemon);
         BattleSimulator switchBattle = new BattleSimulator(
