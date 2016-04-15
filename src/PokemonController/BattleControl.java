@@ -15,12 +15,14 @@
  */
 package PokemonController;
 
+import BattleUtility.AIUtility;
 import BattleUtility.BattleSimulator;
 import BattleUtility.EnemyDefeatEvent;
 import BattleUtility.Event;
 import BattleUtility.SwitchPokemonEvent;
 import BattleUtility.TextOutputEvent;
 import BattleUtility.UserDefeatEvent;
+import PokeModel.PokeModel;
 import PokemonObjects.EnemyTrainer;
 import PokemonObjects.Move;
 import PokemonObjects.Pokemon;
@@ -65,19 +67,21 @@ public class BattleControl {
             ArrayList<Event> events = new ArrayList<>();
             TextOutputEvent event1 = new TextOutputEvent(String.format(
                     "% is already in battle", user.getCurPokemon().getName()));
+            events.add(event1);
+            return events;
         }
         user.setCurPokemon(newCurrPokemon);
         BattleSimulator switchBattle = new BattleSimulator(
-                user.getCurPokemon(),
-                null, enemy.getCurPokemon(), AIUtility.getMove(user, enemy));
+                user.getCurPokemon(), enemy.getCurPokemon(),
+                null, AIUtility.getMove(user, enemy));
 
         return switchBattle.simulate();
     }
 
     public ArrayList<Event> chooseAttack(Move chosenMove) throws IOException {
         BattleSimulator switchBattle = new BattleSimulator(
-                user.getCurPokemon(),
-                chosenMove, enemy.getCurPokemon(),
+                user.getCurPokemon(), enemy.getCurPokemon(),
+                chosenMove,
                 AIUtility.getMove(user, enemy));
         ArrayList<Event> events = switchBattle.simulate();
         if (!enemy.pokemonLiving()) {
