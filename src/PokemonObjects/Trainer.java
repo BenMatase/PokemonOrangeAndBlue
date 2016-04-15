@@ -22,10 +22,10 @@ package PokemonObjects;
  */
 public abstract class Trainer {
 
-    private String name;
-    private Pokemon[] pokemon;
-    private int numPokemon;
-    private Pokemon curPokemon; //current pokemon selected (using in battle)
+    protected String name;
+    protected Pokemon[] pokemon;
+    protected int numPokemon;
+    protected Pokemon curPokemon; //current pokemon selected (using in battle)
 
     public Trainer(String name) {
         this.name = name;
