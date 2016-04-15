@@ -18,21 +18,21 @@ package PokemonObjects;
 import BattleUtility.PokemonType;
 
 /**
- * Class that will be used to represent a Pokemon
+ * Class that will be used to represent any Pokemon
  *
  * @author Jason
  */
 public class Pokemon {
     private int health;
-    private int curHealth;
+    private int curHealth; //the current health held by a pokemon
     private int attack;
     private int spcAttack;
     private int defense;
     private int spcDefense;
     private int speed;
     private String name;
-    private String nickname;
-    private TrainerType trainer = null;
+    private String nickname; //nickname for pokemon selected by user
+    private TrainerType trainer = null; //Enum used by BattleSimulator to send events to GUI
     private Move[] moves;
     private PokemonType pokemonType1;
     private PokemonType pokemonType2;
@@ -139,10 +139,20 @@ public class Pokemon {
         return pokemonType2;
     }
 
+    /**
+     * Method that returns true if pokmeon has health greater than 0
+     *
+     * @return true if pokemon has current health remaining
+     */
     public boolean isAlive() {
         return this.curHealth > 0;
     }
 
+    /**
+     * Sets pokemon current health to right amount, never less than 0
+     *
+     * @param healthLoss The amount of health a pokemon will lose
+     */
     public void reduceHealth(int healthLoss) {
         if (this.curHealth < healthLoss) {
             this.curHealth = 0;
