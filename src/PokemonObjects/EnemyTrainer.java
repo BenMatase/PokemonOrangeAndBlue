@@ -16,16 +16,19 @@
 package PokemonObjects;
 
 /**
+ * Class that is used to represent enemy trainers that a user can battle
+ * against.
  *
  * @author Jason
  */
 public class EnemyTrainer extends Trainer {
 
-    private String name;
+    private String name; //name of EnemyTrainer
     private Pokemon[] pokemon;
     private int numPokemon;
-    private String OverworldMessage;
-    private String battleEndMessage;
+    private String OverworldMessage; //message Enemy says when user talks to the in open world
+    private String battleEndMessage; //message Enemy says when they lose in a battle
+    private Pokemon curPokemon; //current pokemon selected for battle
 
     public EnemyTrainer(String name, String OverworldMessage,
                         String battleEndMessage) {
@@ -35,9 +38,9 @@ public class EnemyTrainer extends Trainer {
     }
 
     /**
-     * adds pokemon to the user
+     * adds pokemon to the enemy and sets pokmeon type to NPC
      *
-     * @param pkmn
+     * @param pkmn The pokemon that is addded to the enemy trainer
      */
     @Override
     public void addPokemon(Pokemon pkmn) {
@@ -45,6 +48,9 @@ public class EnemyTrainer extends Trainer {
         if (numPokemon < 6) {
             pokemon[numPokemon] = pkmn;
             numPokemon++;
+        }
+        if (this.curPokemon == null) {
+            this.setCurPokemon(pokemon[0]);
         }
     }
 
