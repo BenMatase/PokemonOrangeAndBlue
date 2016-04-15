@@ -24,9 +24,19 @@ import PokemonObjects.Pokemon;
 public class SwitchPokemonEvent extends Event {
 
     Pokemon switchPokemon = null;
+    String text;
 
-    public SwitchPokemonEvent(Pokemon PokeSwitch) {
+    public SwitchPokemonEvent(Pokemon PokeSwitch, String message) {
         this.switchPokemon = PokeSwitch;
+        this.text = message;
+    }
+
+    public Pokemon getSwitchPokemon() {
+        return switchPokemon;
+    }
+
+    public String getText() {
+        return text;
     }
 
 }

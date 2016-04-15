@@ -30,6 +30,7 @@ public class Pokemon {
     private int defense;
     private int spcDefense;
     private int speed;
+    private int ID; //pokedex number
     private String name;
     private String nickname; //nickname for pokemon selected by user
     private TrainerType trainer = null; //Enum used by BattleSimulator to send events to GUI
@@ -64,6 +65,7 @@ public class Pokemon {
         this.moves = moves;
         this.pokemonType1 = pokemonType1;
         this.pokemonType2 = pokemonType2;
+        this.ID = 0;
 
         //initialize current health to full health
         this.curHealth = this.health;
@@ -193,6 +195,14 @@ public class Pokemon {
 
     public TrainerType getTrainer() {
         return trainer;
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
 }

@@ -59,6 +59,10 @@ public class BattleCalculator {
         this.accuracyModifier = getAccuracyModifier();
     }
 
+    public void setMove(Move move) {
+        this.move = move;
+    }
+
     public double damageCalculator() {
         AttackType attackType = move.getType();
         double damage;
