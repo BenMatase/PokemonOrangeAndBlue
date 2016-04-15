@@ -5,11 +5,15 @@
  */
 package gameStates;
 
+import BattleUtility.Event;
+import PokeModel.PokeModel;
+import PokemonController.BattleControl;
 import guiComponents.Animation;
 import guiComponents.InfoPanel;
 import guiComponents.MenuButton;
 import guiComponents.MenuLayoutManager;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -30,8 +34,12 @@ public class BattleState implements GameState {
     private int ID;
     private Image bgdImage;
     private BattleMenuState state;
-//    private PokeModel model;
-//    private BattleControl control;
+    private PokeModel model;
+    private BattleControl control;
+
+    // Drawing Pokemon
+    private Image playerImage;
+    private Image enemyImage;
 
     // Buttons
     private MenuLayoutManager mainMenuButtons;
@@ -52,10 +60,11 @@ public class BattleState implements GameState {
     private static final float X_PADDING = 5f;
     private static final float Y_PADDING = 5f;
 
-//    public BattleState(int BATTLE, PokeModel model) {
-//        this(BATTLE);
-//        this.model = model;
-//    }
+    public BattleState(int BATTLE, PokeModel model) {
+        this(BATTLE);
+        this.model = model;
+    }
+
     public BattleState(int BATTLE) {
         ID = BATTLE;
     }
@@ -75,9 +84,14 @@ public class BattleState implements GameState {
 
     @Override
     public void enter(GameContainer container, StateBasedGame game) throws SlickException {
-//        if (model.getOpponent() != null) {
-//            throw new SlickException("Characters don't exist");
-//        }
+        if (model.getEnemy() == null || model.getUser() == null) {
+            throw new SlickException("Characters don't exist");
+        } else {
+            model.getUser().getCurPokemon().setID(2);
+            playerImage = new Image("./res/Images/Sprites/back/" + model.getUser().getCurPokemon().getID() + ".png");
+            model.getEnemy().getCurPokemon().setID(2);
+            enemyImage = new Image("./res/Images/Sprites/front/" + model.getEnemy().getCurPokemon().getID() + ".png");
+        }
         // Load the battle background image
         bgdImage = new Image("res/Images/Battle/BattleGrass.png");
 
@@ -135,12 +149,11 @@ public class BattleState implements GameState {
         hpBarViewManager.disable();
 
         // Init queues for animation and displaying text
-        textDisplayQueue = new LinkedBlockingQueue<>();
         animationList = new ArrayList<>();
 
         // Battle Controller
-//        control = new BattleControl(model);
-//        control.getInitMessages();
+        control = new BattleControl(model);
+        handleAnimations(control.getInitialMessage());
     }
 
     @Override
@@ -194,6 +207,13 @@ public class BattleState implements GameState {
     private void drawBattleScene(GameContainer container, Graphics g) {
         g.setBackground(Color.darkGray);
         g.drawImage(bgdImage, 0, 0, container.getWidth(), bgdImage.getHeight(), 0, 0, bgdImage.getWidth(), bgdImage.getHeight());
+        float scale = 2.0f;
+        g.drawImage(playerImage, playerImage.getWidth() / 4f, bgdImage.getHeight() - playerImage.getHeight() * scale, playerImage.getWidth() / 4f + playerImage.getWidth() * scale, bgdImage.getHeight(),
+                    0, 0, playerImage.getWidth(), playerImage.getHeight());
+
+        g.drawImage(enemyImage, container.getWidth() - enemyImage.getWidth() * 1.25f, 0, container.getWidth() - enemyImage.getWidth() * 0.25f, enemyImage.getHeight(),
+                    0, 0, enemyImage.getWidth(), enemyImage.getHeight());
+
         hpBarViewManager.render(container, g);
     }
 
@@ -213,10 +233,7 @@ public class BattleState implements GameState {
 
     }
 
-    public void handleAnimationAction() {
-//        if (!animating) {
-
-//        }
+    public void handleAnimations(List<Event> events) {
     }
 
     public void handleMainMenuSelection() {
