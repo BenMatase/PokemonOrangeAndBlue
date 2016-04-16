@@ -34,7 +34,7 @@ public class AIUtility {
      * @param npc
      * @return
      */
-    public static Move getBestMove(UserTrainer usr, EnemyTrainer npc) {
+    public static Move getMove(UserTrainer usr, EnemyTrainer npc) {
         //need to evaluate how much damage for each move
         BattleCalculator battleCalculator = new BattleCalculator(
                 usr.getCurPokemon(), npc.getCurPokemon(),
