@@ -31,6 +31,7 @@ public class Pokemon {
     private int spcDefense;
     private int speed;
     private int ID; //pokedex number
+    private int numMoves; //number of moves a pokemon holds
     private String name;
     private String nickname; //nickname for pokemon selected by user
     private TrainerType trainer = null; //Enum used by BattleSimulator to send events to GUI
@@ -182,6 +183,7 @@ public class Pokemon {
     public void setMove(Move newMove, int moveIndex) {
         if (!(moveIndex > 4) && !(moveIndex < 0)) {
             this.moves[moveIndex] = newMove;
+            numMoves++;
         }
     }
 
@@ -203,6 +205,10 @@ public class Pokemon {
 
     public void setID(int ID) {
         this.ID = ID;
+    }
+
+    public int getNumMoves() {
+        return numMoves;
     }
 
 }

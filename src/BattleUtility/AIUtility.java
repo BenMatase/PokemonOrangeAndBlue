@@ -18,6 +18,7 @@ package BattleUtility;
 import PokemonObjects.EnemyTrainer;
 import PokemonObjects.Move;
 import PokemonObjects.UserTrainer;
+import java.util.Random;
 
 /**
  *
@@ -33,9 +34,45 @@ public class AIUtility {
      * @param npc
      * @return
      */
-    public static Move getMove(UserTrainer usr, EnemyTrainer npc) {
+    public static Move getBestMove(UserTrainer usr, EnemyTrainer npc) {
         //need to evaluate how much damage for each move
-        return null;
+        BattleCalculator battleCalculator = new BattleCalculator(
+                usr.getCurPokemon(), npc.getCurPokemon(),
+                usr.getCurPokemon().getMoves()[0]);
+        //create an array of number of doubles based on number of moves
+        double[] moveDamage = new double[npc.getCurPokemon().getNumMoves()];
+        for (int x = 0; x < usr.getCurPokemon().getNumMoves(); x++) {
+            battleCalculator.setMove(usr.getCurPokemon().getMoves()[0]);
+            moveDamage[x] = battleCalculator.AIMoveAdvantage();
+        }
+        int moveChoice = randomFromArray(moveDamage);
+        return npc.getCurPokemon().getMoves()[moveChoice];
+    }
+
+    /**
+     * Takes in an array of doubles and returns a random number. The random
+     * number is chosen by summing all the doubles together and getting a random
+     * number between 0 and said number and determining which array it came
+     * from.
+     *
+     * @param doubleArray The array of double values to get a random index
+     * choice of
+     * @return The index the random value is selected from
+     */
+    private static int randomFromArray(double[] doubleArray) {
+        double totValues = 0;
+        for (double dobVal : doubleArray) {
+            totValues += dobVal;
+        }
+        Random randGenerator = new Random();
+        double randValue = (totValues) * randGenerator.nextDouble();
+        int arrayChoice = 0; //the array index that the random number is from
+        double ArrayValue = doubleArray[0]; //the sum of the values in the current index and previous indices
+        while (randValue > ArrayValue) {
+            arrayChoice++;
+            ArrayValue += doubleArray[arrayChoice];
+        }
+        return arrayChoice;
     }
 
 }
