@@ -26,23 +26,20 @@ import org.newdawn.slick.gui.GUIContext;
 public abstract class Animation {
 
     protected Image img;
-    protected float durationMS;
+    protected float durationS;
     protected float currMS;
 
     private boolean animating = false;
 
-    public Animation(Image img, float durationMS) {
+    public Animation(Image img, float durationS) {
         this.img = img;
-        this.durationMS = durationMS;
+
+        this.durationS = durationS;
     }
 
     public abstract void render(GUIContext container, Graphics g);
 
-    public final void updateTime(float delta) {
-        if (animating) {
-            currMS += delta;
-        }
-    }
+    public abstract void update(float delta);
 
     public void start() {
         animating = true;

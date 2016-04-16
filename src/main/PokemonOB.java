@@ -5,6 +5,7 @@
  */
 package main;
 
+import PokeModel.PokeModel;
 import gameStates.BattleState;
 import gameStates.BlackScreenState;
 import gameStates.GameStateType;
@@ -27,11 +28,12 @@ public class PokemonOB extends StateBasedGame {
     public static final int HEIGHT = 384;
     public static final int FPS = 60;
     public static final double VERSION = 0.1;
+    public static PokeModel model;
 
     // Class Constructor
     public PokemonOB(String appName) {
         super(appName);
-
+        model = new PokeModel();
     }
 
     // Initialize your game states (calls init method of each gamestate, and set's the state ID)
@@ -42,7 +44,7 @@ public class PokemonOB extends StateBasedGame {
         this.addState(new SplashScreenState(GameStateType.SPLASHSCREEN.getValue()));
         this.addState(new MainMenuState(GameStateType.MAINMENU.getValue()));
         this.addState(new OverworldState(GameStateType.OVERWORLD.getValue()));
-        this.addState(new BattleState(GameStateType.BATTLE.getValue()));
+        this.addState(new BattleState(GameStateType.BATTLE.getValue(), model));
     }
 
     // Main Method

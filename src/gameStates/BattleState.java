@@ -5,11 +5,15 @@
  */
 package gameStates;
 
+import BattleUtility.Event;
+import PokeModel.PokeModel;
+import PokemonController.BattleControl;
 import guiComponents.Animation;
 import guiComponents.InfoPanel;
 import guiComponents.MenuButton;
 import guiComponents.MenuLayoutManager;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -30,8 +34,12 @@ public class BattleState implements GameState {
     private int ID;
     private Image bgdImage;
     private BattleMenuState state;
-//    private PokeModel model;
-//    private BattleControl control;
+    private PokeModel model;
+    private BattleControl control;
+
+    // Drawing Pokemon
+    private Image playerImage;
+    private Image enemyImage;
 
     // Buttons
     private MenuLayoutManager mainMenuButtons;
@@ -39,6 +47,12 @@ public class BattleState implements GameState {
     private MenuLayoutManager pokemonMenuButtons;
     private MenuLayoutManager hpBarViewManager;
     private MenuLayoutManager fightMenuCancelButton;
+
+    // Drawing Pokemon Centers
+    private int ex = 418;
+    private int ey = 55;
+    private int px = 73;
+    private int py = 193;
 
     // Textviews
     private MenuLayoutManager mainMenuTextDisplay;
@@ -52,10 +66,11 @@ public class BattleState implements GameState {
     private static final float X_PADDING = 5f;
     private static final float Y_PADDING = 5f;
 
-//    public BattleState(int BATTLE, PokeModel model) {
-//        this(BATTLE);
-//        this.model = model;
-//    }
+    public BattleState(int BATTLE, PokeModel model) {
+        this(BATTLE);
+        this.model = model;
+    }
+
     public BattleState(int BATTLE) {
         ID = BATTLE;
     }
@@ -75,9 +90,12 @@ public class BattleState implements GameState {
 
     @Override
     public void enter(GameContainer container, StateBasedGame game) throws SlickException {
-//        if (model.getOpponent() != null) {
-//            throw new SlickException("Characters don't exist");
-//        }
+        if (model.getEnemy() == null || model.getUser() == null) {
+            throw new SlickException("Characters don't exist");
+        } else {
+            playerImage = new Image("./res/Images/Sprites/back/" + model.getUser().getCurPokemon().getID() + ".png");
+            enemyImage = new Image("./res/Images/Sprites/front/" + model.getEnemy().getCurPokemon().getID() + ".png");
+        }
         // Load the battle background image
         bgdImage = new Image("res/Images/Battle/BattleGrass.png");
 
@@ -119,10 +137,17 @@ public class BattleState implements GameState {
         // Right side buttons
         fightMenuButtons = new MenuLayoutManager(leftWideDrawRect, 2, 2);
         // Currently placeholder strings
-        fightMenuButtons.set(0, 0, new MenuButton("Mud Slap"));
-        fightMenuButtons.set(0, 1, new MenuButton("Tackle"));
-        fightMenuButtons.set(1, 0, new MenuButton("Quick Attack"));
-        fightMenuButtons.set(1, 1, new MenuButton("Splash"));
+        switch (model.getUser().getCurPokemon().getMoves().length) {
+            case 4:
+                fightMenuButtons.set(1, 1, new MenuButton(model.getUser().getCurPokemon().getMoves()[3].getName()));
+            case 3:
+                fightMenuButtons.set(1, 0, new MenuButton(model.getUser().getCurPokemon().getMoves()[2].getName()));
+            case 2:
+                fightMenuButtons.set(0, 1, new MenuButton(model.getUser().getCurPokemon().getMoves()[1].getName()));
+            case 1:
+                fightMenuButtons.set(0, 0, new MenuButton(model.getUser().getCurPokemon().getMoves()[0].getName()));
+            default:
+        }
 
         // Left Side text view
         fightMenuCancelButton = new MenuLayoutManager(rightNarrowDrawRect, 1, 1);
@@ -135,12 +160,11 @@ public class BattleState implements GameState {
         hpBarViewManager.disable();
 
         // Init queues for animation and displaying text
-        textDisplayQueue = new LinkedBlockingQueue<>();
         animationList = new ArrayList<>();
 
         // Battle Controller
-//        control = new BattleControl(model);
-//        control.getInitMessages();
+        control = new BattleControl(model);
+        handleAnimations(control.getInitialMessage());
     }
 
     @Override
@@ -194,6 +218,31 @@ public class BattleState implements GameState {
     private void drawBattleScene(GameContainer container, Graphics g) {
         g.setBackground(Color.darkGray);
         g.drawImage(bgdImage, 0, 0, container.getWidth(), bgdImage.getHeight(), 0, 0, bgdImage.getWidth(), bgdImage.getHeight());
+
+        g.drawImage(playerImage,
+                    px - playerImage.getWidth() / 2f,
+                    py - playerImage.getHeight() / 2f,
+                    px + playerImage.getWidth() / 2f,
+                    py + playerImage.getHeight() / 2f > bgdImage.getHeight() ? bgdImage.getHeight() : py + playerImage.getWidth() / 2f,
+                    0,
+                    0,
+                    playerImage.getWidth(),
+                    py + playerImage.getHeight() / 2f > bgdImage.getHeight() ? playerImage.getHeight() / 2f + bgdImage.getHeight() - py : playerImage.getHeight());
+
+        g.drawImage(enemyImage,
+                    ex - enemyImage.getWidth() / 2f,
+                    ey - enemyImage.getHeight() / 2f,
+                    ex + enemyImage.getWidth() / 2f,
+                    ey + enemyImage.getHeight() / 2f,
+                    0,
+                    0,
+                    playerImage.getWidth(),
+                    enemyImage.getHeight());
+
+//        g.drawImage(playerImage, 0, bgdImage.getHeight() - playerImage.getHeight() * 3f / 4f, playerImage.getWidth(), bgdImage.getHeight(),
+//                    0, 0, playerImage.getWidth(), playerImage.getHeight() * 3f / 4f);
+//        g.drawImage(enemyImage, container.getWidth() - enemyImage.getWidth(), 0, container.getWidth(), enemyImage.getHeight(),
+//                    0, 0, enemyImage.getWidth(), enemyImage.getHeight());
         hpBarViewManager.render(container, g);
     }
 
@@ -213,10 +262,7 @@ public class BattleState implements GameState {
 
     }
 
-    public void handleAnimationAction() {
-//        if (!animating) {
-
-//        }
+    public void handleAnimations(List<Event> events) {
     }
 
     public void handleMainMenuSelection() {
