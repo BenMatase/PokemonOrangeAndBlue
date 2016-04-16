@@ -27,7 +27,6 @@ import PokemonObjects.EnemyTrainer;
 import PokemonObjects.Move;
 import PokemonObjects.Pokemon;
 import PokemonObjects.UserTrainer;
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -63,7 +62,7 @@ public class BattleControl {
         return events;
     }
 
-    public ArrayList<Event> chooseSwitchPokemon(Pokemon newCurrPokemon) throws IOException {
+    public ArrayList<Event> chooseSwitchPokemon(Pokemon newCurrPokemon) {
         if (newCurrPokemon == user.getCurPokemon()) {
             ArrayList<Event> events = new ArrayList<>();
             TextOutputEvent event1 = new TextOutputEvent(String.format(
@@ -79,7 +78,7 @@ public class BattleControl {
         return switchBattle.simulate();
     }
 
-    public ArrayList<Event> chooseAttack(Move chosenMove) throws IOException {
+    public ArrayList<Event> chooseAttack(Move chosenMove) {
         BattleSimulator switchBattle = new BattleSimulator(
                 user.getCurPokemon(), enemy.getCurPokemon(),
                 chosenMove,

@@ -58,7 +58,7 @@ public class BattleSimulator {
 
     }
 
-    public ArrayList<Event> simulate() throws IOException {
+    public ArrayList<Event> simulate() {
         ArrayList<Event> battleEvents = new ArrayList<>();
 
         if (pokeMove1 == null && pokeMove2 == null) {
@@ -71,7 +71,7 @@ public class BattleSimulator {
         return battleEvents;
     }
 
-    private ArrayList<Event> simulateBothSwitch() throws IOException {
+    private ArrayList<Event> simulateBothSwitch() {
         ArrayList<Event> battleEvents = new ArrayList<>();
 
         SwitchPokemonEvent event1 = new SwitchPokemonEvent(firstPokemon,
@@ -89,7 +89,7 @@ public class BattleSimulator {
         return battleEvents;
     }
 
-    private ArrayList<Event> simulateOneSwitch() throws IOException {
+    private ArrayList<Event> simulateOneSwitch() {
         ArrayList<Event> battleEvents = new ArrayList<>();
 
         SwitchPokemonEvent event1 = new SwitchPokemonEvent(secondPokemon,
@@ -116,7 +116,7 @@ public class BattleSimulator {
         return battleEvents;
     }
 
-    private ArrayList<Event> simulateNoSwitch() throws IOException {
+    private ArrayList<Event> simulateNoSwitch() {
 
         ArrayList<Event> battleEvents = new ArrayList<>();
 
@@ -152,7 +152,7 @@ public class BattleSimulator {
         return battleEvents;
     }
 
-    private ArrayList<Event> getFirstBattle() throws IOException {
+    private ArrayList<Event> getFirstBattle() {
 
         ArrayList<Event> battleEvents = new ArrayList<>();
         BattleCalculator firstBattle
@@ -175,19 +175,22 @@ public class BattleSimulator {
 
         String battleText = firstBattle.getOutcome();
 
-        BufferedReader bufReader = new BufferedReader(new StringReader(
-                battleText));
+        try {
+            BufferedReader bufReader = new BufferedReader(new StringReader(
+                    battleText));
 
-        String line = null;
-        while ((line = bufReader.readLine()) != null) {
-            TextOutputEvent textEvent = new TextOutputEvent(line);
-            battleEvents.add(textEvent);
+            String line = null;
+            while ((line = bufReader.readLine()) != null) {
+                TextOutputEvent textEvent = new TextOutputEvent(line);
+                battleEvents.add(textEvent);
+            }
+        } catch (IOException e) {
         }
 
         return battleEvents;
     }
 
-    private ArrayList<Event> getSecondBattle() throws IOException {
+    private ArrayList<Event> getSecondBattle() {
 
         ArrayList<Event> battleEvents = new ArrayList<>();
         BattleCalculator secondBattle
@@ -208,14 +211,16 @@ public class BattleSimulator {
         battleEvents.add(event2);
 
         String battleText = secondBattle.getOutcome();
+        try {
+            BufferedReader bufReader = new BufferedReader(new StringReader(
+                    battleText));
 
-        BufferedReader bufReader = new BufferedReader(new StringReader(
-                battleText));
-
-        String line = null;
-        while ((line = bufReader.readLine()) != null) {
-            TextOutputEvent textEvent = new TextOutputEvent(line);
-            battleEvents.add(textEvent);
+            String line = null;
+            while ((line = bufReader.readLine()) != null) {
+                TextOutputEvent textEvent = new TextOutputEvent(line);
+                battleEvents.add(textEvent);
+            }
+        } catch (IOException e) {
         }
 
         return battleEvents;
