@@ -34,7 +34,6 @@ public class InfoPanel extends MenuButton {
     // HP Levels
     private int maxHP;
     private int curHP;
-    private int goalHP;
     private int level;
     private float HPH = 5;
     private float HPB = 3;
@@ -60,7 +59,6 @@ public class InfoPanel extends MenuButton {
         this.level = level;
         this.maxHP = maxHP;
         this.curHP = curHP;
-        this.goalHP = curHP;
         this.enabled = false;
         this.isHighlighted = false;
 
@@ -139,7 +137,7 @@ public class InfoPanel extends MenuButton {
     }
 
     public void setHP(int hp) {
-        goalHP = hp;
+        this.curHP = hp;
     }
 
     private void recalculate() {
