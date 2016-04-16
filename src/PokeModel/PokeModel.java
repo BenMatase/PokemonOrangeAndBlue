@@ -19,6 +19,7 @@ import DatabaseLoaderUtilities.PokemonLoaderUtility;
 import PokemonObjects.EnemyTrainer;
 import PokemonObjects.Trainer;
 import PokemonObjects.UserTrainer;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,9 +33,21 @@ public class PokeModel {
     private List<Trainer> trainers;
 
     public PokeModel() {
-        user = new UserTrainer("Brian King");
+        user = new UserTrainer("Ben");
+        enemy = new EnemyTrainer("Brian King", "Hey.", "Bye.");
 
-        user.addPokemon(PokemonLoaderUtility.createPokemon(null, null, null));
+        List<String> userMoves = new ArrayList<String>();
+        userMoves.add("Pound");
+
+        List<String> enemyMoves = new ArrayList<String>();
+        userMoves.add("Pound");
+
+        user.addPokemon(PokemonLoaderUtility.createPokemon("JIGGLYPUFF",
+                                                           "Jiggy Wiggy",
+                                                           userMoves));
+        enemy.addPokemon(PokemonLoaderUtility.createPokemon("JIGGLYPUFF",
+                                                            "Dancy",
+                                                            enemyMoves));
     }
 
     public UserTrainer getUser() {
