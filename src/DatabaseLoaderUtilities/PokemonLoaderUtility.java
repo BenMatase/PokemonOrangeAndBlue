@@ -296,6 +296,9 @@ public class PokemonLoaderUtility {
                                       pokemonName, nickname, moves, type1,
                                       type2);
 
+        //TODO: need to move this to constructor
+        pokemon.setID(natDexNum);
+
         return pokemon;
 
     }
