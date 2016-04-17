@@ -11,5 +11,5 @@ package gameStates;
  */
 public enum BattleMenuState {
 
-    MAIN, FIGHT, BAG, POKEMON, RUN;
+    MAIN, FIGHT, BAG, POKEMON, RUN, HANDLING_EVENTS;
 }

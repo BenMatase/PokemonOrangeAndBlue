@@ -7,6 +7,7 @@ package guiComponents;
 
 import java.awt.Font;
 import java.io.InputStream;
+import org.apache.commons.lang3.text.WordUtils;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.util.ResourceLoader;
@@ -41,5 +42,9 @@ public class FontManager {
             stdPxFont = getPixelFontWithSize(32f);
         }
         return stdPxFont;
+    }
+
+    public static String[] wrapString(String s, float pxWidth) throws SlickException {
+        return WordUtils.wrap(s, (int) (pxWidth / getStdPixelFont().getWidth("W"))).split("\n");
     }
 }
