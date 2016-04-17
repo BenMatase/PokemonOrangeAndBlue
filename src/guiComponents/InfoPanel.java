@@ -34,29 +34,28 @@ public class InfoPanel extends MenuButton {
     // HP Levels
     private int maxHP;
     private int curHP;
-    private int level;
-    private float HPH = 5;
-    private float HPB = 3;
-    private float HPX;
-    private float HPY;
-    private float HPW;
+    private int HPH = 5;
+    private int HPB = 3;
+    private int HPX;
+    private int HPY;
+    private int HPW;
 
     // Drawing constants
     private int X_PADDING = 5;
     private int Y_PADDING = 5;
 
-    public InfoPanel(int curHP, int maxHP, String s, int level) {
-        this(0, 0, curHP, maxHP, s, level);
+    public InfoPanel(int curHP, int maxHP, String s) {
+        this(0, 0, curHP, maxHP, s);
     }
 
-    public InfoPanel(float x, float y, int curHP, int maxHP, String name, int level) {
-        this(x, y, curHP, maxHP, name, level, null);
+    public InfoPanel(float x, float y, int curHP, int maxHP, String name) {
+        this(x, y, curHP, maxHP, name, null);
     }
 
-    public InfoPanel(float x, float y, int curHP, int maxHP, String name, int level, Image image) {
+    public InfoPanel(float x, float y, int curHP, int maxHP, String name, Image image) {
         super(name);
+        this.text = new String[]{name};
         this.img = image;
-        this.level = level;
         this.maxHP = maxHP;
         this.curHP = curHP;
         this.enabled = false;
@@ -93,12 +92,10 @@ public class InfoPanel extends MenuButton {
             g.drawImage(img, drawArea.getX() + HPB, drawArea.getY() + HPB,
                         drawArea.getX() + drawArea.getHeight() - 2 * HPB, drawArea.getY() + drawArea.getHeight() - 2 * HPB,
                         0, 0, img.getWidth(), img.getHeight());
-            g.drawString(text, drawArea.getX() + drawArea.getHeight(), drawArea.getY() + HPB * 2);
+            g.drawString(text[0], drawArea.getX() + drawArea.getHeight(), drawArea.getY() + HPB * 2);
         } else {
-            g.drawString(text, drawArea.getX() + HPB * 2, drawArea.getY() + HPB * 2);
+            g.drawString(text[0], drawArea.getX() + HPB * 2, drawArea.getY() + HPB * 2);
         }
-        // Draw the level
-        g.drawString("Lv" + level, drawArea.getX() + drawArea.getWidth() - HPB * 2 - font.getWidth("Lv" + level), drawArea.getY() + HPB);
 
         // Fill the health bar background
         g.setColor(Color.lightGray);
@@ -141,9 +138,9 @@ public class InfoPanel extends MenuButton {
     }
 
     private void recalculate() {
-        HPX = drawArea.getX() + drawArea.getWidth() / 2 - 5;
-        HPY = drawArea.getY() + drawArea.getHeight() - HPH * 3;
-        HPW = drawArea.getWidth() / 2 - 2 * HPB;
+        HPX = (int) (drawArea.getX() + drawArea.getWidth() / 2 - 5);
+        HPY = (int) (drawArea.getY() + drawArea.getHeight() - HPH * 3);
+        HPW = (int) (drawArea.getWidth() / 2 - 2 * HPB);
     }
 
 }

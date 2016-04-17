@@ -3,50 +3,53 @@
  * Spring 2016
  *
  * Name: Benjamin Matase, Jason Corriveau, Eric Marshall, Alexander Murph
- * Date: Apr 15, 2016
- * Time: 10:30:12 AM
+ * Date: Apr 16, 2016
+ * Time: 10:18:24 AM
  *
  * Project: csci205FinalProject
  * Package: guiComponents
- * File: SwitchPokemonEvent
+ * File: AnimationGroup
  * Description:
  *
  * ****************************************
  */
 package guiComponents;
 
+import java.util.List;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.gui.GUIContext;
 
 /**
  *
  * @author Eric
  */
-public class SwitchPokemonEvent extends Animation {
+public class AnimationGroup {
 
-    protected Image img2;
-    private int dims = 40;
-    private boolean disappeared;
+    private List<Animation> anims;
 
-    public SwitchPokemonEvent(Image in, Image out, float durationS) {
-        super(in, durationS);
-        img2 = out;
+    public AnimationGroup(List<Animation> anims) {
+        this.anims = anims;
     }
 
-    @Override
     public void render(GUIContext container, Graphics g) {
-
+        for (Animation a : anims) {
+            a.render(container, g);
+        }
     }
 
-    @Override
     public void update(float delta) {
-        if (disappeared) {
-
-        } else {
-            if () {
-
+        for (Animation a : anims) {
+            if (a.running()) {
+                a.update(delta);
+            } else {
+                anims.remove(a);
             }
+        }
+    }
+
+    public void start() {
+        for (Animation a : anims) {
+            a.start();
         }
     }
 
