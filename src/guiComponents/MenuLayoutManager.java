@@ -13,8 +13,9 @@ import org.newdawn.slick.gui.GUIContext;
 /**
  *
  * @author Eric
+ * @param <T>
  */
-public class MenuLayoutManager {
+public class MenuLayoutManager<T extends MenuButton> {
 
     private MenuButton[][] buttonMatrix;
     private MenuButton[] buttonArray;
@@ -84,50 +85,54 @@ public class MenuLayoutManager {
     }
 
     public void set(int x, int y, MenuButton b) {
-        int[] coords = getButtonCoords(x, y);
-        b.setPosition(coords[0], coords[1]);
-        b.setSize(buttonRectSize[0], buttonRectSize[1]);
-        b.setHighlighted(false);
-        setInMatrix(x, y, b);
-    }
-
-    public void remove(MenuButton b) {
-        int[] tmp = find(b);
-        if (tmp != null) {
-            setInMatrix(tmp[0], tmp[1], null);
+        if (b != null) {
+            int[] coords = getButtonCoords(x, y);
+            b.setPosition(coords[0], coords[1]);
+            b.setSize(buttonRectSize[0], buttonRectSize[1]);
+            b.setHighlighted(false);
+            setInMatrix(x, y, b);
+        } else {
+            setInMatrix(x, y, null);
         }
     }
 
-    public void remove(int x, int y) {
-        setInMatrix(x, y, null);
-    }
-
     public MenuButton getLeft() {
-        return (selected[0] != 0 && buttonMatrix[selected[0] - 1][selected[1]] != null)
-               ? buttonMatrix[selected[0] - 1][selected[1]] : buttonMatrix[selected[0]][selected[1]];
+        if (selected[0] != 0 && buttonMatrix[selected[0] - 1][selected[1]] != null) {
+            return buttonMatrix[selected[0] - 1][selected[1]];
+        } else {
+            return buttonMatrix[selected[0]][selected[1]];
+        }
     }
 
     public MenuButton getRight() {
-        return (selected[0] < buttonMatrix.length - 1 && buttonMatrix[selected[0] + 1][selected[1]] != null)
-               ? buttonMatrix[selected[0] + 1][selected[1]] : buttonMatrix[selected[0]][selected[1]];
-
+        if (selected[0] < buttonMatrix.length - 1 && buttonMatrix[selected[0] + 1][selected[1]] != null) {
+            return buttonMatrix[selected[0] + 1][selected[1]];
+        } else {
+            return buttonMatrix[selected[0]][selected[1]];
+        }
     }
 
     public MenuButton getUp() {
-        return (selected[1] != 0 && buttonMatrix[selected[0]][selected[1] - 1] != null)
-               ? buttonMatrix[selected[0]][selected[1] - 1] : buttonMatrix[selected[0]][selected[1]];
+        if (selected[1] != 0 && buttonMatrix[selected[0]][selected[1] - 1] != null) {
+            return buttonMatrix[selected[0]][selected[1] - 1];
+        } else {
+            return buttonMatrix[selected[0]][selected[1]];
+        }
     }
 
     public MenuButton getDown() {
-        return (selected[1] < buttonMatrix[0].length - 1 && buttonMatrix[selected[0]][selected[1] + 1] != null)
-               ? buttonMatrix[selected[0]][selected[1] + 1] : buttonMatrix[selected[0]][selected[1]];
+        if (selected[1] < buttonMatrix[0].length - 1 && buttonMatrix[selected[0]][selected[1] + 1] != null) {
+            return buttonMatrix[selected[0]][selected[1] + 1];
+        } else {
+            return buttonMatrix[selected[0]][selected[1]];
+        }
     }
 
-    public MenuButton getSelected() {
-        return buttonMatrix[selected[1]][selected[0]];
+    public T getSelected() {
+        return getButton(selected[0], selected[1]);
     }
 
-    private int[] find(MenuButton b) {
+    public int[] find(MenuButton b) {
         for (int x = 0; x < buttonMatrix.length; x++) {
             for (int y = 0; y < buttonMatrix[0].length; y++) {
                 if (buttonMatrix[x][y] == b) {
@@ -162,8 +167,8 @@ public class MenuLayoutManager {
         setSelected(getSelected());
     }
 
-    public MenuButton getButton(int x, int y) {
-        return buttonMatrix[x][y] != null ? buttonMatrix[x][y] : null;
+    public T getButton(int x, int y) {
+        return buttonMatrix[x][y] != null ? (T) buttonMatrix[x][y] : null;
     }
 
     public boolean getDrawBackground() {
@@ -187,8 +192,8 @@ public class MenuLayoutManager {
         }
     }
 
-    public MenuButton[] getButtons() {
-        return buttonArray;
+    public T[] getButtons() {
+        return (T[]) buttonArray;
     }
 
     public void render(GUIContext container, Graphics g) {
@@ -197,6 +202,11 @@ public class MenuLayoutManager {
             g.fill(drawArea);
         }
         for (MenuButton b : buttonArray) {
+            if (buttonMatrix[selected[0]][selected[1]] == b) {
+                b.setHighlighted(true);
+            } else {
+                b.setHighlighted(false);
+            }
             b.render(container, g);
         }
     }
