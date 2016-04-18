@@ -15,6 +15,8 @@
  */
 package PokemonObjects;
 
+import java.util.ArrayList;
+
 /**
  * Class that will be base abstraction for both user and ai pokemon trainers
  *
@@ -23,21 +25,19 @@ package PokemonObjects;
 public abstract class Trainer {
 
     protected String name;
-    protected Pokemon[] pokemon;
-    protected int numPokemon;
+    protected ArrayList<Pokemon> pokemon;
     protected Pokemon curPokemon; //current pokemon selected (using in battle)
 
     public Trainer(String name) {
         this.name = name;
-        this.pokemon = new Pokemon[6];
+        this.pokemon = new ArrayList<>(6);
         this.curPokemon = null; //won't select until first pokemon added
-        this.numPokemon = 0;
     }
 
     public abstract void addPokemon(Pokemon pkmn);
 
     public Pokemon getPokmeon(int number) {
-        return pokemon[number];
+        return this.pokemon.get(number);
     }
 
     /**
@@ -46,8 +46,8 @@ public abstract class Trainer {
      * @return boolean: true if trainer has any pokemon that are living
      */
     public boolean pokemonLiving() {
-        for (Pokemon poke : pokemon) {
-            if (poke.isAlive()) {
+        for (int x = 0; x < pokemon.size(); x++) {
+            if (pokemon.get(x).isAlive()) {
                 return true;
             }
         }
@@ -59,7 +59,7 @@ public abstract class Trainer {
     }
 
     public Pokemon[] getPokemon() {
-        return pokemon;
+        return pokemon.toArray(new Pokemon[pokemon.size()]);
     }
 
     public Pokemon getCurPokemon() {
@@ -71,7 +71,7 @@ public abstract class Trainer {
     }
 
     public int getNumPokemon() {
-        return numPokemon;
+        return pokemon.size();
     }
 
 }
