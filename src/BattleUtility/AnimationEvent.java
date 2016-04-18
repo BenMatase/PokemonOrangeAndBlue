@@ -9,13 +9,15 @@
  * Project: csci205FinalProject
  * Package: BattleUtility
  * File: AnimationEvent
- * Description:
+ * Description: An event to be passed the GUI.  Updates things to show an
+ * animation.
  *
  * ****************************************
  */
 package BattleUtility;
 
 /**
+ * Abstract of wanting GUI animation of pokemon moving, etc.
  *
  * @author Murph
  */

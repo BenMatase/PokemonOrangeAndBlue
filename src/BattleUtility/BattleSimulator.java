@@ -95,10 +95,9 @@ public class BattleSimulator {
     }
 
     /**
-     * Called on BattleSimulator to gather all necessary events in an event
-     * list. Takes into account both attacking, one attacking and one switching,
-     * and both switching.
+     * Private method to calculate the situation were both pokemon switch out.
      *
+     * @return battle events ArrayList<Event>
      * @author Murph
      */
     private ArrayList<Event> simulateBothSwitch() {
@@ -121,6 +120,13 @@ public class BattleSimulator {
         return battleEvents;
     }
 
+    /**
+     * Private method to calculate the situation were one pokemon switches out
+     * and the other attacks.
+     *
+     * @return battle events ArrayList<Event>
+     * @author Murph
+     */
     private ArrayList<Event> simulateOneSwitch() {
         ArrayList<Event> battleEvents = new ArrayList<>();
 
@@ -149,6 +155,12 @@ public class BattleSimulator {
         return battleEvents;
     }
 
+    /**
+     * Private method to calculate the situation were both pokemon attack.
+     *
+     * @return battle events ArrayList<Event>
+     * @author Murph
+     */
     private ArrayList<Event> simulateNoSwitch() {
 
         ArrayList<Event> battleEvents = new ArrayList<>();
@@ -185,6 +197,13 @@ public class BattleSimulator {
         return battleEvents;
     }
 
+    /**
+     * Private method to calculate the sequence of events for the first battle,
+     * where the first is determined by the speed of the pokemon.
+     *
+     * @return battle events ArrayList<Event>
+     * @author Murph
+     */
     private ArrayList<Event> getFirstBattle() {
 
         ArrayList<Event> battleEvents = new ArrayList<>();
@@ -223,6 +242,13 @@ public class BattleSimulator {
         return battleEvents;
     }
 
+    /**
+     * Private method to calculate the sequence of events for the second battle,
+     * where the first is determined by the speed of the pokemon.
+     *
+     * @return battle events ArrayList<Event>
+     * @author Murph
+     */
     private ArrayList<Event> getSecondBattle() {
 
         ArrayList<Event> battleEvents = new ArrayList<>();

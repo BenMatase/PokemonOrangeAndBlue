@@ -9,13 +9,15 @@
  * Project: csci205FinalProject
  * Package: BattleUtility
  * File: UserDefeatEvent
- * Description:
+ * Description: An event to be passed the GUI.  Updates things to show an
+ * animation based off the fact that the user has been defeated.
  *
  * ****************************************
  */
 package BattleUtility;
 
 /**
+ * Abstract of you losing the game.
  *
  * @author Murph
  */
