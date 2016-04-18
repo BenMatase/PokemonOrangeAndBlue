@@ -16,13 +16,15 @@
 package guiComponents;
 
 import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.RoundedRectangle;
-import org.newdawn.slick.gui.GUIContext;
 
 /**
+ * A subclass of button that displays the name, current health, maximum health,
+ * and optionally an image of the Pokemon. InfoPanels are not enabled by default
  *
  * @author Eric
  */
@@ -34,6 +36,8 @@ public class InfoPanel extends MenuButton {
     // HP Levels
     private int maxHP;
     private int curHP;
+
+    // Draw location values
     private int HPH = 5;
     private int HPB = 3;
     private int HPX;
@@ -44,14 +48,47 @@ public class InfoPanel extends MenuButton {
     private int X_PADDING = 5;
     private int Y_PADDING = 5;
 
-    public InfoPanel(int curHP, int maxHP, String s) {
-        this(0, 0, curHP, maxHP, s);
+    //=====================
+    // Mark: - Constructors
+    //=====================
+    /**
+     * Constructor for an info panel with only the name and health bar in it.
+     * This buttons size must be manually set, or managed by a
+     * MenuLayoutManager.
+     *
+     * @param curHP The current HP of the Pokemon
+     * @param maxHP The maximum HP of the Pokemon
+     * @param name The name of the Pokemon
+     */
+    public InfoPanel(int curHP, int maxHP, String name) {
+        this(curHP, maxHP, name, null);
     }
 
-    public InfoPanel(float x, float y, int curHP, int maxHP, String name) {
-        this(x, y, curHP, maxHP, name, null);
+    /**
+     * Constructor for an info panel with a name, image, and health bar in it.
+     * This buttons size must be manually set, or managed by a
+     * MenuLayoutManager.
+     *
+     * @param curHP The current HP of the Pokemon
+     * @param maxHP The maximum HP of the Pokemon
+     * @param name The name of the Pokemon
+     * @param image The image for the Pokemon
+     */
+    public InfoPanel(int curHP, int maxHP, String name, Image image) {
+        this(0, 0, curHP, maxHP, name, null);
     }
 
+    /**
+     * Constructor for an info panel with a name, image, and health bar in it.
+     * The button will be created at (x, y) in the given context
+     *
+     * @param x The x location of the info panel in pixels
+     * @param y The y location of the info panel in pixels
+     * @param curHP The current HP of the Pokemon
+     * @param maxHP The maximum HP of the Pokemon
+     * @param name The name of the Pokemon
+     * @param image The image for the Pokemon
+     */
     public InfoPanel(float x, float y, int curHP, int maxHP, String name, Image image) {
         super(name);
         this.text = new String[]{name};
@@ -66,13 +103,16 @@ public class InfoPanel extends MenuButton {
         recalculate();
 
         try {
-            font = FontManager.getPixelFontWithSize(24f);
+            font = FontUtils.getPixelFontWithSize(24f);
         } catch (SlickException ex) {
         }
     }
 
+    //==================
+    // Mark: - Rendering
+    //==================
     @Override
-    public void render(GUIContext container, Graphics g) {
+    public void render(GameContainer container, Graphics g) {
         // Draw background
         g.setColor(new Color(244, 244, 244));
         g.fill(drawArea);
@@ -117,6 +157,9 @@ public class InfoPanel extends MenuButton {
         }
     }
 
+    //================
+    // Mark: - Setters
+    //================
     @Override
     public void setSize(float width, float height) {
         drawArea.setWidth(width);
@@ -133,10 +176,19 @@ public class InfoPanel extends MenuButton {
         recalculate();
     }
 
+    /**
+     * Sets the HP displayed on the health bar
+     *
+     * @param hp The new HP value
+     */
     public void setHP(int hp) {
         this.curHP = hp;
     }
 
+    /**
+     * Recalculates the constants for drawing the InfoPanel, used when the panel
+     * is moved or resized
+     */
     private void recalculate() {
         HPX = (int) (drawArea.getX() + drawArea.getWidth() / 2 - 5);
         HPY = (int) (drawArea.getY() + drawArea.getHeight() - HPH * 3);

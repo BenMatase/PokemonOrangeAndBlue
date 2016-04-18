@@ -6,9 +6,9 @@
 package guiComponents;
 
 import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.RoundedRectangle;
-import org.newdawn.slick.gui.GUIContext;
 
 /**
  *
@@ -196,7 +196,7 @@ public class MenuLayoutManager<T extends MenuButton> {
         return (T[]) buttonArray;
     }
 
-    public void render(GUIContext container, Graphics g) {
+    public void render(GameContainer container, Graphics g) {
         if (drawBackground) {
             g.setColor(Color.white);
             g.fill(drawArea);
