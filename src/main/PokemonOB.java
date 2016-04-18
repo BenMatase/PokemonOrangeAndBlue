@@ -44,7 +44,7 @@ public class PokemonOB extends StateBasedGame {
         model.getUser().setCurPokemon(PokemonLoaderUtility.createPokemon("PSYDUCK", "DUCK DUCK DUCK DUCK", l));
     }
 
-    // Initialize your game states (calls init method of each gamestate, and set's the state ID)
+    // Initialize game states (calls init method of each gamestate, and set's the state ID)
     @Override
     public void initStatesList(GameContainer gc) throws SlickException {
         // The first state added will be the one that is loaded first, when the application is launched
