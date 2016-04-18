@@ -38,13 +38,16 @@ public class AIUtility {
         //need to evaluate how much damage for each move
         BattleCalculator battleCalculator = new BattleCalculator(
                 usr.getCurPokemon(), npc.getCurPokemon(),
-                usr.getCurPokemon().getMoves()[0]);
+                npc.getCurPokemon().getMoves()[0]);
         //create an array of number of doubles based on number of moves
         double[] moveDamage = new double[npc.getCurPokemon().getNumMoves()];
-        for (int x = 0; x < usr.getCurPokemon().getNumMoves(); x++) {
-            battleCalculator.setMove(usr.getCurPokemon().getMoves()[0]);
+        for (int x = 0; x < npc.getCurPokemon().getNumMoves(); x++) {
+            battleCalculator.setMove(npc.getCurPokemon().getMoves()[x]);
             moveDamage[x] = battleCalculator.AIMoveAdvantage();
         }
+        System.out.println("Damage of move 0: " + moveDamage[0]);
+        System.out.println("Damage of move 1: " + moveDamage[1]);
+        System.out.println("Damage of move 2: " + moveDamage[2]);
         int moveChoice = randomFromArray(moveDamage);
         return npc.getCurPokemon().getMoves()[moveChoice];
     }
@@ -68,6 +71,8 @@ public class AIUtility {
         double randValue = (totValues) * randGenerator.nextDouble();
         int arrayChoice = 0; //the array index that the random number is from
         double ArrayValue = doubleArray[0]; //the sum of the values in the current index and previous indices
+        System.out.println(
+                "Damage value :" + randValue);
         while (randValue > ArrayValue) {
             arrayChoice++;
             ArrayValue += doubleArray[arrayChoice];
