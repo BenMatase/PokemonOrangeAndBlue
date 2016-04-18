@@ -63,6 +63,7 @@ public class PokemonOB extends StateBasedGame {
             app.setDisplayMode(WIDTH, HEIGHT, false);
             app.setTargetFrameRate(FPS);
             app.setShowFPS(true);
+            app.setIcon("./res/Images/GreatBall.png");
             app.start();
         } catch (SlickException e) {
             e.printStackTrace();

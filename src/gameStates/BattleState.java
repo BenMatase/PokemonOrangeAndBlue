@@ -19,6 +19,7 @@ import PokemonObjects.Move;
 import guiComponents.InfoPanel;
 import guiComponents.MenuButton;
 import guiComponents.MenuLayoutManager;
+import guiComponents.PokemonImage;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 import org.newdawn.slick.Color;
@@ -47,8 +48,8 @@ public class BattleState implements GameState {
     private BattleControl control;
 
     // Drawing Pokemon
-    private Image playerImage;
-    private Image enemyImage;
+    private PokemonImage playerImage;
+    private PokemonImage enemyImage;
 
     // Buttons
     private MenuLayoutManager<MenuButton> mainMenuMgr;
@@ -122,14 +123,18 @@ public class BattleState implements GameState {
             }
         });
         introMusic.play();
+
+        // Load the battle background image
+        bgdImage = new Image("res/Images/Battle/BattleGrass.png");
+
         if (model.getEnemy() == null || model.getUser() == null) {
             throw new SlickException("Characters weren't loaded correctly");
         } else {
-            playerImage = new Image("./res/Images/Sprites/back/" + model.getUser().getCurPokemon().getID() + ".png");
-            enemyImage = new Image("./res/Images/Sprites/front/" + model.getEnemy().getCurPokemon().getID() + ".png");
+            Image tmp = new Image("./res/Images/Sprites/back/" + model.getUser().getCurPokemon().getID() + ".png");
+            playerImage = new PokemonImage((int) (px - tmp.getWidth() / 2f), (int) (py - tmp.getHeight() / 2f), bgdImage.getHeight(), tmp);
+            tmp = new Image("./res/Images/Sprites/front/" + model.getEnemy().getCurPokemon().getID() + ".png");
+            enemyImage = new PokemonImage((int) (ex - tmp.getWidth() / 2f), (int) (ey - tmp.getHeight() / 2f), tmp);
         }
-        // Load the battle background image
-        bgdImage = new Image("res/Images/Battle/BattleGrass.png");
 
         RoundedRectangle rightSideDrawRect = new RoundedRectangle(container.getWidth() / 2 + 0.5f * X_PADDING,
                                                                   bgdImage.getHeight() + Y_PADDING,
@@ -267,28 +272,10 @@ public class BattleState implements GameState {
         g.setBackground(Color.darkGray);
         g.drawImage(bgdImage, 0, 0, container.getWidth(), bgdImage.getHeight(), 0, 0, bgdImage.getWidth(), bgdImage.getHeight());
 
-        // Draw Player's Pokemon
-        g.drawImage(playerImage,
-                    px - playerImage.getWidth() / 2f,
-                    py - playerImage.getHeight() / 2f,
-                    px + playerImage.getWidth() / 2f,
-                    py + playerImage.getHeight() / 2f > bgdImage.getHeight() ? bgdImage.getHeight() : py + playerImage.getWidth() / 2f,
-                    0,
-                    0,
-                    playerImage.getWidth(),
-                    py + playerImage.getHeight() / 2f > bgdImage.getHeight() ? playerImage.getHeight() / 2f + bgdImage.getHeight() - py : playerImage.getHeight());
-
-        // Draw Enemy Pokemon
-        g.drawImage(enemyImage,
-                    ex - enemyImage.getWidth() / 2f,
-                    ey - enemyImage.getHeight() / 2f,
-                    ex + enemyImage.getWidth() / 2f,
-                    ey + enemyImage.getHeight() / 2f,
-                    0,
-                    0,
-                    playerImage.getWidth(),
-                    enemyImage.getHeight());
-
+        // Draw Pokemon
+        playerImage.render(container, g);
+        enemyImage.render(container, g);
+        // Draw HP Bars
         hpBarViewMgr.render(container, g);
     }
 
@@ -334,6 +321,8 @@ public class BattleState implements GameState {
             case HANDLING_EVENTS:
                 hpBarViewMgr.getButton(0, 0).update(delta);
                 hpBarViewMgr.getButton(1, 2).update(delta);
+                playerImage.update(delta);
+                enemyImage.update(delta);
                 if (!eventQueue.isEmpty()) {
                     delay -= delta;
                     if (delay <= 0) {
@@ -364,12 +353,17 @@ public class BattleState implements GameState {
             System.out.println("Animation");
         } else if (evt instanceof UpdateHealthBarEvent) {
             UpdateHealthBarEvent uhbe = (UpdateHealthBarEvent) evt;
+            System.out.println("Trainer type is ==> " + uhbe.getTrainerType());
             switch (uhbe.getTrainerType()) {
                 case NPC:
                     hpBarViewMgr.getButton(0, 0).setHP(uhbe.getNewCurrHealth());
+                    playerImage.attack();
+                    enemyImage.defend();
                     break;
                 case USER:
                     hpBarViewMgr.getButton(1, 2).setHP(uhbe.getNewCurrHealth());
+                    playerImage.defend();
+                    enemyImage.attack();
                     break;
             }
             delay += 2000;
