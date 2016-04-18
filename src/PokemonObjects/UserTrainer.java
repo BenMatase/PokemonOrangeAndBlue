@@ -38,12 +38,11 @@ public class UserTrainer extends Trainer {
     @Override
     public void addPokemon(Pokemon pkmn) {
         pkmn.setTrainerType(TrainerType.USER);
-        if (numPokemon < 6) {
-            pokemon[numPokemon] = pkmn;
-            numPokemon++;
+        if (this.getNumPokemon() < 6) {
+            this.pokemon.add(pkmn);
         }
         if (this.curPokemon == null) {
-            this.setCurPokemon(pokemon[0]);
+            this.setCurPokemon(pokemon.get(0));
         }
     }
 }
