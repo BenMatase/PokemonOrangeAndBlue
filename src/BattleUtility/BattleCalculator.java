@@ -74,7 +74,7 @@ public class BattleCalculator {
         this.DefPoke = DefPoke;
         this.move = move;
         this.criticalModifier = getCriticalModifier();
-        this.accuracyModifier = getAccuracyModifier();
+        this.accuracyModifier = getAccuracyModifier(move);
     }
 
     /**
@@ -148,8 +148,7 @@ public class BattleCalculator {
         double defense = DefPoke.getSpcDefense();
         double moveDmg = move.getDamage();
 
-        double damage = ((attack / defense) * (moveDmg) * modifier
-                         * stab * criticalModifier * accuracyModifier);
+        double damage = ((attack / defense) * (moveDmg) * modifier * stab * criticalModifier * accuracyModifier);
 
         return damage;
     }
@@ -179,8 +178,7 @@ public class BattleCalculator {
             response += String.format("It doesn't affect %s...",
                                       DefPoke.getName());
         }
-
-        if (criticalModifier == 1.5 && modifier != 0.0) {
+        if (criticalModifier == 1.5 && accuracyModifier != 0.0 && modifier != 0.0) {
             response += "It's a critical hit!";
         }
 
@@ -268,13 +266,12 @@ public class BattleCalculator {
      * @return modifier double
      * @author Murph
      */
-    private double getAccuracyModifier() {
+    private double getAccuracyModifier(Move move) {
         double random = Math.random();
         double accMod = 1.0;
-        if ((move.getAccuracy() / 100.0) <= random) {
+        if ((move.getAccuracy()) <= random) {
             accMod = 0.0;
         }
-        System.out.println(accMod);
         return accMod;
     }
 }
