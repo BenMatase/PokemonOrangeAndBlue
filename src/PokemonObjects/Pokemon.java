@@ -50,7 +50,7 @@ public class Pokemon {
      * @param pokemonType1
      * @param pokemonType2
      */
-    public Pokemon(int health, int attack, int spcAttack, int defense,
+    public Pokemon(int ID, int health, int attack, int spcAttack, int defense,
                    int spcDefense, int speed,
                    String name, String nickname, Move[] moves,
                    PokemonType pokemonType1, PokemonType pokemonType2
@@ -65,7 +65,7 @@ public class Pokemon {
         this.moves = moves;
         this.pokemonType1 = pokemonType1;
         this.pokemonType2 = pokemonType2;
-        this.ID = 0;
+        this.ID = ID;
 
         //initialize current health to full health
         this.curHealth = this.health;
@@ -199,10 +199,6 @@ public class Pokemon {
 
     public int getID() {
         return ID;
-    }
-
-    public void setID(int ID) {
-        this.ID = ID;
     }
 
 }
