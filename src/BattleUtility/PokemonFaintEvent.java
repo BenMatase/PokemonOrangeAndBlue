@@ -9,7 +9,8 @@
  * Project: csci205FinalProject
  * Package: BattleUtility
  * File: PokemonFaintEvent
- * Description:
+ * Description: An event to be passed the GUI.  Updates things to show an
+ * animation based off the fact that a pokemon has fainted.
  *
  * ****************************************
  */
@@ -18,6 +19,7 @@ package BattleUtility;
 import PokemonObjects.TrainerType;
 
 /**
+ * Abstract of a single pokemon fainting.
  *
  * @author Murph
  */

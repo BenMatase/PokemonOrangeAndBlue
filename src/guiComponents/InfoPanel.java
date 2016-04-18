@@ -35,6 +35,7 @@ public class InfoPanel extends MenuButton {
 
     // HP Levels
     private int maxHP;
+    private int displayHP;
     private int curHP;
 
     // Draw location values
@@ -43,6 +44,7 @@ public class InfoPanel extends MenuButton {
     private int HPX;
     private int HPY;
     private int HPW;
+    private float hpStep = 0;
 
     // Drawing constants
     private int X_PADDING = 5;
@@ -94,6 +96,7 @@ public class InfoPanel extends MenuButton {
         this.text = new String[]{name};
         this.img = image;
         this.maxHP = maxHP;
+        this.displayHP = curHP;
         this.curHP = curHP;
         this.enabled = false;
         this.isHighlighted = false;
@@ -126,7 +129,7 @@ public class InfoPanel extends MenuButton {
         // Draw HP level string
         g.setFont(font);
         g.setColor(Color.darkGray);
-        g.drawString(curHP + "/" + maxHP, HPX - font.getWidth(curHP + "/" + maxHP) - HPB * 2, HPY - 8);
+        g.drawString((int) displayHP + "/" + maxHP, HPX - font.getWidth((int) displayHP + "/" + maxHP) - HPB * 2, HPY - 8);
         // Draw the name
         if (img != null) {
             g.drawImage(img, drawArea.getX() + HPB, drawArea.getY() + HPB,
@@ -142,18 +145,26 @@ public class InfoPanel extends MenuButton {
         g.fillRect(HPX, HPY, HPW, HPH);
 
         // Fill the health bar
-        if (curHP * 1.0 / maxHP > 0.6) {
+        if (displayHP * 1.0 / maxHP > 0.6) {
             g.setColor(Color.green);
-        } else if (curHP * 1.0 / maxHP < 0.2) {
+        } else if (displayHP * 1.0 / maxHP < 0.2) {
             g.setColor(Color.red);
         } else {
             g.setColor(Color.yellow);
         }
-        g.fillRect(HPX, HPY, HPW * curHP / maxHP, HPH);
+        g.fillRect(HPX, HPY, HPW * displayHP / maxHP, HPH);
 
         if (isHighlighted && enabled) {
             g.setColor(highlightColor);
             g.draw(drawArea);
+        }
+    }
+
+    public void update(float delta) {
+        if ((int) displayHP != curHP) {
+            displayHP += hpStep * delta;
+        } else {
+            displayHP = curHP;
         }
     }
 
@@ -182,6 +193,7 @@ public class InfoPanel extends MenuButton {
      * @param hp The new HP value
      */
     public void setHP(int hp) {
+        this.hpStep = (hp - curHP) / 2000f;
         this.curHP = hp;
     }
 

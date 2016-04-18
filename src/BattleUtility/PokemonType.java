@@ -16,6 +16,7 @@
 package BattleUtility;
 
 /**
+ * Enum of all types of pokemon
  *
  * @author Murph
  */
