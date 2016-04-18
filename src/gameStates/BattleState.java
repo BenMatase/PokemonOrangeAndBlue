@@ -332,6 +332,8 @@ public class BattleState implements GameState {
     public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
         switch (state) {
             case HANDLING_EVENTS:
+                hpBarViewMgr.getButton(0, 0).update(delta);
+                hpBarViewMgr.getButton(1, 2).update(delta);
                 if (!eventQueue.isEmpty()) {
                     delay -= delta;
                     if (delay <= 0) {
@@ -362,19 +364,24 @@ public class BattleState implements GameState {
             System.out.println("Animation");
         } else if (evt instanceof UpdateHealthBarEvent) {
             UpdateHealthBarEvent uhbe = (UpdateHealthBarEvent) evt;
-//            switch (uhbe.getTrainerType()) {
-//                case NPC:
-//                    hpBarViewMgr.getButton(0, 0).setHP(uhbe.getNewCurrHealth());
-//                    break;
-//                case USER:
-//                    break;
-//            }
-            System.out.println("Health Update");
+            switch (uhbe.getTrainerType()) {
+                case NPC:
+                    hpBarViewMgr.getButton(0, 0).setHP(uhbe.getNewCurrHealth());
+                    break;
+                case USER:
+                    hpBarViewMgr.getButton(1, 2).setHP(uhbe.getNewCurrHealth());
+                    break;
+            }
+            delay += 2000;
+            System.out.println("Health Update: " + uhbe.getNewCurrHealth());
         } else if (evt instanceof PokemonFaintEvent) {
+            PokemonFaintEvent pfe = (PokemonFaintEvent) evt;
             System.out.println("Pokemon Faint");
         } else if (evt instanceof UserDefeatEvent) {
+            UserDefeatEvent ude = (UserDefeatEvent) evt;
             System.out.println("User Defeat");
         } else if (evt instanceof EnemyDefeatEvent) {
+            EnemyDefeatEvent ede = (EnemyDefeatEvent) evt;
             System.out.println("Enemy Defeat");
         } else if (evt instanceof SwitchPokemonEvent) {
             SwitchPokemonEvent spe = (SwitchPokemonEvent) evt;
