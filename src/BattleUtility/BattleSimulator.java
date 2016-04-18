@@ -265,9 +265,6 @@ public class BattleSimulator {
 
         firstPokemon.reduceHealth((int) secondBattle.damageCalculator());
 
-        System.out.println(
-                "Trainer of First Pokemon" + firstPokemon.getTrainer());
-
         UpdateHealthBarEvent event2 = new UpdateHealthBarEvent(
                 firstPokemon.getTrainer(), firstPokemon.getCurHealth());
         battleEvents.add(event2);
