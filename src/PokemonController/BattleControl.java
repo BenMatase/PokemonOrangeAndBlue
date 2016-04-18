@@ -47,18 +47,21 @@ public class BattleControl {
         ArrayList<Event> events = new ArrayList<>();
         TextOutputEvent event1 = new TextOutputEvent(String.format(
                 "%s has challenged you to battle!", enemy.getName()));
-        SwitchPokemonEvent event3 = new SwitchPokemonEvent(enemy.getCurPokemon(),
-                                                           String.format(
-                                                                   "%s sent out %s!",
-                                                                   enemy.getName(),
-                                                                   enemy.getCurPokemon()));
-        SwitchPokemonEvent event5 = new SwitchPokemonEvent(user.getCurPokemon(),
-                                                           String.format(
-                                                                   "Go! %s!",
-                                                                   user.getCurPokemon()));
+        SwitchPokemonEvent event3 = new SwitchPokemonEvent(enemy.getCurPokemon());
+        TextOutputEvent event4 = new TextOutputEvent(
+                String.format(
+                        "%s sent out %s!",
+                        enemy.getName(),
+                        enemy.getCurPokemon().getName()));
+        SwitchPokemonEvent event5 = new SwitchPokemonEvent(user.getCurPokemon());
+        TextOutputEvent event6 = new TextOutputEvent(String.format("Go! %s!",
+                                                                   user.getCurPokemon().getNickname()));
+
         events.add(event1);
         events.add(event3);
+        events.add(event4);
         events.add(event5);
+        events.add(event6);
         return events;
     }
 

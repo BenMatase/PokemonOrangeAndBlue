@@ -9,7 +9,8 @@
  * Project: csci205FinalProject
  * Package: BattleUtility
  * File: BattleSimulator
- * Description:
+ * Description: Simulates an interaction between two pokemon for a given
+ * round in a battle.
  *
  * ****************************************
  */
@@ -23,6 +24,7 @@ import java.io.StringReader;
 import java.util.ArrayList;
 
 /**
+ * Abstract of a round in a pokemon battle.
  *
  * @author Murph
  */
@@ -33,6 +35,19 @@ public class BattleSimulator {
     private Move pokeMove1;
     private Move pokeMove2;
 
+    /**
+     * Instantiates the Simulation object. Sets the parameters in an order based
+     * off the pokemon's speed, since differing speeds determine which pokemon
+     * attacks first. In the case of a switch, input pokemon that is being
+     * switched in, but place a null for its move. If both switch, place two
+     * nulls.
+     *
+     * @param poke1 Pokemon
+     * @param poke2 Pokemon
+     * @param move1 Move
+     * @param move2 Move
+     * @author Murph
+     */
     public BattleSimulator(Pokemon poke1, Pokemon poke2, Move move1, Move move2) {
         if (move1 == null) {
             this.firstPokemon = poke2;
@@ -58,6 +73,14 @@ public class BattleSimulator {
 
     }
 
+    /**
+     * Called on BattleSimulator to gather all necessary events in an event
+     * list. Takes into account both attacking, one attacking and one switching,
+     * and both switching.
+     *
+     * @return battle Events ArrayList<Events>
+     * @author Murph
+     */
     public ArrayList<Event> simulate() {
         ArrayList<Event> battleEvents = new ArrayList<>();
 
@@ -71,20 +94,29 @@ public class BattleSimulator {
         return battleEvents;
     }
 
+    /**
+     * Called on BattleSimulator to gather all necessary events in an event
+     * list. Takes into account both attacking, one attacking and one switching,
+     * and both switching.
+     *
+     * @author Murph
+     */
     private ArrayList<Event> simulateBothSwitch() {
         ArrayList<Event> battleEvents = new ArrayList<>();
 
-        SwitchPokemonEvent event1 = new SwitchPokemonEvent(firstPokemon,
-                                                           String.format(
-                                                                   "Go! %s",
-                                                                   firstPokemon.getName()));
-        SwitchPokemonEvent event3 = new SwitchPokemonEvent(secondPokemon,
-                                                           String.format(
-                                                                   "Go! %s",
-                                                                   secondPokemon.getName()));
+        SwitchPokemonEvent event1 = new SwitchPokemonEvent(firstPokemon);
+        TextOutputEvent event2 = new TextOutputEvent(String.format(
+                "Go! %s",
+                firstPokemon.getName()));
+        SwitchPokemonEvent event3 = new SwitchPokemonEvent(secondPokemon);
+        TextOutputEvent event4 = new TextOutputEvent(String.format(
+                "Go! %s",
+                secondPokemon.getName()));
 
         battleEvents.add(event1);
+        battleEvents.add(event2);
         battleEvents.add(event3);
+        battleEvents.add(event4);
 
         return battleEvents;
     }
@@ -92,12 +124,13 @@ public class BattleSimulator {
     private ArrayList<Event> simulateOneSwitch() {
         ArrayList<Event> battleEvents = new ArrayList<>();
 
-        SwitchPokemonEvent event1 = new SwitchPokemonEvent(secondPokemon,
-                                                           String.format(
-                                                                   "Go! %s",
-                                                                   secondPokemon.getName()));
+        SwitchPokemonEvent event1 = new SwitchPokemonEvent(secondPokemon);
+        TextOutputEvent event2 = new TextOutputEvent(String.format(
+                "Go! %s",
+                secondPokemon.getName()));
 
         battleEvents.add(event1);
+        battleEvents.add(event2);
 
         ArrayList<Event> eventArray1 = getFirstBattle();
 
