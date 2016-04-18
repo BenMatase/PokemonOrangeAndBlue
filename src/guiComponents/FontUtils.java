@@ -16,14 +16,23 @@ import org.newdawn.slick.util.ResourceLoader;
  *
  * @author Eric
  */
-public class FontManager {
+public class FontUtils {
 
+    // Store the standard font, so we can use it as a singleton, and won't have to create it every time we use it
     public static TrueTypeFont stdPxFont;
 
-    public FontManager() throws SlickException {
+    public FontUtils() throws SlickException {
         throw new SlickException("Can't instantiate FontManager Object");
     }
 
+    /**
+     * Get the pixel font with the given size as a TTF
+     *
+     * @author Eric
+     * @param size The size of the font in pixels
+     * @return A TrueTypeFont
+     * @throws SlickException
+     */
     public static TrueTypeFont getPixelFontWithSize(float size) throws SlickException {
         TrueTypeFont pixelFont = null;
         try {
@@ -37,6 +46,14 @@ public class FontManager {
         return pixelFont;
     }
 
+    /**
+     * Gets the pixel font in the "standard" size, used for almost all writing
+     * on the screen
+     *
+     * @author Eric
+     * @return A TrueTypeFont
+     * @throws SlickException
+     */
     public static TrueTypeFont getStdPixelFont() throws SlickException {
         if (stdPxFont == null) {
             stdPxFont = getPixelFontWithSize(32f);
@@ -44,6 +61,16 @@ public class FontManager {
         return stdPxFont;
     }
 
+    /**
+     * Puts a string into an array representing the wrapped lines such that the
+     * string will fit into a given width with the standard font
+     *
+     * @author Eric
+     * @param s The string to wrap
+     * @param pxWidth The width of the area to wrap the string into
+     * @return An array of strings representing the wrapped lines
+     * @throws SlickException
+     */
     public static String[] wrapString(String s, float pxWidth) throws SlickException {
         return WordUtils.wrap(s, (int) (pxWidth / getStdPixelFont().getWidth("W"))).split("\n");
     }

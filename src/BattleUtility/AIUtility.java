@@ -37,12 +37,12 @@ public class AIUtility {
     public static Move getMove(UserTrainer usr, EnemyTrainer npc) {
         //need to evaluate how much damage for each move
         BattleCalculator battleCalculator = new BattleCalculator(
-                usr.getCurPokemon(), npc.getCurPokemon(),
-                usr.getCurPokemon().getMoves()[0]);
+                npc.getCurPokemon(), usr.getCurPokemon(),
+                npc.getCurPokemon().getMoves()[0]);
         //create an array of number of doubles based on number of moves
         double[] moveDamage = new double[npc.getCurPokemon().getNumMoves()];
-        for (int x = 0; x < usr.getCurPokemon().getNumMoves(); x++) {
-            battleCalculator.setMove(usr.getCurPokemon().getMoves()[0]);
+        for (int x = 0; x < npc.getCurPokemon().getNumMoves(); x++) {
+            battleCalculator.setMove(npc.getCurPokemon().getMoves()[x]);
             moveDamage[x] = battleCalculator.AIMoveAdvantage();
         }
         int moveChoice = randomFromArray(moveDamage);

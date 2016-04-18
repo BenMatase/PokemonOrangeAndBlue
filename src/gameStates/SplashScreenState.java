@@ -5,7 +5,7 @@
  */
 package gameStates;
 
-import guiComponents.FontManager;
+import guiComponents.FontUtils;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -70,7 +70,7 @@ public class SplashScreenState implements GameState {
 
         // Load fonts
         try {
-            pixelFont = FontManager.getStdPixelFont();
+            pixelFont = FontUtils.getStdPixelFont();
         } catch (SlickException ex) {
             System.out.println("Error, failed to load font");
         }

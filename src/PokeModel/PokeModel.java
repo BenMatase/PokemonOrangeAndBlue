@@ -40,7 +40,7 @@ public class PokeModel {
         userMoves.add("Pound");
 
         List<String> enemyMoves = new ArrayList<String>();
-        userMoves.add("Pound");
+        enemyMoves.add("Pound");
 
         user.addPokemon(PokemonLoaderUtility.createPokemon("JIGGLYPUFF",
                                                            "Jiggy Wiggy",
