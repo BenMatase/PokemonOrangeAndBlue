@@ -72,6 +72,6 @@ public class FontUtils {
      * @throws SlickException
      */
     public static String[] wrapString(String s, float pxWidth) throws SlickException {
-        return WordUtils.wrap(s, (int) (pxWidth / getStdPixelFont().getWidth("W"))).split("\n");
+        return WordUtils.wrap(s, (int) (pxWidth / getStdPixelFont().getWidth("W"))).split(System.getProperty("line.separator"));
     }
 }
