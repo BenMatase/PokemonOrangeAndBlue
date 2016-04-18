@@ -16,6 +16,7 @@
 package PokemonObjects;
 
 import BattleUtility.PokemonType;
+import java.util.ArrayList;
 
 /**
  * Class that will be used to represent any Pokemon
@@ -31,11 +32,10 @@ public class Pokemon {
     private int spcDefense;
     private int speed;
     private int ID; //pokedex number
-    private int numMoves; //number of moves a pokemon holds
     private String name;
     private String nickname; //nickname for pokemon selected by user
     private TrainerType trainer = null; //Enum used by BattleSimulator to send events to GUI
-    private Move[] moves;
+    private ArrayList<Move> moves;
     private PokemonType pokemonType1;
     private PokemonType pokemonType2;
 
@@ -63,7 +63,8 @@ public class Pokemon {
         this.spcDefense = spcDefense;
         this.speed = speed;
         this.name = name;
-        this.moves = moves;
+        this.moves = new ArrayList<>();
+        this.setMoves(moves);
         this.pokemonType1 = pokemonType1;
         this.pokemonType2 = pokemonType2;
         this.ID = 0;
@@ -173,17 +174,18 @@ public class Pokemon {
     }
 
     public Move[] getMoves() {
-        return moves;
+        return moves.toArray(new Move[moves.size()]);
     }
 
     public void setMoves(Move[] moves) {
-        this.moves = moves;
+        for (Move move : moves) {
+            setMove(move, this.moves.size());
+        }
     }
 
     public void setMove(Move newMove, int moveIndex) {
-        if (!(moveIndex > 4) && !(moveIndex < 0)) {
-            this.moves[moveIndex] = newMove;
-            numMoves++;
+        if (this.moves.size() < 4 && !(newMove == null)) {
+            this.moves.add(newMove);
         }
     }
 
@@ -208,7 +210,7 @@ public class Pokemon {
     }
 
     public int getNumMoves() {
-        return numMoves;
+        return this.moves.size();
     }
 
 }
