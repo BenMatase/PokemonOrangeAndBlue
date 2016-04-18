@@ -161,7 +161,7 @@ public class BattleCalculator {
      * @author Murph
      */
     public String getOutcome() {
-        String response = null;
+        String response = "";
         double modifier = getModifier1();
         double modifier2;
         if (DefPoke.getPokemonType2() != null) {
@@ -171,7 +171,7 @@ public class BattleCalculator {
 
         if (modifier >= 2.0) {
             response += "It's super effective! \n";
-        } else if (modifier <= 0.5 && modifier >= 0.0) {
+        } else if (modifier < 1.0 && modifier > 0.0) {
             response += "It's not very effective... \n";
         } else if (accuracyModifier == 0.0) {
             response += "But it missed!";
@@ -274,6 +274,7 @@ public class BattleCalculator {
         if ((move.getAccuracy() / 100.0) <= random) {
             accMod = 0.0;
         }
+        System.out.println(accMod);
         return accMod;
     }
 }

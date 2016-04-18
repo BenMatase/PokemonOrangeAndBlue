@@ -9,7 +9,8 @@
  * Project: csci205FinalProject
  * Package: BattleUtility
  * File: UpdateHealthBarEvent
- * Description:
+ * Description: An event to be passed the GUI.  Updates things to show
+ * the current health value of a pokemon.
  *
  * ****************************************
  */
@@ -18,6 +19,7 @@ package BattleUtility;
 import PokemonObjects.TrainerType;
 
 /**
+ * Abstract of changing the health bar
  *
  * @author Murph
  */

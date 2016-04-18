@@ -9,7 +9,8 @@
  * Project: csci205FinalProject
  * Package: BattleUtility
  * File: TextOutputEvent
- * Description:
+ * Description: An event to be passed the GUI.  Updates things to show a
+ * text animation
  *
  * ****************************************
  */

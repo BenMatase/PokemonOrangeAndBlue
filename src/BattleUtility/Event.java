@@ -9,13 +9,14 @@
  * Project: csci205FinalProject
  * Package: BattleUtility
  * File: Event
- * Description:
+ * Description: General event abstract class
  *
  * ****************************************
  */
 package BattleUtility;
 
 /**
+ * Abstract of all possible events
  *
  * @author Murph
  */
