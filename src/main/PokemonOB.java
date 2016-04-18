@@ -5,7 +5,6 @@
  */
 package main;
 
-import DatabaseLoaderUtilities.PokemonLoaderUtility;
 import PokeModel.PokeModel;
 import gameStates.BattleState;
 import gameStates.BlackScreenState;
@@ -13,8 +12,6 @@ import gameStates.GameStateType;
 import gameStates.MainMenuState;
 import gameStates.OverworldState;
 import gameStates.SplashScreenState;
-import java.util.ArrayList;
-import java.util.List;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
@@ -37,11 +34,6 @@ public class PokemonOB extends StateBasedGame {
     public PokemonOB(String appName) {
         super(appName);
         model = new PokeModel();
-        List<String> l = new ArrayList<>();
-        l.add("Zen Headbutt");
-        l.add("Disable");
-        l.add("Scratch");
-        model.getUser().setCurPokemon(PokemonLoaderUtility.createPokemon("PSYDUCK", "DUCK DUCK DUCK DUCK", l));
     }
 
     // Initialize game states (calls init method of each gamestate, and set's the state ID)
