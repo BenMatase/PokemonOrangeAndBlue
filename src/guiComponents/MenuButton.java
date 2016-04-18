@@ -19,7 +19,7 @@ import org.newdawn.slick.gui.GUIContext;
 public class MenuButton {
 
     // Data for rendering
-    protected String text;
+    protected String[] text;
     protected RoundedRectangle drawArea;
     protected TrueTypeFont font;
     protected boolean isHighlighted = false;
@@ -35,13 +35,14 @@ public class MenuButton {
     }
 
     public MenuButton(float x, float y, float width, float height, String text, Color highlightColor) {
-        this.text = text;
         this.highlightColor = highlightColor;
         drawArea = new RoundedRectangle(x, y, width, height, 5);
         try {
             font = FontManager.getStdPixelFont();
         } catch (SlickException ex) {
         }
+        this.text = new String[]{text};
+        updateWrapSize();
     }
 
     public void render(GUIContext container, Graphics g) {
@@ -52,13 +53,19 @@ public class MenuButton {
 
         g.setFont(font);
         g.setColor(Color.black);
-        g.drawString(text, centerStringX(text), centerStringY(text));
+        int i = 0;
+        for (String s : text) {
+            g.drawString(s, centerStringX(s), stringLocY(s, i));
+            i++;
+        }
+
     }
 
     public void setSize(float width, float height) {
         drawArea.setWidth(width);
         drawArea.setHeight(height);
         drawArea.setCornerRadius(5);
+        updateWrapSize();
         drawArea.prune();
     }
 
@@ -97,11 +104,12 @@ public class MenuButton {
     }
 
     public String getText() {
-        return text;
+        return String.join(" ", text);
     }
 
     public void setText(String text) {
-        this.text = text;
+        this.text = new String[]{text};
+        updateWrapSize();
     }
 
     public boolean contains(float x, float y) {
@@ -116,15 +124,22 @@ public class MenuButton {
         this.enabled = enabled;
     }
 
+    private void updateWrapSize() {
+        try {
+            this.text = FontManager.wrapString(String.join(" ", text), this.drawArea.getWidth() - 10);
+        } catch (Exception ex) {
+        }
+    }
+
     //================
     // Mark: - Helpers
     //================
     private float centerStringX(String s) {
-        return drawArea.getX() + drawArea.getWidth() / 2 - font.getWidth(text) / 2;
+        return drawArea.getX() + drawArea.getWidth() / 2 - font.getWidth(s) / 2;
     }
 
-    private float centerStringY(String s) {
-        return drawArea.getY() + drawArea.getHeight() / 2 - font.getHeight(text) / 2;
+    private float stringLocY(String s, int num) {
+        return (int) (drawArea.getY() + (drawArea.getHeight() * (num + 1) * 1.0f / (text.length + 1)) - (font.getHeight(s) / 2));
     }
 
 }

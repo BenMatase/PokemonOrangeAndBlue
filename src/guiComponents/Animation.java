@@ -16,7 +16,6 @@
 package guiComponents;
 
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.gui.GUIContext;
 
 /**
@@ -25,16 +24,13 @@ import org.newdawn.slick.gui.GUIContext;
  */
 public abstract class Animation {
 
-    protected Image img;
-    protected float durationS;
-    protected float currMS;
+    protected float durationMS = 1000f;
+    protected float currMS = 0f;
 
     private boolean animating = false;
 
-    public Animation(Image img, float durationS) {
-        this.img = img;
-
-        this.durationS = durationS;
+    public Animation(int durationMS) {
+        this.durationMS = durationMS;
     }
 
     public abstract void render(GUIContext container, Graphics g);
@@ -45,9 +41,8 @@ public abstract class Animation {
         animating = true;
     }
 
-    public void stop() {
-        animating = false;
-        currMS = 0;
+    public boolean running() {
+        return animating;
     }
 
 }
