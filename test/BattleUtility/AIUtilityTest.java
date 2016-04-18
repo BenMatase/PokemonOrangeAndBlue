@@ -45,19 +45,19 @@ public class AIUtilityTest {
         enemyTrainer = new EnemyTrainer("Enemy", "Hello", "Goodbye");
         List<String> moves = new ArrayList<>();
         moves.add("Tackle");
-        moves.add("Bubble");
-        pkmn = PokemonLoaderUtility.createPokemon("SQUIRTLE", "Squirty", moves);
-        enemyTrainer.addPokemon(pkmn);
-        enemyTrainer.setCurPokemon(pkmn);
+        moves.add("Vine Whip");
+        moves.add("Cut");
+        pkmn2 = PokemonLoaderUtility.createPokemon("BULBASAUR", "Bulb", moves);
+        enemyTrainer.addPokemon(pkmn2);
+        enemyTrainer.setCurPokemon(pkmn2);
 
         userTrainer = new UserTrainer("User");
         List<String> moves2 = new ArrayList<>();
         moves2.add("Tackle");
-        moves2.add("Vine Whip");
-        moves2.add("Cut");
-        pkmn = PokemonLoaderUtility.createPokemon("BULBASAUR", "Bulb", moves2);
-        enemyTrainer.addPokemon(pkmn);
-        enemyTrainer.setCurPokemon(pkmn);
+        moves2.add("Bubble");
+        pkmn = PokemonLoaderUtility.createPokemon("SQUIRTLE", "Squirty", moves);
+        userTrainer.addPokemon(pkmn);
+        userTrainer.setCurPokemon(pkmn);
 
     }
 
