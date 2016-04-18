@@ -170,16 +170,15 @@ public class BattleCalculator {
 
         if (modifier >= 2.0) {
             response += "It's super effective! \n";
-        } else if (modifier < 1.0 && modifier > 0.0) {
-            response += "It's not very effective... \n";
         } else if (accuracyModifier == 0.0) {
             response += "But it missed!";
-        } else {
+        } else if (modifier == 0.0) {
             response += String.format("It doesn't affect %s...",
                                       DefPoke.getName());
-        }
-        if (criticalModifier == 1.5 && accuracyModifier != 0.0 && modifier != 0.0) {
+        } else if (criticalModifier == 1.5 && accuracyModifier != 0.0 && modifier != 0.0) {
             response += "It's a critical hit!";
+        } else if (modifier < 1.0 && modifier > 0.0) {
+            response += "It's not very effective... \n";
         }
 
         return response;
