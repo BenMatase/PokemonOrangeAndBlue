@@ -16,6 +16,7 @@ import BattleUtility.UserDefeatEvent;
 import PokeModel.PokeModel;
 import PokemonController.BattleControl;
 import PokemonObjects.Move;
+import PokemonObjects.TrainerType;
 import guiComponents.InfoPanel;
 import guiComponents.MenuButton;
 import guiComponents.MenuLayoutManager;
@@ -131,9 +132,9 @@ public class BattleState implements GameState {
             throw new SlickException("Characters weren't loaded correctly");
         } else {
             Image tmp = new Image("./res/Images/Sprites/back/" + model.getUser().getCurPokemon().getID() + ".png");
-            playerImage = new PokemonImage((int) (px - tmp.getWidth() / 2f), (int) (py - tmp.getHeight() / 2f), bgdImage.getHeight(), tmp);
+            playerImage = new PokemonImage(px, py, bgdImage.getHeight(), tmp, TrainerType.USER);
             tmp = new Image("./res/Images/Sprites/front/" + model.getEnemy().getCurPokemon().getID() + ".png");
-            enemyImage = new PokemonImage((int) (ex - tmp.getWidth() / 2f), (int) (ey - tmp.getHeight() / 2f), tmp);
+            enemyImage = new PokemonImage(ex, ey, tmp, TrainerType.NPC);
         }
 
         RoundedRectangle rightSideDrawRect = new RoundedRectangle(container.getWidth() / 2 + 0.5f * X_PADDING,
@@ -370,6 +371,14 @@ public class BattleState implements GameState {
             System.out.println("Health Update: " + uhbe.getNewCurrHealth());
         } else if (evt instanceof PokemonFaintEvent) {
             PokemonFaintEvent pfe = (PokemonFaintEvent) evt;
+            switch (pfe.getTrainerType()) {
+                case NPC:
+                    enemyImage.disappear();
+                    break;
+                case USER:
+                    playerImage.disappear();
+                    break;
+            }
             System.out.println("Pokemon Faint");
         } else if (evt instanceof UserDefeatEvent) {
             UserDefeatEvent ude = (UserDefeatEvent) evt;
@@ -380,6 +389,17 @@ public class BattleState implements GameState {
         } else if (evt instanceof SwitchPokemonEvent) {
             SwitchPokemonEvent spe = (SwitchPokemonEvent) evt;
             System.out.println("Switch Pokemon");
+            if (spe.getSwitchPokemon().getTrainer() == TrainerType.NPC) {
+                try {
+                    enemyImage.swap(new Image("./res/Images/Sprites/front/" + model.getEnemy().getCurPokemon().getID() + ".png"));
+                } catch (SlickException e) {
+                }
+            } else {
+                try {
+                    playerImage.swap(new Image("./res/Images/Sprites/back/" + model.getUser().getCurPokemon().getID() + ".png"));
+                } catch (SlickException e) {
+                }
+            }
         } else if (evt != null) {
             System.out.println("Other: " + evt.getClass().getSimpleName());
         }
@@ -415,7 +435,7 @@ public class BattleState implements GameState {
      */
     private void updateFightMenuOptions() {
         Move[] moves = model.getUser().getCurPokemon().getMoves();
-        int[][] slots = new int[][]{{0, 0}, {0, 1}, {1, 0}, {1, 1}};
+        int[][] slots = new int[][]{{0, 0}, {1, 0}, {0, 1}, {1, 1}};
         for (int i = 0; i < moves.length; i++) {
             fightMenuMgr.set(slots[i][0],
                              slots[i][1],
