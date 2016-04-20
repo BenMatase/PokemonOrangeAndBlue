@@ -94,13 +94,13 @@ public class BattleCalculator {
      * @return damage double
      * @author Murph
      */
-    public double damageCalculator() {
+    public double calculateDamage() {
         AttackType attackType = move.getType();
         double damage;
         if (attackType.ordinal() == attackType.SPECIAL.ordinal()) {
-            damage = specialDamageCalculator();
+            damage = calculateSpecialDamage();
         } else {
-            damage = physicalDamageCalculator();
+            damage = calculatePhysicalDamage();
         }
 
         return damage;
@@ -112,7 +112,7 @@ public class BattleCalculator {
      * @return damage double
      * @author Murph
      */
-    private double physicalDamageCalculator() {
+    private double calculatePhysicalDamage() {
         double modifier = getModifier1();
         double modifier2;
         if (DefPoke.getPokemonType2() != null) {
@@ -136,7 +136,7 @@ public class BattleCalculator {
      * @return damage double
      * @author Murph
      */
-    private double specialDamageCalculator() {
+    private double calculateSpecialDamage() {
         double modifier = getModifier1();
         double modifier2;
         if (DefPoke.getPokemonType2() != null) {
