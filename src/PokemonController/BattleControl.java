@@ -140,6 +140,16 @@ public class BattleControl {
         return events;
     }
 
+    public ArrayList<Event> switchNewPokemon(Pokemon mon) {
+        TextOutputEvent event1 = new TextOutputEvent(String.format(
+                "You sent out %s", mon.getNickname()));
+        SwitchPokemonEvent event2 = new SwitchPokemonEvent(mon);
+        ArrayList<Event> events = new ArrayList<>();
+        events.add(event1);
+        events.add(event2);
+        return events;
+    }
+
     /**
      * Called on the controller to get the events for when user choose to get an
      * item.
