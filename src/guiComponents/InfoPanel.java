@@ -161,7 +161,7 @@ public class InfoPanel extends MenuButton {
     }
 
     public void update(float delta) {
-        if ((int) displayHP != curHP) {
+        if (((int) displayHP > curHP && hpStep < 0) || ((int) displayHP < curHP && hpStep > 0)) {
             displayHP += hpStep * delta;
         } else {
             displayHP = curHP;
@@ -195,13 +195,6 @@ public class InfoPanel extends MenuButton {
     public void setHP(int hp) {
         this.hpStep = (hp - curHP) / 2000f;
         this.curHP = hp;
-    }
-
-    public void swapPkmn(int newCHP, int newMHP, String newName) {
-        this.curHP = newCHP;
-        this.displayHP = newCHP;
-        this.maxHP = newMHP;
-        this.setText(newName);
     }
 
     public InfoPanel getCopy(boolean withImage) {
