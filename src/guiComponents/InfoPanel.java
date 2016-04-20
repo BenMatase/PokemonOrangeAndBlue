@@ -161,7 +161,7 @@ public class InfoPanel extends MenuButton {
     }
 
     public void update(float delta) {
-        if (((int) displayHP >= curHP && hpStep < 0) || ((int) displayHP <= curHP && hpStep > 0)) {
+        if (((int) displayHP > curHP && hpStep < 0) || ((int) displayHP < curHP && hpStep > 0)) {
             displayHP += hpStep * delta;
         } else {
             displayHP = curHP;
