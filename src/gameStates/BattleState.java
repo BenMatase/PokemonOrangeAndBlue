@@ -35,6 +35,8 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.RoundedRectangle;
 import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.state.transition.FadeInTransition;
+import org.newdawn.slick.state.transition.FadeOutTransition;
 
 /**
  * A game state that simulates a Pokemon battle
@@ -45,6 +47,7 @@ public class BattleState implements GameState {
 
     // Control and model components
     private int ID;
+    private StateBasedGame game;
     private BattleMenuState state;
     private PokeModel model;
     private BattleControl control;
@@ -79,6 +82,9 @@ public class BattleState implements GameState {
     private Music introMusic;
     private Music bgdMusic;
 
+    // Action Relevant
+    private boolean pokemonFainted;
+
     // Constants for drawing
     private static final float X_PADDING = 5f;
     private static final float Y_PADDING = 5f;
@@ -105,6 +111,7 @@ public class BattleState implements GameState {
     //===========================
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
+        this.game = game;
         state = BattleMenuState.MAIN;
         bgdMusic = new Music("./res/Sounds/BattleThemeLoop.ogg");
         introMusic = new Music("./res/Sounds/BattleIntro.ogg");
@@ -147,16 +154,16 @@ public class BattleState implements GameState {
         setupMainMenu(right12DrawRect, left12DrawRect);
 
         // FIGHT MENU
-        fightMenuMgr = new MenuLayoutManager<>(left34DrawRect, 2, 2);
+        fightMenuMgr = new MenuLayoutManager<>(left34DrawRect, 2, 2, MenuButton.class);
         updateFightMenuOptions();
-        fightMenuCancelMgr = new MenuLayoutManager<>(right14DrawRect, 1, 1);
+        fightMenuCancelMgr = new MenuLayoutManager<>(right14DrawRect, 1, 1, MenuButton.class);
         fightMenuCancelMgr.set(0, 0, new MenuButton("Cancel", Color.blue));
 
         // HP BARS
         setupHPBars(container);
 
         // TEXT DISPLAY
-        textDisplayViewMgr = new MenuLayoutManager<>(fullwidthDrawRect, 1, 1);
+        textDisplayViewMgr = new MenuLayoutManager<>(fullwidthDrawRect, 1, 1, MenuButton.class);
         textDisplayViewMgr.set(0, 0, new MenuButton(""));
         textDisplayViewMgr.disable();
 
@@ -200,13 +207,13 @@ public class BattleState implements GameState {
 
     public void setupMainMenu(RoundedRectangle buttonRect, RoundedRectangle textDisplayRect) {
         // Right side buttons
-        mainMenuMgr = new MenuLayoutManager<>(buttonRect, 2, 2);
+        mainMenuMgr = new MenuLayoutManager<>(buttonRect, 2, 2, MenuButton.class);
         mainMenuMgr.set(0, 0, new MenuButton("Fight"));
         mainMenuMgr.set(1, 0, new MenuButton("Bag"));
         mainMenuMgr.set(1, 1, new MenuButton("Run"));
         mainMenuMgr.set(0, 1, new MenuButton("Pokemon"));
         // Left Side text view
-        mainMenuTextDisplay = new MenuLayoutManager<>(textDisplayRect, 1, 1);
+        mainMenuTextDisplay = new MenuLayoutManager<>(textDisplayRect, 1, 1, MenuButton.class);
         MenuButton b = new MenuButton("What will " + model.getUser().getCurPokemon().getNickname() + " do?", Color.white);
         b.setEnabled(false);
         mainMenuTextDisplay.set(0, 0, b);
@@ -214,7 +221,7 @@ public class BattleState implements GameState {
 
     public void setupHPBars(GameContainer container) {
         // HP BARS
-        hpBarViewMgr = new MenuLayoutManager<>(new RoundedRectangle(0, 0, container.getWidth(), bgdImage.getHeight(), 0), 2, 3, false);
+        hpBarViewMgr = new MenuLayoutManager<>(new RoundedRectangle(0, 0, container.getWidth(), bgdImage.getHeight(), 0), 2, 3, false, InfoPanel.class);
         hpBarViewMgr.set(1, 2, new InfoPanel(model.getUser().getCurPokemon().getCurHealth(), model.getUser().getCurPokemon().getHealth(), model.getUser().getCurPokemon().getNickname()));
         hpBarViewMgr.set(0, 0, new InfoPanel(model.getEnemy().getCurPokemon().getCurHealth(), model.getEnemy().getCurPokemon().getHealth(), model.getEnemy().getCurPokemon().getName()));
         hpBarViewMgr.disable();
@@ -222,25 +229,17 @@ public class BattleState implements GameState {
 
     public void setupPokemonMenu(GameContainer container, RoundedRectangle left, RoundedRectangle right) throws SlickException {
         // Pokemon Chooser Menu
-        pokemonMenuMgr = new MenuLayoutManager<>(new RoundedRectangle(0, 0, container.getWidth(), bgdImage.getHeight(), 0), 2, 3, false);
-        int[][] places = new int[][]{{0, 0}, {1, 0}, {0, 1}, {1, 1}, {0, 2}, {1, 2}};
-        int i = 0;
-        Image img;
-        InfoPanel pnl;
-        for (Pokemon pkmn : model.getUser().getPokemon()) {
-            img = new Image("./res/Images/Sprites/front/" + pkmn.getID() + ".png");
-            pnl = new InfoPanel(pkmn.getCurHealth(), pkmn.getHealth(), pkmn.getNickname(), img);
-            pnl.setEnabled(true);
-            pokemonMenuMgr.set(places[i][0], places[i][1], pnl);
-        }
+        pokemonMenuMgr = new MenuLayoutManager<>(new RoundedRectangle(0, 0, container.getWidth(), bgdImage.getHeight(), 0), 2, 3, false, InfoPanel.class);
+        updatePokemonMenuOptions();
+        pokemonMenuMgr.enable();
 
         // Prompt Text Display
-        pokemonMenuTextDisplay = new MenuLayoutManager<>(left, 1, 1, true);
-        pokemonMenuTextDisplay.set(0, 0, new MenuButton("Select a new Pokémon"));
+        pokemonMenuTextDisplay = new MenuLayoutManager<>(left, 1, 1, true, MenuButton.class);
+        pokemonMenuTextDisplay.set(0, 0, new MenuButton("Select a new Pokemon"));
         pokemonMenuTextDisplay.disable();
 
         // Cancel Button
-        pokemonMenuCancelMgr = new MenuLayoutManager<>(right, 1, 1, true);
+        pokemonMenuCancelMgr = new MenuLayoutManager<>(right, 1, 1, true, MenuButton.class);
         pokemonMenuCancelMgr.set(0, 0, new MenuButton("Cancel"));
     }
 
@@ -362,14 +361,16 @@ public class BattleState implements GameState {
     //=====================================
     @Override
     public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
+        hpBarViewMgr.getButton(0, 0).update(delta);
+        hpBarViewMgr.getButton(1, 2).update(delta);
+        playerImage.update(delta);
+        enemyImage.update(delta);
         switch (state) {
             case HANDLING_EVENTS:
-                hpBarViewMgr.getButton(0, 0).update(delta);
-                hpBarViewMgr.getButton(1, 2).update(delta);
-                playerImage.update(delta);
-                enemyImage.update(delta);
                 if (!eventQueue.isEmpty()) {
-                    delay -= delta;
+                    if (!pokemonFainted) {
+                        delay -= delta;
+                    }
                     if (delay <= 0) {
                         delay = 0;
                         eventQueue.poll();
@@ -387,80 +388,105 @@ public class BattleState implements GameState {
      * If the event Queue is not empty, handle the next one.
      *
      * @author Eric
+     * @throws org.newdawn.slick.SlickException
      */
-    public void handleNextEvent() {
+    public void handleNextEvent() throws SlickException {
         Event evt = eventQueue.peek();
         if (evt instanceof TextOutputEvent) {
-            System.out.println("Updating display text to: " + ((TextOutputEvent) evt).getMessage());
+            System.out.println("Update display text to: '" + ((TextOutputEvent) evt).getMessage() + "'");
             textDisplayViewMgr.getButton(0, 0).setText(((TextOutputEvent) evt).getMessage());
             delay += 2000;
         } else if (evt instanceof AnimationEvent) {
             System.out.println("Animation");
         } else if (evt instanceof UpdateHealthBarEvent) {
-            UpdateHealthBarEvent uhbe = (UpdateHealthBarEvent) evt;
-            System.out.println("Trainer type is ==> " + uhbe.getTrainerType());
-            switch (uhbe.getTrainerType()) {
-                case NPC:
-                    hpBarViewMgr.getButton(0, 0).setHP(uhbe.getNewCurrHealth());
-                    playerImage.attack();
-                    enemyImage.defend();
-                    break;
-                case USER:
-                    hpBarViewMgr.getButton(1, 2).setHP(uhbe.getNewCurrHealth());
-                    playerImage.defend();
-                    enemyImage.attack();
-                    break;
-            }
-            delay += 2000;
-            System.out.println("Health Update: " + uhbe.getNewCurrHealth());
+            handleUpdateHPEvent((UpdateHealthBarEvent) evt);
+            System.out.println("Health Update");
         } else if (evt instanceof PokemonFaintEvent) {
-            PokemonFaintEvent pfe = (PokemonFaintEvent) evt;
-            switch (pfe.getTrainerType()) {
-                case NPC:
-                    enemyImage.disappear();
-                    break;
-                case USER:
-                    playerImage.disappear();
-                    break;
-            }
+            handleFaintEvent((PokemonFaintEvent) evt);
             System.out.println("Pokemon Faint");
         } else if (evt instanceof UserDefeatEvent) {
             UserDefeatEvent ude = (UserDefeatEvent) evt;
+            game.enterState(GameStateType.SPLASHSCREEN.getValue(), new FadeOutTransition(), new FadeInTransition());
             System.out.println("User Defeat");
+            delay += 1000;
         } else if (evt instanceof EnemyDefeatEvent) {
             EnemyDefeatEvent ede = (EnemyDefeatEvent) evt;
             System.out.println("Enemy Defeat");
+            game.enterState(GameStateType.SPLASHSCREEN.getValue(), new FadeOutTransition(), new FadeInTransition());
+            delay += 1000;
         } else if (evt instanceof SwitchPokemonEvent) {
-            SwitchPokemonEvent spe = (SwitchPokemonEvent) evt;
+            handleSwitchEvent((SwitchPokemonEvent) evt);
             System.out.println("Switch Pokemon");
-            if (spe.getSwitchPokemon().getTrainer() == TrainerType.NPC) {
-                try {
-                    enemyImage.swap(new Image("./res/Images/Sprites/front/" + model.getEnemy().getCurPokemon().getID() + ".png"));
-                } catch (SlickException e) {
-                }
-            } else {
-                try {
-                    playerImage.swap(new Image("./res/Images/Sprites/back/" + model.getUser().getCurPokemon().getID() + ".png"));
-                } catch (SlickException e) {
-                }
-            }
         } else if (evt != null) {
             System.out.println("Other: " + evt.getClass().getSimpleName());
+        } else {
+            System.out.println("Null event");
         }
+    }
+
+    private void handleSwitchEvent(SwitchPokemonEvent spe) {
+        if (spe.getSwitchPokemon().getTrainer() == TrainerType.NPC) {
+            try {
+                enemyImage.swap(new Image("./res/Images/Sprites/front/" + model.getEnemy().getCurPokemon().getID() + ".png"));
+            } catch (SlickException e) {
+            }
+        } else {
+            try {
+                playerImage.swap(new Image("./res/Images/Sprites/back/" + model.getUser().getCurPokemon().getID() + ".png"));
+            } catch (SlickException e) {
+            }
+            mainMenuTextDisplay.getSelected().setText("What will " + model.getUser().getCurPokemon().getNickname() + "do?");
+        }
+    }
+
+    private void handleFaintEvent(PokemonFaintEvent pfe) throws SlickException {
+        switch (pfe.getTrainerType()) {
+            case NPC:
+                enemyImage.disappear();
+                break;
+            case USER:
+                playerImage.disappear();
+                if (model.getUser().pokemonLiving()) {
+                    updatePokemonMenuOptions();
+                    pokemonFainted = true;
+                    state = BattleMenuState.POKEMON;
+                }
+                break;
+        }
+        delay += 2000;
+    }
+
+    private void handleUpdateHPEvent(UpdateHealthBarEvent uhbe) {
+        System.out.println("Trainer type is ==> " + uhbe.getTrainerType());
+        switch (uhbe.getTrainerType()) {
+            case NPC:
+                hpBarViewMgr.getButton(0, 0).setHP(uhbe.getNewCurrHealth());
+                playerImage.attack();
+                enemyImage.defend();
+                break;
+            case USER:
+                hpBarViewMgr.getButton(1, 2).setHP(uhbe.getNewCurrHealth());
+                playerImage.defend();
+                enemyImage.attack();
+                break;
+        }
+        delay += 2000;
     }
 
     /**
      * Handler for button selection in the main menu
      *
      * @author Eric
+     * @throws org.newdawn.slick.SlickException
      */
-    public void handleMainMenuSelection() {
+    public void handleMainMenuSelection() throws SlickException {
         switch (mainMenuMgr.getSelected().getText()) {
             case "Fight":
                 updateFightMenuOptions();
                 state = BattleMenuState.FIGHT;
                 break;
             case "Pokemon":
+                updatePokemonMenuOptions();
                 state = BattleMenuState.POKEMON;
                 break;
             case "Bag":
@@ -480,10 +506,14 @@ public class BattleState implements GameState {
     private void updateFightMenuOptions() {
         Move[] moves = model.getUser().getCurPokemon().getMoves();
         int[][] slots = new int[][]{{0, 0}, {1, 0}, {0, 1}, {1, 1}};
-        for (int i = 0; i < moves.length; i++) {
-            fightMenuMgr.set(slots[i][0],
-                             slots[i][1],
-                             new MenuButton(moves[i].getName()));
+        for (int i = 0; i < 4; i++) {
+            if (i < moves.length) {
+                fightMenuMgr.set(slots[i][0],
+                                 slots[i][1],
+                                 new MenuButton(moves[i].getName()));
+            } else {
+                fightMenuMgr.set(slots[i][0], slots[i][1], null);
+            }
         }
     }
 
@@ -491,8 +521,9 @@ public class BattleState implements GameState {
      * Handler for button selection in the fight menu
      *
      * @author Eric
+     * @throws org.newdawn.slick.SlickException
      */
-    public void handleFightMenuSelection() {
+    public void handleFightMenuSelection() throws SlickException {
         // Handle selection of each move
         if (fightMenuMgr.getSelected().getText().equals(model.getUser().getCurPokemon().getMoves()[0].getName())) {
             handleNewEvents(control.chooseAttack(model.getUser().getCurPokemon().getMoves()[0]));
@@ -507,11 +538,54 @@ public class BattleState implements GameState {
     }
 
     /**
+     * Updates the pokemon available to
+     *
+     * @throws SlickException
+     */
+    private void updatePokemonMenuOptions() throws SlickException {
+        int[][] places = new int[][]{{0, 0}, {1, 0}, {0, 1}, {1, 1}, {0, 2}, {1, 2}};
+        int i = 0;
+        Image img;
+        InfoPanel pnl;
+        for (Pokemon pkmn : model.getUser().getPokemon()) {
+            img = new Image("./res/Images/Sprites/front/" + pkmn.getID() + ".png");
+            pnl = new InfoPanel(pkmn.getCurHealth(), pkmn.getHealth(), pkmn.getNickname(), img);
+            pnl.setEnabled(true);
+            pokemonMenuMgr.set(places[i][0], places[i][1], pnl);
+            i += 1;
+        }
+    }
+
+    private void handlePokemonMenuSelection() throws SlickException {
+        for (Pokemon pkmn : model.getUser().getPokemon()) {
+            if (pkmn.getNickname().equals(pokemonMenuMgr.getSelected().getText())) {
+                if (pkmn.isAlive()) {
+                    // pokemonFainted true if the user's current pokemon fainted (not picking by choice)
+                    if (!pokemonFainted) {
+                        if (pkmn == model.getUser().getCurPokemon()) {
+                            handleSubMenuCancelSelection();
+                        } else {
+                            handleNewEvents(control.chooseSwitchPokemon(pkmn));
+                        }
+                    } else {
+
+                        pokemonFainted = false;
+                        handleSubMenuCancelSelection();
+                    }
+                    hpBarViewMgr.set(1, 2, pokemonMenuMgr.getSelected().getCopy(false));
+                    mainMenuTextDisplay.getButton(0, 0).setText("What will " + hpBarViewMgr.getButton(1, 2).getText() + " do?");
+                }
+            }
+        }
+
+    }
+
+    /**
      * Handler for selecting the cancel button in the fight menu
      *
      * @author Eric
      */
-    public void handleFightCancelSelection() {
+    public void handleSubMenuCancelSelection() {
         state = BattleMenuState.MAIN;
     }
 
@@ -520,7 +594,7 @@ public class BattleState implements GameState {
      *
      * @author Eric
      */
-    private void handleNewEvents(List<Event> newEvents) {
+    private void handleNewEvents(List<Event> newEvents) throws SlickException {
         while (!newEvents.isEmpty()) {
             eventQueue.add(newEvents.get(0));
             newEvents.remove(0);
@@ -539,20 +613,36 @@ public class BattleState implements GameState {
             case MAIN:
                 System.out.println("Main");
                 if (mainMenuMgr.getSelected().contains(x, y)) {
-                    handleMainMenuSelection();
+                    try {
+                        handleMainMenuSelection();
+                    } catch (SlickException e) {
+                    }
                 }
                 break;
             case FIGHT:
                 System.out.println("Fight");
                 if (fightMenuMgr.getSelected().contains(x, y)) {
-                    handleFightMenuSelection();
+                    try {
+                        handleFightMenuSelection();
+                    } catch (SlickException e) {
+                    }
                 } else if (fightMenuCancelMgr.getSelected().contains(x, y)) {
-                    handleFightCancelSelection();
+                    handleSubMenuCancelSelection();
                     break;
                 }
             case BAG:
                 break;
             case POKEMON:
+                System.out.println("Pokemon");
+                if (pokemonMenuMgr.getSelected().contains(x, y)) {
+                    try {
+                        handlePokemonMenuSelection();
+                    } catch (SlickException e) {
+                    }
+                } else if (pokemonMenuCancelMgr.getSelected().contains(x, y)) {
+                    handleSubMenuCancelSelection();
+                    break;
+                }
                 break;
         }
     }
@@ -574,6 +664,12 @@ public class BattleState implements GameState {
                     }
                 }
                 break;
+            case POKEMON:
+                for (MenuButton pnl : pokemonMenuMgr.getButtons()) {
+                    if (pnl.contains(newx, newy)) {
+                        pokemonMenuMgr.setSelected(pnl);
+                    }
+                }
         }
     }
 
@@ -606,11 +702,19 @@ public class BattleState implements GameState {
     @Override
     public void keyPressed(int key, char c) {
         switch (state) {
-            case MAIN:
-                handleMainMenuKeyPress(key, c);
-                break;
-            case FIGHT:
-                handleFightMenuKeyPress(key, c);
+            case MAIN: {
+                try {
+                    handleMainMenuKeyPress(key, c);
+                } catch (SlickException e) {
+                }
+            }
+            break;
+            case FIGHT: {
+                try {
+                    handleFightMenuKeyPress(key, c);
+                } catch (SlickException e) {
+                }
+            }
         }
     }
 
@@ -619,7 +723,7 @@ public class BattleState implements GameState {
      *
      * @author Eric
      */
-    private void handleFightMenuKeyPress(int key, char c) {
+    private void handleFightMenuKeyPress(int key, char c) throws SlickException {
         switch (key) {
             case Input.KEY_LEFT:
                 fightMenuMgr.setSelected(fightMenuMgr.getLeft());
@@ -649,7 +753,7 @@ public class BattleState implements GameState {
      *
      * @author Eric
      */
-    private void handleMainMenuKeyPress(int key, char c) {
+    private void handleMainMenuKeyPress(int key, char c) throws SlickException {
         switch (key) {
             case Input.KEY_LEFT:
                 mainMenuMgr.setSelected(mainMenuMgr.getLeft());
