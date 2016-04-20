@@ -94,16 +94,13 @@ public class BattleCalculator {
      * @return damage double
      * @author Murph
      */
-    public double damageCalculator() {
+    public double calculateDamage() {
         AttackType attackType = move.getType();
-        double damage;
         if (attackType.ordinal() == attackType.SPECIAL.ordinal()) {
-            damage = specialDamageCalculator();
+            return calculateSpecialDamage();
         } else {
-            damage = physicalDamageCalculator();
+            return calculatePhysicalDamage();
         }
-
-        return damage;
     }
 
     /**
@@ -112,18 +109,26 @@ public class BattleCalculator {
      * @return damage double
      * @author Murph
      */
-    private double physicalDamageCalculator() {
+    private double calculatePhysicalDamage() {
+        //TODO: modifier might need a rename
+        //gets the damage multiplier based on pokemon move type and opponent type(s)
         double modifier = getModifier1();
-        double modifier2;
         if (DefPoke.getPokemonType2() != null) {
-            modifier2 = getModifier2();
+            double modifier2 = getModifier2();
             modifier = modifier * modifier2;
         }
+
+        //gets the damage muliplier based on pokemon type and move type
         double stab = getStab();
+
+        //gets stats from pokemon
         double attack = AtkPoke.getAttack();
         double defense = DefPoke.getDefense();
+
+        //gets base damage from move
         double moveDmg = move.getDamage();
 
+        //incorporates all mulipliers and factors to find actual damange
         double damage = ((attack / defense) * (moveDmg) * modifier
                          * stab * criticalModifier);
 
@@ -136,18 +141,26 @@ public class BattleCalculator {
      * @return damage double
      * @author Murph
      */
-    private double specialDamageCalculator() {
+    private double calculateSpecialDamage() {
+        //TODO: modifier might need a rename
+        //gets the damage multiplier based on pokemon move type and opponent type(s)
         double modifier = getModifier1();
-        double modifier2;
         if (DefPoke.getPokemonType2() != null) {
-            modifier2 = getModifier2();
+            double modifier2 = getModifier2();
             modifier = modifier * modifier2;
         }
+
+        //gets the damage muliplier based on pokemon type and move type
         double stab = getStab();
+
+        //gets stats from pokemon
         double attack = AtkPoke.getSpcAttack();
         double defense = DefPoke.getSpcDefense();
+
+        //gets base damage from move
         double moveDmg = move.getDamage();
 
+        //incorporates all mulipliers and factors to find actual damange
         double damage = ((attack / defense) * (moveDmg) * modifier * stab * criticalModifier * accuracyModifier);
 
         return damage;
@@ -170,16 +183,15 @@ public class BattleCalculator {
 
         if (modifier >= 2.0) {
             response += "It's super effective! \n";
-        } else if (modifier < 1.0 && modifier > 0.0) {
-            response += "It's not very effective... \n";
         } else if (accuracyModifier == 0.0) {
             response += "But it missed!";
-        } else {
+        } else if (modifier == 0.0) {
             response += String.format("It doesn't affect %s...",
                                       DefPoke.getName());
-        }
-        if (criticalModifier == 1.5 && accuracyModifier != 0.0 && modifier != 0.0) {
+        } else if (criticalModifier == 1.5 && accuracyModifier != 0.0 && modifier != 0.0) {
             response += "It's a critical hit!";
+        } else if (modifier < 1.0 && modifier > 0.0) {
+            response += "It's not very effective... \n";
         }
 
         return response;
@@ -261,7 +273,7 @@ public class BattleCalculator {
 
     /**
      * Calculates Accuracy statistic. Causes move to deal no damage if
-     * randomizatino causes a miss, otherwise has no effect.
+     * randomization causes a miss, otherwise has no effect.
      *
      * @return modifier double
      * @author Murph
