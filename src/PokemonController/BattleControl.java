@@ -146,8 +146,8 @@ public class BattleControl {
         SwitchPokemonEvent event2 = new SwitchPokemonEvent(mon);
         user.setCurPokemon(mon);
         ArrayList<Event> events = new ArrayList<>();
-        events.add(event1);
         events.add(event2);
+        events.add(event1);
         return events;
     }
 
