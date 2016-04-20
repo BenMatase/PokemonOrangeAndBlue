@@ -129,7 +129,7 @@ public class SplashScreenState implements GameState {
     //=========================
     @Override
     public void enter(GameContainer container, StateBasedGame game) throws SlickException {
-        splashScreenMusic.loop();
+        splashScreenMusic.loop(1.0f, 0.25f);
     }
 
     @Override

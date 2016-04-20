@@ -125,6 +125,7 @@ public class PokemonImage {
                     offsetY = ymax - y;
                     tmpImage = null;
                     currMS = 0;
+                    deltaYAppear = (ymax - y) / appearanceDurationMS;
                     actions.poll();
                     break;
                 case APPEAR:

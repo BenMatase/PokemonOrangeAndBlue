@@ -51,6 +51,9 @@ public class PokeModel {
         user.addPokemon(PokemonLoaderUtility.createPokemon("JIGGLYPUFF",
                                                            "Jiggy Wiggy",
                                                            userMoves));
+        List<String> userMoves2 = new ArrayList<>();
+        userMoves2.add("Zen Headbutt");
+        user.addPokemon(PokemonLoaderUtility.createPokemon("PSYDUCK", "DUCK DUCK GOOSE", userMoves2));
         enemy.addPokemon(PokemonLoaderUtility.createPokemon("JIGGLYPUFF",
                                                             "Dancy",
                                                             enemyMoves));

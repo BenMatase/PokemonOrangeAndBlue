@@ -77,7 +77,7 @@ public class InfoPanel extends MenuButton {
      * @param image The image for the Pokemon
      */
     public InfoPanel(int curHP, int maxHP, String name, Image image) {
-        this(0, 0, curHP, maxHP, name, null);
+        this(0, 0, curHP, maxHP, name, image);
     }
 
     /**
@@ -195,6 +195,21 @@ public class InfoPanel extends MenuButton {
     public void setHP(int hp) {
         this.hpStep = (hp - curHP) / 2000f;
         this.curHP = hp;
+    }
+
+    public void swapPkmn(int newCHP, int newMHP, String newName) {
+        this.curHP = newCHP;
+        this.displayHP = newCHP;
+        this.maxHP = newMHP;
+        this.setText(newName);
+    }
+
+    public InfoPanel getCopy(boolean withImage) {
+
+        if (img != null && withImage) {
+            return new InfoPanel(curHP, maxHP, getText(), img);
+        }
+        return new InfoPanel(curHP, maxHP, getText());
     }
 
     /**
