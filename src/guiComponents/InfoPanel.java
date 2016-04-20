@@ -77,7 +77,7 @@ public class InfoPanel extends MenuButton {
      * @param image The image for the Pokemon
      */
     public InfoPanel(int curHP, int maxHP, String name, Image image) {
-        this(0, 0, curHP, maxHP, name, null);
+        this(0, 0, curHP, maxHP, name, image);
     }
 
     /**

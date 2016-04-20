@@ -16,6 +16,7 @@ import BattleUtility.UserDefeatEvent;
 import PokeModel.PokeModel;
 import PokemonController.BattleControl;
 import PokemonObjects.Move;
+import PokemonObjects.Pokemon;
 import PokemonObjects.TrainerType;
 import guiComponents.InfoPanel;
 import guiComponents.MenuButton;
@@ -42,34 +43,35 @@ import org.newdawn.slick.state.StateBasedGame;
  */
 public class BattleState implements GameState {
 
+    // Control and model components
     private int ID;
-    private Image bgdImage;
     private BattleMenuState state;
     private PokeModel model;
     private BattleControl control;
 
-    // Drawing Pokemon
+    // Images
+    private Image bgdImage;
     private PokemonImage playerImage;
     private PokemonImage enemyImage;
 
-    // Buttons
+    // Buttons and menus
     private MenuLayoutManager<MenuButton> mainMenuMgr;
     private MenuLayoutManager<MenuButton> fightMenuMgr;
-    private MenuLayoutManager<MenuButton> pokemonMenuMgr;
     private MenuLayoutManager<MenuButton> fightMenuCancelMgr;
-    private MenuLayoutManager<InfoPanel> hpBarViewMgr;
     private MenuLayoutManager<MenuButton> textDisplayViewMgr;
+    private MenuLayoutManager<MenuButton> mainMenuTextDisplay;
+    private MenuLayoutManager<MenuButton> pokemonMenuTextDisplay;
+    private MenuLayoutManager<MenuButton> pokemonMenuCancelMgr;
+    private MenuLayoutManager<InfoPanel> hpBarViewMgr;
+    private MenuLayoutManager<InfoPanel> pokemonMenuMgr;
 
-    // Drawing Pokemon Centers
+    // Constants for centers of images
     private int ex = 418;
     private int ey = 55;
     private int px = 73;
     private int py = 193;
 
-    // Textviews
-    private MenuLayoutManager mainMenuTextDisplay;
-
-    // Text Display and animation
+    // Text Display and animation handling
     private LinkedBlockingQueue<Event> eventQueue;
     private int delay = 0;
 
@@ -98,9 +100,9 @@ public class BattleState implements GameState {
         return ID;
     }
 
-    //==========================================
-    // Mark: - Data Initialization & Destruction
-    //==========================================
+    //===========================
+    // Mark: - Setup and Teardown
+    //===========================
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
         state = BattleMenuState.MAIN;
@@ -110,11 +112,72 @@ public class BattleState implements GameState {
 
     @Override
     public void enter(GameContainer container, StateBasedGame game) throws SlickException {
+
+        beginMusic();
+
+        loadImages();
+
+        RoundedRectangle fullwidthDrawRect = new RoundedRectangle(X_PADDING,
+                                                                  bgdImage.getHeight() + Y_PADDING,
+                                                                  container.getWidth() - 2 * Y_PADDING,
+                                                                  container.getHeight() - bgdImage.getHeight() - Y_PADDING * 2,
+                                                                  5);
+        RoundedRectangle right12DrawRect = new RoundedRectangle((container.getWidth() + X_PADDING) * 0.5f,
+                                                                bgdImage.getHeight() + Y_PADDING,
+                                                                (container.getWidth() - 3 * X_PADDING) * 0.5f,
+                                                                container.getHeight() - bgdImage.getHeight() - 2 * Y_PADDING,
+                                                                5);
+        RoundedRectangle left12DrawRect = new RoundedRectangle(X_PADDING,
+                                                               bgdImage.getHeight() + Y_PADDING,
+                                                               (container.getWidth() - 3 * X_PADDING) * 0.5f,
+                                                               container.getHeight() - bgdImage.getHeight() - 2 * Y_PADDING,
+                                                               5);
+        RoundedRectangle left34DrawRect = new RoundedRectangle(X_PADDING,
+                                                               bgdImage.getHeight() + Y_PADDING,
+                                                               (container.getWidth() - 3 * X_PADDING) * 0.75f,
+                                                               container.getHeight() - bgdImage.getHeight() - 2 * Y_PADDING,
+                                                               5);
+        RoundedRectangle right14DrawRect = new RoundedRectangle(container.getWidth() * 0.75f + X_PADDING * 0.5f,
+                                                                bgdImage.getHeight() + Y_PADDING,
+                                                                (container.getWidth() - 3 * X_PADDING) * 0.25f,
+                                                                container.getHeight() - bgdImage.getHeight() - 2 * Y_PADDING,
+                                                                5);
+
+        // MAIN MENU
+        setupMainMenu(right12DrawRect, left12DrawRect);
+
+        // FIGHT MENU
+        fightMenuMgr = new MenuLayoutManager<>(left34DrawRect, 2, 2);
+        updateFightMenuOptions();
+        fightMenuCancelMgr = new MenuLayoutManager<>(right14DrawRect, 1, 1);
+        fightMenuCancelMgr.set(0, 0, new MenuButton("Cancel", Color.blue));
+
+        // HP BARS
+        setupHPBars(container);
+
+        // TEXT DISPLAY
+        textDisplayViewMgr = new MenuLayoutManager<>(fullwidthDrawRect, 1, 1);
+        textDisplayViewMgr.set(0, 0, new MenuButton(""));
+        textDisplayViewMgr.disable();
+
+        // POKEMON MENU
+        setupPokemonMenu(container, left34DrawRect, right14DrawRect);
+
+        // Init queues for animation and displaying text
+        eventQueue = new LinkedBlockingQueue<>();
+
+        // Battle Controller
+        control = new BattleControl(model);
+        handleNewEvents(control.getInitialMessage());
+        this.state = BattleMenuState.HANDLING_EVENTS;
+    }
+
+    public void beginMusic() {
         introMusic.addListener(new MusicListener() {
 
             @Override
             public void musicEnded(Music music) {
-                bgdMusic.loop();
+                bgdMusic.loop(1.0f, 0.25f);
                 introMusic.removeListener(this);
             }
 
@@ -124,86 +187,61 @@ public class BattleState implements GameState {
             }
         });
         introMusic.play();
+        introMusic.play(1.0f, 0.25f);
+    }
 
-        // Load the battle background image
+    public void loadImages() throws SlickException {
         bgdImage = new Image("res/Images/Battle/BattleGrass.png");
+        Image tmp = new Image("./res/Images/Sprites/back/" + model.getUser().getCurPokemon().getID() + ".png");
+        playerImage = new PokemonImage(px, py, bgdImage.getHeight(), tmp, TrainerType.USER);
+        tmp = new Image("./res/Images/Sprites/front/" + model.getEnemy().getCurPokemon().getID() + ".png");
+        enemyImage = new PokemonImage(ex, ey, tmp, TrainerType.NPC);
+    }
 
-        if (model.getEnemy() == null || model.getUser() == null) {
-            throw new SlickException("Characters weren't loaded correctly");
-        } else {
-            Image tmp = new Image("./res/Images/Sprites/back/" + model.getUser().getCurPokemon().getID() + ".png");
-            playerImage = new PokemonImage(px, py, bgdImage.getHeight(), tmp, TrainerType.USER);
-            tmp = new Image("./res/Images/Sprites/front/" + model.getEnemy().getCurPokemon().getID() + ".png");
-            enemyImage = new PokemonImage(ex, ey, tmp, TrainerType.NPC);
-        }
-
-        RoundedRectangle rightSideDrawRect = new RoundedRectangle(container.getWidth() / 2 + 0.5f * X_PADDING,
-                                                                  bgdImage.getHeight() + Y_PADDING,
-                                                                  (container.getWidth() * 1 / 2 - 1.5f * X_PADDING),
-                                                                  container.getHeight() - bgdImage.getHeight() - 2 * Y_PADDING,
-                                                                  5);
-        RoundedRectangle leftSideDrawRect = new RoundedRectangle(X_PADDING,
-                                                                 rightSideDrawRect.getY(),
-                                                                 rightSideDrawRect.getWidth(),
-                                                                 rightSideDrawRect.getHeight(),
-                                                                 5);
-        RoundedRectangle leftWideDrawRect = new RoundedRectangle(X_PADDING,
-                                                                 rightSideDrawRect.getY(),
-                                                                 rightSideDrawRect.getWidth() * 3f / 2,
-                                                                 rightSideDrawRect.getHeight(),
-                                                                 5);
-        RoundedRectangle rightNarrowDrawRect = new RoundedRectangle(leftWideDrawRect.getX() + leftWideDrawRect.getWidth() + X_PADDING,
-                                                                    rightSideDrawRect.getY(),
-                                                                    container.getWidth() - leftWideDrawRect.getWidth() - 3 * X_PADDING,
-                                                                    rightSideDrawRect.getHeight(),
-                                                                    5);
-        RoundedRectangle fullwidthDrawRect = new RoundedRectangle(X_PADDING,
-                                                                  bgdImage.getHeight() + Y_PADDING,
-                                                                  container.getWidth() - 2 * Y_PADDING,
-                                                                  container.getHeight() - bgdImage.getHeight() - Y_PADDING * 2,
-                                                                  5);
-
-        // MAIN MENU
+    public void setupMainMenu(RoundedRectangle buttonRect, RoundedRectangle textDisplayRect) {
         // Right side buttons
-        mainMenuMgr = new MenuLayoutManager<>(rightSideDrawRect, 2, 2);
+        mainMenuMgr = new MenuLayoutManager<>(buttonRect, 2, 2);
         mainMenuMgr.set(0, 0, new MenuButton("Fight"));
         mainMenuMgr.set(1, 0, new MenuButton("Bag"));
         mainMenuMgr.set(1, 1, new MenuButton("Run"));
         mainMenuMgr.set(0, 1, new MenuButton("Pokemon"));
-
         // Left Side text view
-        mainMenuTextDisplay = new MenuLayoutManager<>(leftSideDrawRect, 1, 1);
+        mainMenuTextDisplay = new MenuLayoutManager<>(textDisplayRect, 1, 1);
         MenuButton b = new MenuButton("What will " + model.getUser().getCurPokemon().getNickname() + " do?", Color.white);
         b.setEnabled(false);
         mainMenuTextDisplay.set(0, 0, b);
+    }
 
-        // FIGHT MENU
-        // Right side buttons
-        fightMenuMgr = new MenuLayoutManager<>(leftWideDrawRect, 2, 2);
-        // Set the options for the fight menu
-        updateFightMenuOptions();
-
-        // Left Side text view
-        fightMenuCancelMgr = new MenuLayoutManager<>(rightNarrowDrawRect, 1, 1);
-        fightMenuCancelMgr.set(0, 0, new MenuButton("Cancel", Color.blue));
-
+    public void setupHPBars(GameContainer container) {
         // HP BARS
         hpBarViewMgr = new MenuLayoutManager<>(new RoundedRectangle(0, 0, container.getWidth(), bgdImage.getHeight(), 0), 2, 3, false);
         hpBarViewMgr.set(1, 2, new InfoPanel(model.getUser().getCurPokemon().getCurHealth(), model.getUser().getCurPokemon().getHealth(), model.getUser().getCurPokemon().getNickname()));
         hpBarViewMgr.set(0, 0, new InfoPanel(model.getEnemy().getCurPokemon().getCurHealth(), model.getEnemy().getCurPokemon().getHealth(), model.getEnemy().getCurPokemon().getName()));
         hpBarViewMgr.disable();
+    }
 
-        textDisplayViewMgr = new MenuLayoutManager<>(fullwidthDrawRect, 1, 1);
-        textDisplayViewMgr.set(0, 0, new MenuButton(""));
-        textDisplayViewMgr.disable();
+    public void setupPokemonMenu(GameContainer container, RoundedRectangle left, RoundedRectangle right) throws SlickException {
+        // Pokemon Chooser Menu
+        pokemonMenuMgr = new MenuLayoutManager<>(new RoundedRectangle(0, 0, container.getWidth(), bgdImage.getHeight(), 0), 2, 3, false);
+        int[][] places = new int[][]{{0, 0}, {1, 0}, {0, 1}, {1, 1}, {0, 2}, {1, 2}};
+        int i = 0;
+        Image img;
+        InfoPanel pnl;
+        for (Pokemon pkmn : model.getUser().getPokemon()) {
+            img = new Image("./res/Images/Sprites/front/" + pkmn.getID() + ".png");
+            pnl = new InfoPanel(pkmn.getCurHealth(), pkmn.getHealth(), pkmn.getNickname(), img);
+            pnl.setEnabled(true);
+            pokemonMenuMgr.set(places[i][0], places[i][1], pnl);
+        }
 
-        // Init queues for animation and displaying text
-        eventQueue = new LinkedBlockingQueue<>();
+        // Prompt Text Display
+        pokemonMenuTextDisplay = new MenuLayoutManager<>(left, 1, 1, true);
+        pokemonMenuTextDisplay.set(0, 0, new MenuButton("Select a new Pokémon"));
+        pokemonMenuTextDisplay.disable();
 
-        // Battle Controller
-        control = new BattleControl(model);
-        handleNewEvents(control.getInitialMessage());
-        this.state = BattleMenuState.HANDLING_EVENTS;
+        // Cancel Button
+        pokemonMenuCancelMgr = new MenuLayoutManager<>(right, 1, 1, true);
+        pokemonMenuCancelMgr.set(0, 0, new MenuButton("Cancel"));
     }
 
     @Override
@@ -251,7 +289,10 @@ public class BattleState implements GameState {
                 drawBattleScene(container, g);
                 break;
             case POKEMON:
-                drawPokemon(container, g);
+                g.setBackground(new Color(150, 0, 150));
+                pokemonMenuMgr.render(container, g);
+                pokemonMenuTextDisplay.render(container, g);
+                pokemonMenuCancelMgr.render(container, g);
                 break;
             case BAG:
                 drawBag(container, g);
@@ -262,6 +303,9 @@ public class BattleState implements GameState {
         }
     }
 
+    //==========================
+    // Mark: - Rendering Helpers
+    //==========================
     /**
      * Renders the battle scene
      *
