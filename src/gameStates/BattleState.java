@@ -84,6 +84,7 @@ public class BattleState implements GameState {
 
     // Action Relevant
     private boolean pokemonFainted;
+    private boolean exitOnEmptyQueue;
 
     // Constants for drawing
     private static final float X_PADDING = 5f;
@@ -154,10 +155,7 @@ public class BattleState implements GameState {
         setupMainMenu(right12DrawRect, left12DrawRect);
 
         // FIGHT MENU
-        fightMenuMgr = new MenuLayoutManager<>(left34DrawRect, 2, 2, MenuButton.class);
-        updateFightMenuOptions();
-        fightMenuCancelMgr = new MenuLayoutManager<>(right14DrawRect, 1, 1, MenuButton.class);
-        fightMenuCancelMgr.set(0, 0, new MenuButton("Cancel", Color.blue));
+        setupFightMenu(left34DrawRect, right14DrawRect);
 
         // HP BARS
         setupHPBars(container);
@@ -203,6 +201,7 @@ public class BattleState implements GameState {
         playerImage = new PokemonImage(px, py, bgdImage.getHeight(), tmp, TrainerType.USER);
         tmp = new Image("./res/Images/Sprites/front/" + model.getEnemy().getCurPokemon().getID() + ".png");
         enemyImage = new PokemonImage(ex, ey, tmp, TrainerType.NPC);
+        tmp = null;
     }
 
     public void setupMainMenu(RoundedRectangle buttonRect, RoundedRectangle textDisplayRect) {
@@ -219,6 +218,14 @@ public class BattleState implements GameState {
         mainMenuTextDisplay.set(0, 0, b);
     }
 
+    public void setupFightMenu(RoundedRectangle left, RoundedRectangle right) {
+        fightMenuMgr = new MenuLayoutManager<>(left, 2, 2, MenuButton.class);
+        updateFightMenuOptions();
+        fightMenuCancelMgr = new MenuLayoutManager<>(right, 1, 1, MenuButton.class);
+        fightMenuCancelMgr.set(0, 0, new MenuButton("Cancel"));
+        fightMenuCancelMgr.shouldShowHighlight(false);
+    }
+
     public void setupHPBars(GameContainer container) {
         // HP BARS
         hpBarViewMgr = new MenuLayoutManager<>(new RoundedRectangle(0, 0, container.getWidth(), bgdImage.getHeight(), 0), 2, 3, false, InfoPanel.class);
@@ -229,7 +236,7 @@ public class BattleState implements GameState {
 
     public void setupPokemonMenu(GameContainer container, RoundedRectangle left, RoundedRectangle right) throws SlickException {
         // Pokemon Chooser Menu
-        pokemonMenuMgr = new MenuLayoutManager<>(new RoundedRectangle(0, 0, container.getWidth(), bgdImage.getHeight(), 0), 2, 3, false, InfoPanel.class);
+        pokemonMenuMgr = new MenuLayoutManager<>(new RoundedRectangle(0, 0, container.getWidth(), bgdImage.getHeight(), 0), 2, 3, true, InfoPanel.class);
         updatePokemonMenuOptions();
         pokemonMenuMgr.enable();
 
@@ -241,6 +248,8 @@ public class BattleState implements GameState {
         // Cancel Button
         pokemonMenuCancelMgr = new MenuLayoutManager<>(right, 1, 1, true, MenuButton.class);
         pokemonMenuCancelMgr.set(0, 0, new MenuButton("Cancel"));
+        pokemonMenuCancelMgr.shouldShowHighlight(false);
+
     }
 
     @Override
@@ -248,29 +257,36 @@ public class BattleState implements GameState {
         // Clean up menu buttons
         mainMenuMgr = null;
         fightMenuMgr = null;
-        pokemonMenuMgr = null;
-        hpBarViewMgr = null;
         fightMenuCancelMgr = null;
-        // Clean up text views
+        textDisplayViewMgr = null;
         mainMenuTextDisplay = null;
+        pokemonMenuTextDisplay = null;
+        pokemonMenuCancelMgr = null;
+        hpBarViewMgr = null;
+        pokemonMenuMgr = null;
         // Clean up images
         bgdImage = null;
+        playerImage = null;
+        enemyImage = null;
         // Clean up controller
         control = null;
         // Clean up Animations
         eventQueue = null;
+
         // Clear enemy
-        model.setEnemy(null);
+        model.setEnemy(
+            null);
 
         // Clean up music
         if (bgdMusic.playing()) {
             bgdMusic.fade(500, 0, true);
         }
+        eventQueue = null;
     }
 
     //=========================
-    // Mark: - Rendering (View)
-    //=========================
+// Mark: - Rendering (View)
+//=========================
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
         switch (state) {
@@ -288,12 +304,13 @@ public class BattleState implements GameState {
                 drawBattleScene(container, g);
                 break;
             case POKEMON:
-                g.setBackground(new Color(150, 0, 150));
+                g.setBackground(new Color(100, 0, 100));
                 pokemonMenuMgr.render(container, g);
                 pokemonMenuTextDisplay.render(container, g);
                 pokemonMenuCancelMgr.render(container, g);
                 break;
             case BAG:
+                drawBattleScene(container, g);
                 drawBag(container, g);
                 break;
             case HANDLING_EVENTS:
@@ -368,18 +385,18 @@ public class BattleState implements GameState {
         switch (state) {
             case HANDLING_EVENTS:
                 if (!eventQueue.isEmpty()) {
-                    if (!pokemonFainted) {
-                        delay -= delta;
-                    }
+                    delay -= delta;
                     if (delay <= 0) {
                         delay = 0;
                         eventQueue.poll();
                         handleNextEvent();
-                    } else {
-
                     }
                 } else {
-                    this.state = BattleMenuState.MAIN;
+                    if (exitOnEmptyQueue) {
+                        game.enterState(GameStateType.SPLASHSCREEN.getValue(), new FadeOutTransition(), new FadeInTransition());
+                    } else {
+                        this.state = BattleMenuState.MAIN;
+                    }
                 }
         }
     }
@@ -404,16 +421,15 @@ public class BattleState implements GameState {
         } else if (evt instanceof PokemonFaintEvent) {
             handleFaintEvent((PokemonFaintEvent) evt);
             System.out.println("Pokemon Faint");
+            eventQueue.poll();
         } else if (evt instanceof UserDefeatEvent) {
             UserDefeatEvent ude = (UserDefeatEvent) evt;
-            game.enterState(GameStateType.SPLASHSCREEN.getValue(), new FadeOutTransition(), new FadeInTransition());
+            exitOnEmptyQueue = true;
             System.out.println("User Defeat");
-            delay += 1000;
         } else if (evt instanceof EnemyDefeatEvent) {
             EnemyDefeatEvent ede = (EnemyDefeatEvent) evt;
+            exitOnEmptyQueue = true;
             System.out.println("Enemy Defeat");
-            game.enterState(GameStateType.SPLASHSCREEN.getValue(), new FadeOutTransition(), new FadeInTransition());
-            delay += 1000;
         } else if (evt instanceof SwitchPokemonEvent) {
             handleSwitchEvent((SwitchPokemonEvent) evt);
             System.out.println("Switch Pokemon");
@@ -568,9 +584,8 @@ public class BattleState implements GameState {
                             handleNewEvents(control.chooseSwitchPokemon(pkmn));
                         }
                     } else {
-
                         pokemonFainted = false;
-                        handleSubMenuCancelSelection();
+                        handleNewEvents(control.switchNewPokemon(pkmn));
                     }
                     hpBarViewMgr.set(1, 2, pokemonMenuMgr.getSelected().getCopy(false));
                     mainMenuTextDisplay.getButton(0, 0).setText("What will " + hpBarViewMgr.getButton(1, 2).getText() + " do?");

@@ -91,16 +91,19 @@ public class MenuButton {
      * @param g The graphics context to draw with
      */
     public void render(GameContainer container, Graphics g) {
+        g.setColor(Color.white);
         if (isHighlighted && enabled) {
             g.setColor(highlightColor);
-            g.draw(drawArea);
         }
+        g.fillRoundRect(drawArea.getX() - 2, drawArea.getY() - 2, drawArea.getWidth() + 4, drawArea.getHeight() + 4, 8);
+        g.setColor(Color.white);
+        g.fill(drawArea);
 
         g.setFont(font);
         g.setColor(Color.black);
         int i = 0;
         for (String s : text) {
-            g.drawString(s, centerStringX(s), stringLocY(s, i));
+            g.drawString(s, (int) centerStringX(s), (int) stringLocY(s, i));
             i++;
         }
 

@@ -26,10 +26,10 @@ public class MenuLayoutManager<T extends MenuButton> {
     private RoundedRectangle drawArea;
     private float[] buttonRectSize;
     private boolean drawBackground;
-
+    private boolean showHighlight = true;
     // Constants for drawing
-    private static final float X_PADDING = 5;
-    private static final float Y_PADDING = 5;
+    private static final float X_PADDING = 6;
+    private static final float Y_PADDING = 6;
 
     public MenuLayoutManager(RoundedRectangle drawArea, int x, int y, Class<T> empty) {
         this(drawArea, x, y, true, empty);
@@ -77,6 +77,13 @@ public class MenuLayoutManager<T extends MenuButton> {
                 buttonMatrix[x][y].setHighlighted(false);
                 size -= 1;
                 buttonMatrix[x][y] = null;
+                if (x == selected[0] && y == selected[1]) {
+                    if (size != 0) {
+                        selected = find(buttonArray[0]);
+                    } else {
+                        selected = new int[]{-1, -1};
+                    }
+                }
             }
             if (size == 0) {
                 selected[0] = -1;
@@ -146,11 +153,13 @@ public class MenuLayoutManager<T extends MenuButton> {
     }
 
     public void setSelected(MenuButton b) {
-        int[] tmp = find(b);
-        if (buttonMatrix[selected[0]][selected[1]] != b && tmp != null && buttonMatrix[tmp[0]][tmp[1]].isEnabled()) {
-            buttonMatrix[selected[0]][selected[1]].setHighlighted(false);
-            selected = tmp;
-            buttonMatrix[selected[0]][selected[1]].setHighlighted(true);
+        if (b != null) {
+            int[] tmp = find(b);
+            if (tmp != null && buttonMatrix[selected[0]][selected[1]] != b && buttonMatrix[tmp[0]][tmp[1]].isEnabled()) {
+                buttonMatrix[selected[0]][selected[1]].setHighlighted(false);
+                selected = tmp;
+                buttonMatrix[selected[0]][selected[1]].setHighlighted(true);
+            }
         }
     }
 
@@ -167,6 +176,10 @@ public class MenuLayoutManager<T extends MenuButton> {
             b.setHighlighted(false);
         }
         setSelected(getSelected());
+    }
+
+    public void shouldShowHighlight(boolean show) {
+        showHighlight = show;
     }
 
     public T getButton(int x, int y) {
@@ -205,7 +218,7 @@ public class MenuLayoutManager<T extends MenuButton> {
         }
         for (MenuButton b : buttonArray) {
             if (buttonMatrix[selected[0]][selected[1]] == b) {
-                b.setHighlighted(true);
+                b.setHighlighted(showHighlight);
             } else {
                 b.setHighlighted(false);
             }
