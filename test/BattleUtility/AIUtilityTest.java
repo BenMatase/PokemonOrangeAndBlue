@@ -23,6 +23,7 @@ import PokemonObjects.UserTrainer;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.After;
+import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -47,15 +48,17 @@ public class AIUtilityTest {
         moves.add("Tackle");
         moves.add("Vine Whip");
         moves.add("Cut");
-        pkmn2 = PokemonLoaderUtility.createPokemon("BULBASAUR", "Bulb", moves);
-        enemyTrainer.addPokemon(pkmn2);
-        enemyTrainer.setCurPokemon(pkmn2);
-
-        userTrainer = new UserTrainer("User");
         List<String> moves2 = new ArrayList<>();
         moves2.add("Tackle");
         moves2.add("Bubble");
-        pkmn = PokemonLoaderUtility.createPokemon("SQUIRTLE", "Squirty", moves);
+        pkmn = PokemonLoaderUtility.createPokemon("SQUIRTLE", "Squirty", moves2);
+        pkmn2 = PokemonLoaderUtility.createPokemon("BULBASAUR", "Bulb", moves);
+        enemyTrainer.addPokemon(pkmn2);
+        enemyTrainer.addPokemon(pkmn);
+        enemyTrainer.setCurPokemon(enemyTrainer.getPokmeon(0));
+
+        userTrainer = new UserTrainer("User");
+
         userTrainer.addPokemon(pkmn);
         userTrainer.setCurPokemon(pkmn);
 
@@ -78,5 +81,18 @@ public class AIUtilityTest {
             throw new ArrayIndexOutOfBoundsException("Error occured");
         }
         System.out.println("Move selected: " + result.getName());
+    }
+
+    /**
+     * Test of getPokmeon method, of class AIUtilty
+     */
+    @Test
+    public void testGetPokmeon() {
+        System.out.println("getPokemon");
+        enemyTrainer.getCurPokemon().setCurHealth(0);
+        Pokemon expResult = enemyTrainer.getPokmeon(1);
+        Pokemon result = AIUtility.getPokemon(enemyTrainer);
+        System.out.println(result.getName());
+        assertEquals(result, expResult);
     }
 }
