@@ -31,6 +31,9 @@ import org.junit.Test;
 public class PokemonTest {
 
     private Pokemon pkmn;
+    private Pokemon pkmn2;
+    private UserTrainer Trainy;
+    private EnemyTrainer Enemy;
 
     public PokemonTest() {
     }
@@ -43,6 +46,11 @@ public class PokemonTest {
         moves.add("Bubble");
 
         pkmn = PokemonLoaderUtility.createPokemon("SQUIRTLE", "Squirty", moves);
+        pkmn2 = PokemonLoaderUtility.createPokemon("SQUIRTLE", "Squirty", moves);
+
+        Trainy = new UserTrainer("Jason");
+        Enemy = new EnemyTrainer("Rival", "Hello",
+                                 "You won, congrats.");
     }
 
     @After
@@ -67,7 +75,7 @@ public class PokemonTest {
     @Test
     public void testReduceHealth() {
         System.out.println("reduceHealth");
-        int healthLoss = 150;
+        int healthLoss = 10000000;
         pkmn.reduceHealth(healthLoss);
         int expResult = 0;
         int result = pkmn.getCurHealth();
@@ -82,11 +90,30 @@ public class PokemonTest {
         System.out.println("setMove");
         Move newMove = new Move(Move.AttackType.PHYSICAL, PokemonType.WATER, 95,
                                 100, "Surf");
-        int moveIndex = 0;
-        pkmn.setMove(newMove, moveIndex);
+        pkmn.setMove(newMove);
         String expResult = newMove.getName();
-        String result = pkmn.getMoves()[0].getName();
+        String result = pkmn.getMoves()[3].getName();
         assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of getTrainer method, of class Pokemon.
+     */
+    @Test
+    public void testGetTrainer() {
+        System.out.println("getTrainer");
+        TrainerType expResult1 = TrainerType.USER;
+        TrainerType expResult2 = TrainerType.NPC;
+
+        Trainy.addPokemon(pkmn);
+        Enemy.addPokemon(pkmn2);
+
+        TrainerType result1 = Trainy.getCurPokemon().getTrainer();
+        TrainerType result2 = Enemy.getCurPokemon().getTrainer();
+
+        assertEquals(expResult1, result1);
+        assertEquals(expResult2, result2);
+
     }
 
 }
