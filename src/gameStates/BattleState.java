@@ -281,7 +281,7 @@ public class BattleState implements GameState {
 
         // Clean up music
         if (bgdMusic.playing()) {
-            bgdMusic.fade(500, 0, true);
+            bgdMusic.fade(500, 0.0f, true);
         }
         eventQueue = null;
     }
@@ -587,6 +587,7 @@ public class BattleState implements GameState {
                         }
                     } else {
                         pokemonFainted = false;
+                        eventQueue.poll();
                         handleNewEvents(control.switchNewPokemon(pkmn));
                     }
                     hpBarViewMgr.set(1, 2, pokemonMenuMgr.getSelected().getCopy(false));
