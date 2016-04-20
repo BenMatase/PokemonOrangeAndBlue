@@ -144,6 +144,7 @@ public class BattleControl {
         TextOutputEvent event1 = new TextOutputEvent(String.format(
                 "You sent out %s", mon.getNickname()));
         SwitchPokemonEvent event2 = new SwitchPokemonEvent(mon);
+        user.setCurPokemon(mon);
         ArrayList<Event> events = new ArrayList<>();
         events.add(event1);
         events.add(event2);
