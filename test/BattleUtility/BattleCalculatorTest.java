@@ -34,7 +34,7 @@ public class BattleCalculatorTest {
 
     Pokemon bulbasaur;
 
-    Pokemon squirtle;
+    Pokemon gengar;
 
     public BattleCalculatorTest() {
     }
@@ -48,28 +48,15 @@ public class BattleCalculatorTest {
                                                        moves1);
 
         List<String> moves2 = new ArrayList<>();
-        moves2.add("Bubble");
-        moves2.add("Ice Beam");
-        squirtle = PokemonLoaderUtility.createPokemon("SQUIRTLE", "Squirt",
-                                                      moves2);
+        moves2.add("Shadow Punch");
+        moves2.add("Payback");
+        gengar = PokemonLoaderUtility.createPokemon("GENGAR", "Bobby",
+                                                    moves2);
 
     }
 
     @After
     public void tearDown() {
-    }
-
-    /**
-     * Test of setMove method, of class BattleCalculator.
-     */
-    @Test
-    public void testSetMove() {
-        System.out.println("setMove");
-        Move move = null;
-        BattleCalculator instance = null;
-        instance.setMove(move);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -79,12 +66,35 @@ public class BattleCalculatorTest {
     public void testDamageCalculator() {
         System.out.println("damageCalculator");
 
-        //bulbasaur attacking squirtle with vinewhip
-        BattleCalculator batCalc = new BattleCalculator(bulbasaur, squirtle,
-                                                        bulbasaur.getMoves()[0]);
+//        //get a base damage calculation based on a move with no type adv
+//        BattleCalculator batCalc = new BattleCalculator(gengar, bulbasaur,
+//                                                        gengar.getMoves()[0]);
+//
+//        double baseDmg = batCalc.calculateDamage();
+        //bulbasaur attacking gengar with tackle
+        testDamage(bulbasaur, gengar, bulbasaur.getMoves()[1], 0.0f);
+
+        //
+    }
+
+    private void testDamage(Pokemon attPkmn, Pokemon defPkmn, Move move,
+                            float expDmg) {
+        BattleCalculator batCalc = new BattleCalculator(attPkmn, defPkmn,
+                                                        move);
 
         double dmg = batCalc.calculateDamage();
 
+        assertEquals(expDmg, dmg, 0.00001);
+    }
+
+    private void testUneffective() {
+        //bulbasaur attacking gengar with tackle
+        BattleCalculator batCalc = new BattleCalculator(bulbasaur, gengar,
+                                                        bulbasaur.getMoves()[1]);
+
+        double dmg = batCalc.calculateDamage();
+
+        //expect 0 because normal doesn't affect ghost types
         double expDmg = 0.0;
         assertEquals(expDmg, dmg, 0.0);
     }

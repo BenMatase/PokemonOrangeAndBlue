@@ -96,14 +96,11 @@ public class BattleCalculator {
      */
     public double calculateDamage() {
         AttackType attackType = move.getType();
-        double damage;
         if (attackType.ordinal() == attackType.SPECIAL.ordinal()) {
-            damage = calculateSpecialDamage();
+            return calculateSpecialDamage();
         } else {
-            damage = calculatePhysicalDamage();
+            return calculatePhysicalDamage();
         }
-
-        return damage;
     }
 
     /**
@@ -113,17 +110,25 @@ public class BattleCalculator {
      * @author Murph
      */
     private double calculatePhysicalDamage() {
+        //TODO: modifier might need a rename
+        //gets the damage multiplier based on pokemon move type and opponent type(s)
         double modifier = getModifier1();
-        double modifier2;
         if (DefPoke.getPokemonType2() != null) {
-            modifier2 = getModifier2();
+            double modifier2 = getModifier2();
             modifier = modifier * modifier2;
         }
+
+        //gets the damage muliplier based on pokemon type and move type
         double stab = getStab();
+
+        //gets stats from pokemon
         double attack = AtkPoke.getAttack();
         double defense = DefPoke.getDefense();
+
+        //gets base damage from move
         double moveDmg = move.getDamage();
 
+        //incorporates all mulipliers and factors to find actual damange
         double damage = ((attack / defense) * (moveDmg) * modifier
                          * stab * criticalModifier);
 
@@ -137,17 +142,25 @@ public class BattleCalculator {
      * @author Murph
      */
     private double calculateSpecialDamage() {
+        //TODO: modifier might need a rename
+        //gets the damage multiplier based on pokemon move type and opponent type(s)
         double modifier = getModifier1();
-        double modifier2;
         if (DefPoke.getPokemonType2() != null) {
-            modifier2 = getModifier2();
+            double modifier2 = getModifier2();
             modifier = modifier * modifier2;
         }
+
+        //gets the damage muliplier based on pokemon type and move type
         double stab = getStab();
+
+        //gets stats from pokemon
         double attack = AtkPoke.getSpcAttack();
         double defense = DefPoke.getSpcDefense();
+
+        //gets base damage from move
         double moveDmg = move.getDamage();
 
+        //incorporates all mulipliers and factors to find actual damange
         double damage = ((attack / defense) * (moveDmg) * modifier * stab * criticalModifier * accuracyModifier);
 
         return damage;
@@ -261,7 +274,7 @@ public class BattleCalculator {
 
     /**
      * Calculates Accuracy statistic. Causes move to deal no damage if
-     * randomizatino causes a miss, otherwise has no effect.
+     * randomization causes a miss, otherwise has no effect.
      *
      * @return modifier double
      * @author Murph
