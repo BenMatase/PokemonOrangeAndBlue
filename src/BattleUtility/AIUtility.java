@@ -17,6 +17,7 @@ package BattleUtility;
 
 import PokemonObjects.EnemyTrainer;
 import PokemonObjects.Move;
+import PokemonObjects.Pokemon;
 import PokemonObjects.UserTrainer;
 import java.util.Random;
 
@@ -75,4 +76,12 @@ public class AIUtility {
         return arrayChoice;
     }
 
+    public static Pokemon getPokemon(EnemyTrainer npc) {
+        for (Pokemon pkmn : npc.getPokemon()) {
+            if (pkmn.isAlive()) {
+                return pkmn;
+            }
+        }
+        return null;
+    }
 }
