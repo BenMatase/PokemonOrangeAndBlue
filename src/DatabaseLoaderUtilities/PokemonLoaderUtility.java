@@ -292,12 +292,10 @@ public class PokemonLoaderUtility {
         }
 
         //create Pokemon object from all information gathered
-        Pokemon pokemon = new Pokemon(hp, att, spatt, def, spdef, speed,
+        Pokemon pokemon = new Pokemon(natDexNum, hp, att, spatt, def, spdef,
+                                      speed,
                                       pokemonName, nickname, moves, type1,
                                       type2);
-
-        //TODO: need to move this to constructor
-        pokemon.setID(natDexNum);
 
         return pokemon;
 

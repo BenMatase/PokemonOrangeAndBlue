@@ -27,6 +27,7 @@ import java.util.List;
  * @author Benjamin Matase
  */
 public class PokeModel {
+
     private UserTrainer user;
     private EnemyTrainer enemy;
 
@@ -36,18 +37,27 @@ public class PokeModel {
         user = new UserTrainer("Ben");
         enemy = new EnemyTrainer("Brian King", "Hey.", "Bye.");
 
-        List<String> userMoves = new ArrayList<String>();
+        List<String> userMoves = new ArrayList<>();
         userMoves.add("Pound");
+        userMoves.add("Body Slam");
+        userMoves.add("Rollout");
+        userMoves.add("Wake-Up Slap");
 
-        List<String> enemyMoves = new ArrayList<String>();
+        List<String> enemyMoves = new ArrayList<>();
         enemyMoves.add("Pound");
+        enemyMoves.add("Rollout");
+        enemyMoves.add("Wake-Up Slap");
 
         user.addPokemon(PokemonLoaderUtility.createPokemon("JIGGLYPUFF",
                                                            "Jiggy Wiggy",
                                                            userMoves));
+        List<String> userMoves2 = new ArrayList<>();
+        userMoves2.add("Zen Headbutt");
+        user.addPokemon(PokemonLoaderUtility.createPokemon("PSYDUCK", "DUCK DUCK GOOSE", userMoves2));
         enemy.addPokemon(PokemonLoaderUtility.createPokemon("JIGGLYPUFF",
                                                             "Dancy",
                                                             enemyMoves));
+        enemy.getCurPokemon().setSpeed(1);
     }
 
     public UserTrainer getUser() {
