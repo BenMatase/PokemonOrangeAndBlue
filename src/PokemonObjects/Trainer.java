@@ -67,7 +67,9 @@ public abstract class Trainer {
     }
 
     public void setCurPokemon(Pokemon curPokemon) {
-        this.curPokemon = curPokemon;
+        if (this.pokemon.contains(curPokemon)) {
+            this.curPokemon = curPokemon;
+        }
     }
 
     public int getNumPokemon() {
