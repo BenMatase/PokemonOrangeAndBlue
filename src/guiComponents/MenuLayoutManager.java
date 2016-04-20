@@ -5,6 +5,7 @@
  */
 package guiComponents;
 
+import java.lang.reflect.Array;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -17,25 +18,26 @@ import org.newdawn.slick.geom.RoundedRectangle;
  */
 public class MenuLayoutManager<T extends MenuButton> {
 
-    private MenuButton[][] buttonMatrix;
-    private MenuButton[] buttonArray;
+    private T[][] buttonMatrix;
+    private T[] buttonArray;
+    private Class<T> type;
     private int[] selected = new int[]{-1, -1};
     private int size = 0;
     private RoundedRectangle drawArea;
     private float[] buttonRectSize;
     private boolean drawBackground;
-    private boolean shouldShowHighlight = true;
 
     // Constants for drawing
     private static final float X_PADDING = 5;
     private static final float Y_PADDING = 5;
 
-    public MenuLayoutManager(RoundedRectangle drawArea, int x, int y) {
-        this(drawArea, x, y, true);
+    public MenuLayoutManager(RoundedRectangle drawArea, int x, int y, Class<T> empty) {
+        this(drawArea, x, y, true, empty);
     }
 
-    public MenuLayoutManager(RoundedRectangle drawArea, int x, int y, boolean drawBackground) {
-        buttonMatrix = new MenuButton[x][y];
+    public MenuLayoutManager(RoundedRectangle drawArea, int x, int y, boolean drawBackground, Class<T> empty) {
+        this.type = empty;
+        buttonMatrix = (T[][]) Array.newInstance(empty, x, y);
         this.drawArea = drawArea;
         this.drawBackground = drawBackground;
         calculateButtonRectSize();
@@ -57,7 +59,7 @@ public class MenuLayoutManager<T extends MenuButton> {
         return new int[]{x, y};
     }
 
-    private void setInMatrix(int x, int y, MenuButton b) {
+    private void setInMatrix(int x, int y, T b) {
         if (b != null) {
             if (buttonMatrix[x][y] == null) {
                 size += 1;
@@ -84,7 +86,7 @@ public class MenuLayoutManager<T extends MenuButton> {
         refreshArray();
     }
 
-    public void set(int x, int y, MenuButton b) {
+    public void set(int x, int y, T b) {
         if (b != null) {
             int[] coords = getButtonCoords(x, y);
             b.setPosition(coords[0], coords[1]);
@@ -180,10 +182,10 @@ public class MenuLayoutManager<T extends MenuButton> {
     }
 
     private void refreshArray() {
-        buttonArray = new MenuButton[size];
+        buttonArray = (T[]) Array.newInstance(type, size);
         int i = 0;
-        for (MenuButton[] row : buttonMatrix) {
-            for (MenuButton btn : row) {
+        for (T[] row : buttonMatrix) {
+            for (T btn : row) {
                 if (btn != null) {
                     buttonArray[i] = btn;
                     i += 1;
@@ -193,7 +195,7 @@ public class MenuLayoutManager<T extends MenuButton> {
     }
 
     public T[] getButtons() {
-        return (T[]) buttonArray;
+        return buttonArray;
     }
 
     public void render(GameContainer container, Graphics g) {

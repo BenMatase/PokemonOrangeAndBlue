@@ -197,6 +197,21 @@ public class InfoPanel extends MenuButton {
         this.curHP = hp;
     }
 
+    public void swapPkmn(int newCHP, int newMHP, String newName) {
+        this.curHP = newCHP;
+        this.displayHP = newCHP;
+        this.maxHP = newMHP;
+        this.setText(newName);
+    }
+
+    public InfoPanel getCopy(boolean withImage) {
+
+        if (img != null && withImage) {
+            return new InfoPanel(curHP, maxHP, getText(), img);
+        }
+        return new InfoPanel(curHP, maxHP, getText());
+    }
+
     /**
      * Recalculates the constants for drawing the InfoPanel, used when the panel
      * is moved or resized
