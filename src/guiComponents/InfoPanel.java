@@ -116,11 +116,15 @@ public class InfoPanel extends MenuButton {
     //==================
     @Override
     public void render(GameContainer container, Graphics g) {
+        g.setColor(Color.gray);
+        if (isHighlighted && enabled) {
+            g.setColor(highlightColor);
+        }
+        g.fillRoundRect(drawArea.getX() - 2, drawArea.getY() - 2, drawArea.getWidth() + 4, drawArea.getHeight() + 4, 8);
         // Draw background
         g.setColor(new Color(244, 244, 244));
         g.fill(drawArea);
         g.setColor(Color.black);
-        g.draw(drawArea);
 
         // Draw the Health bar outline
         g.fillRect(HPX - HPB, HPY, HPW + 2 * HPB, HPH);
@@ -128,16 +132,16 @@ public class InfoPanel extends MenuButton {
 
         // Draw HP level string
         g.setFont(font);
-        g.setColor(Color.darkGray);
-        g.drawString((int) displayHP + "/" + maxHP, HPX - font.getWidth((int) displayHP + "/" + maxHP) - HPB * 2, HPY - 8);
+        g.setColor(Color.black);
+        g.drawString((int) displayHP + "/" + maxHP, (int) (HPX - font.getWidth((int) displayHP + "/" + maxHP) - HPB * 2), (int) HPY - 8);
         // Draw the name
         if (img != null) {
             g.drawImage(img, drawArea.getX() + HPB, drawArea.getY() + HPB,
                         drawArea.getX() + drawArea.getHeight() - 2 * HPB, drawArea.getY() + drawArea.getHeight() - 2 * HPB,
                         0, 0, img.getWidth(), img.getHeight());
-            g.drawString(text[0], drawArea.getX() + drawArea.getHeight(), drawArea.getY() + HPB * 2);
+            g.drawString(text[0], (int) (drawArea.getX() + drawArea.getHeight()), (int) (drawArea.getY() + HPB * 2));
         } else {
-            g.drawString(text[0], drawArea.getX() + HPB * 2, drawArea.getY() + HPB * 2);
+            g.drawString(text[0], (int) (drawArea.getX() + HPB * 2), (int) (drawArea.getY() + HPB * 2));
         }
 
         // Fill the health bar background
@@ -154,10 +158,6 @@ public class InfoPanel extends MenuButton {
         }
         g.fillRect(HPX, HPY, HPW * displayHP / maxHP, HPH);
 
-        if (isHighlighted && enabled) {
-            g.setColor(highlightColor);
-            g.draw(drawArea);
-        }
     }
 
     public void update(float delta) {
