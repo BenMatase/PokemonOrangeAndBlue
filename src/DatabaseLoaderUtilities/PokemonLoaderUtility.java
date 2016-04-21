@@ -203,9 +203,12 @@ public class PokemonLoaderUtility {
             loadMoveNode();
         }
 
+        String moveNameLower = moveName.toLowerCase();
+
         List<Element> moveNodes = moveNode.getChildren("move");
         for (Element moveNode : moveNodes) {
-            if (moveNode.getAttribute("name").getValue().equals(moveName)) {
+            String currNodeMoveNameLower = moveNode.getAttribute("name").getValue().toLowerCase();
+            if (currNodeMoveNameLower.equals(moveNameLower)) {
                 return moveNode;
             }
         }
