@@ -15,11 +15,11 @@
  */
 package PokeModel;
 
-import DatabaseLoaderUtilities.PokemonLoaderUtility;
+import DatabaseLoaderUtilities.TrainerLoaderUtility;
 import PokemonObjects.EnemyTrainer;
 import PokemonObjects.Trainer;
 import PokemonObjects.UserTrainer;
-import java.util.ArrayList;
+import TrainerCreator.RandomTrainerUtility;
 import java.util.List;
 
 /**
@@ -34,30 +34,11 @@ public class PokeModel {
     private List<Trainer> trainers;
 
     public PokeModel() {
-        user = new UserTrainer("Ben");
-        enemy = new EnemyTrainer("Brian King", "Hey.", "Bye.");
+        user = RandomTrainerUtility.getRandomUser(6, "Ben");
+//        enemy = RandomTrainerUtility.getRandomNPC(6, "Bethany");
+        enemy = TrainerLoaderUtility.loadProfessor(8);
 
-        List<String> userMoves = new ArrayList<>();
-        userMoves.add("Pound");
-        userMoves.add("Body Slam");
-        userMoves.add("Rollout");
-        userMoves.add("Wake-Up Slap");
-
-        List<String> enemyMoves = new ArrayList<>();
-        enemyMoves.add("Pound");
-        enemyMoves.add("Rollout");
-        enemyMoves.add("Wake-Up Slap");
-
-        user.addPokemon(PokemonLoaderUtility.createPokemon("JIGGLYPUFF",
-                                                           "Jiggy Wiggy",
-                                                           userMoves));
-        List<String> userMoves2 = new ArrayList<>();
-        userMoves2.add("Zen Headbutt");
-        user.addPokemon(PokemonLoaderUtility.createPokemon("PSYDUCK", "DUCK DUCK GOOSE", userMoves2));
-        enemy.addPokemon(PokemonLoaderUtility.createPokemon("JIGGLYPUFF",
-                                                            "Dancy",
-                                                            enemyMoves));
-        enemy.getCurPokemon().setSpeed(1);
+//        enemy.getCurPokemon().setSpeed(1);
     }
 
     public UserTrainer getUser() {

@@ -1,0 +1,61 @@
+<trainers>
+    <professors>
+        <professor id='8'>
+            <name>Brian King</name>
+            <team>
+                <pokemon>
+                    <species>BULBASAUR</species>
+                    <moves>
+                        <move>Vine Whip</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                    <species>SQUIRTLE</species>
+                    <moves>
+                        <move>Bubble</move>
+                    </moves>
+                </pokemon>
+            </team>
+            <introText>Prepare for the wrath of my goatee!</introText>
+            <outroText>How the fuck did I lose?</outroText>
+        </professor>
+        
+        <professor id='1'>
+            <name>Chistopher Dancy</name>
+            <team>
+                <pokemon>
+                    <species>JIGGLYPUFF</species>
+                    <moves>
+                        <move>Pound</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                    <species>JIGGLYPUFF</species>
+                    <moves>
+                        <move>Pound</move>
+                    </moves>
+                </pokemon>
+            </team>
+            <introText>Jigglypuff?</introText>
+            <outroText>Jigglypuff. =(</outroText>
+        </professor>
+        
+        <professor id='3'>
+            <name>Benoit Razet</name>
+            <team>
+                <pokemon>
+                    <species>SLOWBRO</species>
+                    <moves>
+                        <move>Vine Whip</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                    <species>SQUIRTLE</species>
+                    <moves>
+                        <move>Bubble</move>
+                    </moves>
+                </pokemon>
+            </team>
+        </professor>
+    </professors>
+</trainers>
