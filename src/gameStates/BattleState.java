@@ -121,6 +121,8 @@ public class BattleState implements GameState {
     @Override
     public void enter(GameContainer container, StateBasedGame game) throws SlickException {
 
+        model = new PokeModel();
+
         beginMusic();
 
         loadImages();
@@ -236,7 +238,7 @@ public class BattleState implements GameState {
 
     public void setupPokemonMenu(GameContainer container, RoundedRectangle left, RoundedRectangle right) throws SlickException {
         // Pokemon Chooser Menu
-        pokemonMenuMgr = new MenuLayoutManager<>(new RoundedRectangle(0, 0, container.getWidth(), bgdImage.getHeight(), 0), 2, 3, true, InfoPanel.class);
+        pokemonMenuMgr = new MenuLayoutManager<>(new RoundedRectangle(0, 0, container.getWidth(), bgdImage.getHeight(), 0), 2, 3, false, InfoPanel.class);
         updatePokemonMenuOptions();
         pokemonMenuMgr.enable();
 
@@ -279,7 +281,7 @@ public class BattleState implements GameState {
 
         // Clean up music
         if (bgdMusic.playing()) {
-            bgdMusic.fade(500, 0, true);
+            bgdMusic.fade(500, 0.0f, true);
         }
         eventQueue = null;
     }
@@ -393,6 +395,7 @@ public class BattleState implements GameState {
                     }
                 } else {
                     if (exitOnEmptyQueue) {
+                        exitOnEmptyQueue = false;
                         game.enterState(GameStateType.SPLASHSCREEN.getValue(), new FadeOutTransition(), new FadeInTransition());
                     } else {
                         this.state = BattleMenuState.MAIN;
@@ -421,7 +424,6 @@ public class BattleState implements GameState {
         } else if (evt instanceof PokemonFaintEvent) {
             handleFaintEvent((PokemonFaintEvent) evt);
             System.out.println("Pokemon Faint");
-            eventQueue.poll();
         } else if (evt instanceof UserDefeatEvent) {
             UserDefeatEvent ude = (UserDefeatEvent) evt;
             exitOnEmptyQueue = true;
@@ -585,6 +587,7 @@ public class BattleState implements GameState {
                         }
                     } else {
                         pokemonFainted = false;
+                        eventQueue.poll();
                         handleNewEvents(control.switchNewPokemon(pkmn));
                     }
                     hpBarViewMgr.set(1, 2, pokemonMenuMgr.getSelected().getCopy(false));
@@ -614,8 +617,8 @@ public class BattleState implements GameState {
             eventQueue.add(newEvents.get(0));
             newEvents.remove(0);
         }
-        handleNextEvent();
         this.state = BattleMenuState.HANDLING_EVENTS;
+        handleNextEvent();
     }
 
     //========================

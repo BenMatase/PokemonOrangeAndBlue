@@ -34,7 +34,7 @@ public class Pokemon {
     private int ID; //pokedex number
     private String name;
     private String nickname; //nickname for pokemon selected by user
-    private TrainerType trainer = null; //Enum used by BattleSimulator to send events to GUI
+    private TrainerType trainer; //Enum used by BattleSimulator to send events to GUI
     private ArrayList<Move> moves;
     private PokemonType pokemonType1;
     private PokemonType pokemonType2;
@@ -71,6 +71,8 @@ public class Pokemon {
 
         //initialize current health to full health
         this.curHealth = this.health;
+
+        this.trainer = null;
 
         if (nickname == null) {
             this.nickname = name;
@@ -179,11 +181,11 @@ public class Pokemon {
 
     public void setMoves(Move[] moves) {
         for (Move move : moves) {
-            setMove(move, this.moves.size());
+            setMove(move);
         }
     }
 
-    public void setMove(Move newMove, int moveIndex) {
+    public void setMove(Move newMove) {
         if (this.moves.size() < 4 && !(newMove == null)) {
             this.moves.add(newMove);
         }
@@ -198,7 +200,7 @@ public class Pokemon {
     }
 
     public TrainerType getTrainer() {
-        return trainer;
+        return this.trainer;
     }
 
     public int getID() {
