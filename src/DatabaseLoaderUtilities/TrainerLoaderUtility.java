@@ -41,13 +41,15 @@ public class TrainerLoaderUtility {
         }
 
         //get all of the professor nodes
-        List<Element> professors = trainerRootNode.getChildren("professors");
+        List<Element> professorNodes = trainerRootNode.getChild("professors").getChildren(
+                "professor");
 
         //get professor node with specified profNum as id
         Element profNode = null;
-        for (Element professor : professors) {
-            if (professor.getAttributeValue("id").equals(String.valueOf(profNum))) {
-                profNode = professor;
+        for (Element professorNode : professorNodes) {
+            if (professorNode.getAttributeValue("id").equals(String.valueOf(
+                    profNum))) {
+                profNode = professorNode;
             }
         }
 

@@ -36,9 +36,11 @@
                     </moves>
                 </pokemon>
             </team>
+            <introText>Jigglypuff?</introText>
+            <outroText>Jigglypuff. =(</outroText>
         </professor>
         
-        <professor>
+        <professor id='3'>
             <name>Benoit Razet</name>
             <team>
                 <pokemon>

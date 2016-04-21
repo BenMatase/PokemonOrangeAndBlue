@@ -15,6 +15,7 @@
  */
 package PokeModel;
 
+import DatabaseLoaderUtilities.TrainerLoaderUtility;
 import PokemonObjects.EnemyTrainer;
 import PokemonObjects.Trainer;
 import PokemonObjects.UserTrainer;
@@ -34,9 +35,10 @@ public class PokeModel {
 
     public PokeModel() {
         user = RandomTrainerUtility.getRandomUser(6, "Ben");
-        enemy = RandomTrainerUtility.getRandomNPC(6, "Bethany");
+//        enemy = RandomTrainerUtility.getRandomNPC(6, "Bethany");
+        enemy = TrainerLoaderUtility.loadProfessor(8);
 
-        enemy.getCurPokemon().setSpeed(1);
+//        enemy.getCurPokemon().setSpeed(1);
     }
 
     public UserTrainer getUser() {
