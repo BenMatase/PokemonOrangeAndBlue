@@ -1,6 +1,6 @@
 <trainers>
     <professors>
-        <professor>
+        <professor id='8'>
             <name>Brian King</name>
             <team>
                 <pokemon>
@@ -16,9 +16,11 @@
                     </moves>
                 </pokemon>
             </team>
+            <introText>Prepare for the wrath of my goatee!</introText>
+            <outroText>How the fuck did I lose?</outroText>
         </professor>
         
-        <professor>
+        <professor id='1'>
             <name>Chistopher Dancy</name>
             <team>
                 <pokemon>
