@@ -1,0 +1,57 @@
+<trainers>
+    <professors>
+        <professor>
+            <name>Brian King</name>
+            <team>
+                <pokemon>
+                    <species>BULBASAUR</species>
+                    <moves>
+                        <move>Vine Whip</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                    <species>SQUIRTLE</species>
+                    <moves>
+                        <move>Bubble</move>
+                    </moves>
+                </pokemon>
+            </team>
+        </professor>
+        
+        <professor>
+            <name>Chistopher Dancy</name>
+            <team>
+                <pokemon>
+                    <species>JIGGLYPUFF</species>
+                    <moves>
+                        <move>Pound</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                    <species>JIGGLYPUFF</species>
+                    <moves>
+                        <move>Pound</move>
+                    </moves>
+                </pokemon>
+            </team>
+        </professor>
+        
+        <professor>
+            <name>Benoit Razet</name>
+            <team>
+                <pokemon>
+                    <species>SLOWBRO</species>
+                    <moves>
+                        <move>Vine Whip</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                    <species>SQUIRTLE</species>
+                    <moves>
+                        <move>Bubble</move>
+                    </moves>
+                </pokemon>
+            </team>
+        </professor>
+    </professors>
+</trainers>

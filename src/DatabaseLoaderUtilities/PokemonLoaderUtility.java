@@ -118,7 +118,7 @@ public class PokemonLoaderUtility {
         List<String> pokemonNames = new ArrayList<String>();
 
         for (Element node : pokemonNodes) {
-            pokemonNames.add(node.getText());
+            pokemonNames.add(node.getChildText("name"));
         }
         return pokemonNames;
 
@@ -138,18 +138,18 @@ public class PokemonLoaderUtility {
             loadPokemonNode();
         }
 
-        List<String> movesStr = new ArrayList<String>();
+        List<String> movesStr = new ArrayList<>();
 
         //get the node for the specified Pokemono
         Element pokemon = getPokemonNode(pokemonName);
 
         //gets all moves Pokemon can learn
         Element movesNode = pokemon.getChild("moves");
-        List<Element> movesNodes = movesNode.getChildren();
+        List<Element> moveNodes = movesNode.getChildren();
 
         //populates string list
-        for (Element moveNode : movesNodes) {
-            movesStr.add(moveNode.getText());
+        for (Element moveNode : moveNodes) {
+            movesStr.add(moveNode.getChildText("name"));
         }
 
         return movesStr;
