@@ -130,7 +130,7 @@ public class BattleCalculator {
 
         //incorporates all mulipliers and factors to find actual damange
         double damage = ((attack / defense) * (moveDmg) * modifier
-                         * stab * criticalModifier * accuracyModifier);
+                         * stab * criticalModifier);
 
         return damage;
     }
@@ -167,7 +167,7 @@ public class BattleCalculator {
 
         //incorporates all mulipliers and factors to find actual damange
         double damage = ((attack / defense) * (moveDmg) * modifier
-                         * stab * criticalModifier * accuracyModifier);
+                         * stab * criticalModifier);
 
         System.out.println("The Damage is:" + damage);
 

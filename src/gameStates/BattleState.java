@@ -179,12 +179,6 @@ public class BattleState implements GameState {
         this.state = BattleMenuState.HANDLING_EVENTS;
     }
 
-    /**
-     * Starts the music playing and adds a listener to begin looping the
-     * background music
-     *
-     * @author Eric
-     */
     public void beginMusic() {
         introMusic.addListener(new MusicListener() {
 
@@ -203,12 +197,6 @@ public class BattleState implements GameState {
         introMusic.play(1.0f, 0.25f);
     }
 
-    /**
-     * Loads the necessary images for the state
-     *
-     * @author Eric
-     * @throws SlickException
-     */
     public void loadImages() throws SlickException {
         bgdImage = new Image("res/Images/Battle/BattleGrass.png");
         Image tmp = new Image("./res/Images/Sprites/back/" + model.getUser().getCurPokemon().getID() + ".png");
@@ -218,12 +206,6 @@ public class BattleState implements GameState {
         tmp = null;
     }
 
-    /**
-     * Sets up the buttons to go in the main menu
-     *
-     * @param buttonRect The rectangle to draw the buttons in
-     * @param textDisplayRect The rectangle to draw the text display in
-     */
     public void setupMainMenu(RoundedRectangle buttonRect, RoundedRectangle textDisplayRect) {
         // Right side buttons
         mainMenuMgr = new MenuLayoutManager<>(buttonRect, 2, 2, MenuButton.class);
@@ -238,12 +220,6 @@ public class BattleState implements GameState {
         mainMenuTextDisplay.set(0, 0, b);
     }
 
-    /**
-     * The fight menu display
-     *
-     * @param left
-     * @param right
-     */
     public void setupFightMenu(RoundedRectangle left, RoundedRectangle right) {
         fightMenuMgr = new MenuLayoutManager<>(left, 2, 2, MenuButton.class);
         updateFightMenuOptions();
@@ -311,8 +287,8 @@ public class BattleState implements GameState {
     }
 
     //=========================
-    // Mark: - Rendering (View)
-    //=========================
+// Mark: - Rendering (View)
+//=========================
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
         switch (state) {
@@ -330,7 +306,10 @@ public class BattleState implements GameState {
                 drawBattleScene(container, g);
                 break;
             case POKEMON:
-                drawPokemon(container, g);
+                g.setBackground(new Color(100, 0, 100));
+                pokemonMenuMgr.render(container, g);
+                pokemonMenuTextDisplay.render(container, g);
+                pokemonMenuCancelMgr.render(container, g);
                 break;
             case BAG:
                 drawBattleScene(container, g);
@@ -393,14 +372,7 @@ public class BattleState implements GameState {
      * @param g The graphics context used to draw
      */
     private void drawPokemon(GameContainer container, Graphics g) {
-        g.setBackground(new Color(100, 0, 100));
-        pokemonMenuMgr.render(container, g);
-        if (pokemonFainted) {
-            textDisplayViewMgr.render(container, g);
-        } else {
-            pokemonMenuTextDisplay.render(container, g);
-            pokemonMenuCancelMgr.render(container, g);
-        }
+        g.setBackground(Color.green);
     }
 
     //=====================================
@@ -479,7 +451,6 @@ public class BattleState implements GameState {
         if (spe.getSwitchPokemon().getTrainer() == TrainerType.NPC) {
             try {
                 enemyImage.swap(new Image("./res/Images/Sprites/front/" + model.getEnemy().getCurPokemon().getID() + ".png"));
-                hpBarViewMgr.set(0, 0, new InfoPanel(model.getEnemy().getCurPokemon().getCurHealth(), model.getEnemy().getCurPokemon().getHealth(), model.getEnemy().getCurPokemon().getName()));
             } catch (SlickException e) {
             }
         } else {
@@ -496,9 +467,7 @@ public class BattleState implements GameState {
             case NPC:
                 enemyImage.disappear();
                 if (model.getEnemy().pokemonLiving()) {
-                    eventQueue.poll();
-                    handleNewEvents(control.enemyFaintSwitch());
-
+                    control.enemyFaintSwitch();
                 }
                 break;
             case USER:
@@ -507,7 +476,6 @@ public class BattleState implements GameState {
                     updatePokemonMenuOptions();
                     pokemonFainted = true;
                     state = BattleMenuState.POKEMON;
-                    textDisplayViewMgr.getButton(0, 0).setText("Choose which Pokemon to send out");
                 }
                 break;
         }
@@ -516,19 +484,18 @@ public class BattleState implements GameState {
 
     private void handleUpdateHPEvent(UpdateHealthBarEvent uhbe) {
         System.out.println("Trainer type is ==> " + uhbe.getTrainerType());
-        System.out.println(uhbe.getNewCurrHealth() + "=>" + model.getUser().getCurPokemon().getSpcAttack() + ", " + model.getEnemy().getCurPokemon().getSpcAttack());
         switch (uhbe.getTrainerType()) {
             case NPC:
                 hpBarViewMgr.getButton(0, 0).setHP(uhbe.getNewCurrHealth());
                 playerImage.attack();
-                if (uhbe.getNewCurrHealth() - model.getEnemy().getCurPokemon().getCurHealth() != 0) {
+                if (uhbe.getNewCurrHealth() != model.getEnemy().getCurPokemon().getCurHealth()) {
                     enemyImage.defend();
                 }
                 break;
             case USER:
                 hpBarViewMgr.getButton(1, 2).setHP(uhbe.getNewCurrHealth());
                 enemyImage.attack();
-                if (uhbe.getNewCurrHealth() - model.getUser().getCurPokemon().getCurHealth() != 0) {
+                if (uhbe.getNewCurrHealth() != model.getUser().getCurPokemon().getCurHealth()) {
                     playerImage.defend();
                 }
                 break;
