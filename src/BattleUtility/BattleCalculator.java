@@ -161,7 +161,9 @@ public class BattleCalculator {
         double moveDmg = move.getDamage();
 
         //incorporates all mulipliers and factors to find actual damange
-        double damage = ((attack / defense) * (moveDmg) * modifier * stab * criticalModifier * accuracyModifier);
+        double damage = ((1 / 2) * (attack / defense) * (moveDmg) * modifier * stab * criticalModifier * accuracyModifier);
+
+        System.out.println("The Damage is:" + damage);
 
         return damage;
     }
@@ -281,9 +283,11 @@ public class BattleCalculator {
     private double getAccuracyModifier(Move move) {
         double random = Math.random();
         double accMod = 1.0;
+        System.out.println("The Move's Accuracy is:" + move.getAccuracy());
         if ((move.getAccuracy()) <= random) {
             accMod = 0.0;
         }
+        System.out.println("The Accuracy Mod is:" + accMod);
         return accMod;
     }
 }
