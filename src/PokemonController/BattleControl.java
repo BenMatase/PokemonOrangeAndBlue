@@ -140,11 +140,24 @@ public class BattleControl {
         return events;
     }
 
-    public ArrayList<Event> switchNewPokemon(Pokemon mon) {
+    public ArrayList<Event> userFaintSwitch(Pokemon mon) {
         TextOutputEvent event1 = new TextOutputEvent(String.format(
                 "You sent out %s", mon.getNickname()));
         SwitchPokemonEvent event2 = new SwitchPokemonEvent(mon);
         user.setCurPokemon(mon);
+        ArrayList<Event> events = new ArrayList<>();
+        events.add(event2);
+        events.add(event1);
+        return events;
+    }
+
+    public ArrayList<Event> enemyFaintSwitch() {
+        Pokemon nextPokemon = AIUtility.getPokemon(enemy);
+        enemy.setCurPokemon(nextPokemon);
+        TextOutputEvent event1 = new TextOutputEvent(String.format(
+                "%s sent out %s", enemy.getName(),
+                enemy.getCurPokemon().getName()));
+        SwitchPokemonEvent event2 = new SwitchPokemonEvent(enemy.getCurPokemon());
         ArrayList<Event> events = new ArrayList<>();
         events.add(event2);
         events.add(event1);
@@ -192,6 +205,7 @@ public class BattleControl {
      * @author Murph
      */
     private ArrayList<Event> makeEnemyDefeatEvents() {
+        System.out.println("MADE IT HERE");
         TextOutputEvent event1 = new TextOutputEvent(String.format(
                 "You have defeated %s!", enemy.getName()));
         EnemyDefeatEvent event2 = new EnemyDefeatEvent();
