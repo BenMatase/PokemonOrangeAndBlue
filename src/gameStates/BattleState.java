@@ -442,6 +442,11 @@ public class BattleState implements GameState {
         }
     }
 
+    /**
+     * Handles the necessary items
+     *
+     * @param spe
+     */
     private void handleSwitchEvent(SwitchPokemonEvent spe) {
         if (spe.getSwitchPokemon().getTrainer() == TrainerType.NPC) {
             try {
@@ -453,7 +458,7 @@ public class BattleState implements GameState {
                 playerImage.swap(new Image("./res/Images/Sprites/back/" + model.getUser().getCurPokemon().getID() + ".png"));
             } catch (SlickException e) {
             }
-            mainMenuTextDisplay.getSelected().setText("What will " + model.getUser().getCurPokemon().getNickname() + "do?");
+            mainMenuTextDisplay.getSelected().setText("What will " + model.getUser().getCurPokemon().getNickname() + " do?");
         }
     }
 
@@ -461,6 +466,9 @@ public class BattleState implements GameState {
         switch (pfe.getTrainerType()) {
             case NPC:
                 enemyImage.disappear();
+                if (model.getEnemy().pokemonLiving()) {
+                    control.enemyFaintSwitch();
+                }
                 break;
             case USER:
                 playerImage.disappear();
@@ -480,12 +488,16 @@ public class BattleState implements GameState {
             case NPC:
                 hpBarViewMgr.getButton(0, 0).setHP(uhbe.getNewCurrHealth());
                 playerImage.attack();
-                enemyImage.defend();
+                if (uhbe.getNewCurrHealth() != model.getEnemy().getCurPokemon().getCurHealth()) {
+                    enemyImage.defend();
+                }
                 break;
             case USER:
                 hpBarViewMgr.getButton(1, 2).setHP(uhbe.getNewCurrHealth());
-                playerImage.defend();
                 enemyImage.attack();
+                if (uhbe.getNewCurrHealth() != model.getUser().getCurPokemon().getCurHealth()) {
+                    playerImage.defend();
+                }
                 break;
         }
         delay += 2000;
@@ -508,10 +520,14 @@ public class BattleState implements GameState {
                 state = BattleMenuState.POKEMON;
                 break;
             case "Bag":
-                state = BattleMenuState.BAG;
+                eventQueue.add(new TextOutputEvent("College students can't afford stuff to put in a bag!"));
+                this.state = BattleMenuState.HANDLING_EVENTS;
+                handleNextEvent();
                 break;
             case "Run":
-                state = BattleMenuState.RUN;
+                eventQueue.add(new TextOutputEvent("You can't run from a trainer battle!"));
+                this.state = BattleMenuState.HANDLING_EVENTS;
+                handleNextEvent();
                 break;
         }
     }
@@ -588,7 +604,7 @@ public class BattleState implements GameState {
                     } else {
                         pokemonFainted = false;
                         eventQueue.poll();
-                        handleNewEvents(control.switchNewPokemon(pkmn));
+                        handleNewEvents(control.userFaintSwitch(pkmn));
                     }
                     hpBarViewMgr.set(1, 2, pokemonMenuMgr.getSelected().getCopy(false));
                     mainMenuTextDisplay.getButton(0, 0).setText("What will " + hpBarViewMgr.getButton(1, 2).getText() + " do?");
