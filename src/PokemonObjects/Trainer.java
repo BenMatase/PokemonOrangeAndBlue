@@ -76,4 +76,10 @@ public abstract class Trainer {
         return pokemon.size();
     }
 
+    public void healPokemon() {
+        for (Pokemon poke : this.pokemon) {
+            poke.setCurHealth(poke.getHealth());
+        }
+    }
+
 }
