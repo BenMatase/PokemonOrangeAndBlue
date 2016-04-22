@@ -110,7 +110,7 @@ target.applyStatus(user, new StatChangeEffect(stat, 2));
 <type>Flying</type>
 <class>Physical</class>
 <power>60</power>
-<accuracy>0</accuracy>
+<accuracy>1.0</accuracy>
 <pp>20</pp>
 <target>Non-user</target>
 <flags>
@@ -462,7 +462,7 @@ makeStatusMove(this, [[AttractEffect]]);
 <type>Fighting</type>
 <class>Special</class>
 <power>90</power>
-<accuracy>0</accuracy>
+<accuracy>1.0\overleftarrow{u}. \]0</accuracy>
 <pp>20</pp>
 <target>Non-user</target>
 <flags>
@@ -5527,7 +5527,7 @@ field.print(Text.battle_messages_unique(43, user));
 <type>Grass</type>
 <class>Special</class>
 <power>60</power>
-<accuracy>0</accuracy>
+<accuracy>1.00</accuracy>
 <pp>20</pp>
 <target>Non-user</target>
 <flags>
@@ -5560,7 +5560,7 @@ makeTemporaryTrappingMove(this, Text.battle_messages_unique.wrap(74));
 <type>Steel</type>
 <class>Physical</class>
 <power>60</power>
-<accuracy>0</accuracy>
+<accuracy>1.00</accuracy>
 <pp>20</pp>
 <target>Non-user</target>
 <flags>
@@ -8291,7 +8291,7 @@ makeChargeMove(this, Text.battle_messages_charge.wrap(8), []);
 <type>Ghost</type>
 <class>Physical</class>
 <power>60</power>
-<accuracy>0</accuracy>
+<accuracy>1.00</accuracy>
 <pp>20</pp>
 <target>Non-user</target>
 <flags>
@@ -8357,7 +8357,7 @@ makeOneHitKillMove(this);
 <type>Electric</type>
 <class>Special</class>
 <power>60</power>
-<accuracy>0</accuracy>
+<accuracy>1.00</accuracy>
 <pp>20</pp>
 <target>Non-user</target>
 <flags>
@@ -9610,7 +9610,7 @@ makeStatusMove(this, [[new StatChangeEffect(Stat.EVASION, -1)]]);
 <type>Normal</type>
 <class>Special</class>
 <power>60</power>
-<accuracy>0</accuracy>
+<accuracy>1.00</accuracy>
 <pp>20</pp>
 <target>Enemies</target>
 <flags>
@@ -10515,7 +10515,7 @@ this.prepareSelf = function(field, user) {
 <class>Physical</class>
 <priority>-1</priority>
 <power>70</power>
-<accuracy>0</accuracy>
+<accuracy>1.00</accuracy>
 <pp>10</pp>
 <target>Non-user</target>
 <flags>
