@@ -26,7 +26,8 @@ import javax.swing.JPanel;
  *
  * @author Benjamin Matase
  */
-public class PokemonChooserFrame extends javax.swing.JFrame {
+public class PokemonChooserFrame extends javax.swing.JFrame implements
+        ActionListener {
 
     /**
      * Creates new form pokemonChooserFrame
@@ -40,11 +41,11 @@ public class PokemonChooserFrame extends javax.swing.JFrame {
         //populate pokemon drop down list with all pokemon names
         populateCbxPkmn();
 
-        cbxPkmn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                //TODO: add code to update view
-            }
-        });
+        cbxPkmn.addActionListener(this);
+        cbxMove1.addActionListener(this);
+        cbxMove2.addActionListener(this);
+        cbxMove3.addActionListener(this);
+        cbxMove4.addActionListener(this);
 
         pack();
     }
@@ -281,6 +282,74 @@ public class PokemonChooserFrame extends javax.swing.JFrame {
         for (String pkmnName : pkmnNameList) {
             cbxPkmn.addItem(pkmnName);
         }
+    }
+
+    private boolean hasChosenPkmn() {
+        return !cbxPkmn.getSelectedItem().equals(" ");
+    }
+
+    private boolean hasChosenAMove() {
+        boolean hasMove1 = !cbxMove1.getSelectedItem().equals(" ");
+        boolean hasMove2 = !cbxMove2.getSelectedItem().equals(" ");
+        boolean hasMove3 = !cbxMove3.getSelectedItem().equals(" ");
+        boolean hasMove4 = !cbxMove4.getSelectedItem().equals(" ");
+
+        return hasMove1 || hasMove2 || hasMove3 || hasMove4;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == cbxPkmn) {
+            if (hasChosenPkmn()) {
+                showMovesPnl();
+                populateMoves();
+            } else {
+                hideMovesPnl();
+            }
+
+        } else if (e.getSource() == cbxMove1) {
+
+        } else if (e.getSource() == cbxMove2) {
+
+        } else if (e.getSource() == cbxMove3) {
+
+        } else if (e.getSource() == cbxMove4) {
+
+        }
+    }
+
+    private void hideMovesPnl() {
+        pnlMoves.setVisible(false);
+        this.pack();
+    }
+
+    private void showMovesPnl() {
+        pnlMoves.setVisible(true);
+        this.pack();
+    }
+
+    private void populateMoves() {
+        String pkmnName = cbxPkmn.getSelectedItem().toString();
+        List<String> moveNames = PokemonLoaderUtility.getMovesForPokemon(
+                pkmnName);
+        resetCbxs();
+        for (String moveName : moveNames) {
+            cbxMove1.addItem(moveName);
+            cbxMove2.addItem(moveName);
+            cbxMove3.addItem(moveName);
+            cbxMove4.addItem(moveName);
+        }
+    }
+
+    private void resetCbxs() {
+        cbxMove1.removeAllItems();
+        cbxMove2.removeAllItems();
+        cbxMove3.removeAllItems();
+        cbxMove4.removeAllItems();
+        cbxMove1.addItem(" ");
+        cbxMove2.addItem(" ");
+        cbxMove3.addItem(" ");
+        cbxMove4.addItem(" ");
     }
 
 }
