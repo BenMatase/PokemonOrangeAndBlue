@@ -36,7 +36,7 @@ public class PokeModel {
     public PokeModel() {
         user = RandomTrainerUtility.getRandomUser(6, "Ben");
 //        enemy = RandomTrainerUtility.getRandomNPC(6, "Bethany");
-        enemy = TrainerLoaderUtility.loadProfessor(8);
+        enemy = TrainerLoaderUtility.loadProfessor(1);
 
 //        enemy.getCurPokemon().setSpeed(1);
     }
