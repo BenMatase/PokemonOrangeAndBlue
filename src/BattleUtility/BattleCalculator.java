@@ -157,11 +157,19 @@ public class BattleCalculator {
         double attack = AtkPoke.getSpcAttack();
         double defense = DefPoke.getSpcDefense();
 
+        System.out.println("The Special Attack is" + attack);
+        System.out.println("The Special Defense is" + defense);
+
         //gets base damage from move
         double moveDmg = move.getDamage();
 
+        System.out.println("The Damage of the move is" + moveDmg);
+
         //incorporates all mulipliers and factors to find actual damange
-        double damage = ((attack / defense) * (moveDmg) * modifier * stab * criticalModifier * accuracyModifier);
+        double damage = ((attack / defense) * (moveDmg) * modifier
+                         * stab * criticalModifier);
+
+        System.out.println("The Damage is:" + damage);
 
         return damage;
     }
@@ -181,17 +189,17 @@ public class BattleCalculator {
             modifier = modifier * modifier2;
         }
 
-        if (modifier >= 2.0) {
-            response += "It's super effective! \n";
-        } else if (accuracyModifier == 0.0) {
+        if (accuracyModifier == 0.0) {
             response += "But it missed!";
+        } else if (modifier >= 2.0) {
+            response += "It's super effective! \n";
+        } else if (modifier < 1.0 && modifier > 0.0) {
+            response += "It's not very effective... \n";
         } else if (modifier == 0.0) {
             response += String.format("It doesn't affect %s...",
                                       DefPoke.getName());
         } else if (criticalModifier == 1.5 && accuracyModifier != 0.0 && modifier != 0.0) {
             response += "It's a critical hit!";
-        } else if (modifier < 1.0 && modifier > 0.0) {
-            response += "It's not very effective... \n";
         }
 
         return response;
@@ -281,9 +289,11 @@ public class BattleCalculator {
     private double getAccuracyModifier(Move move) {
         double random = Math.random();
         double accMod = 1.0;
+        System.out.println("The Move's Accuracy is:" + move.getAccuracy());
         if ((move.getAccuracy()) <= random) {
             accMod = 0.0;
         }
+        System.out.println("The Accuracy Mod is:" + accMod);
         return accMod;
     }
 }
