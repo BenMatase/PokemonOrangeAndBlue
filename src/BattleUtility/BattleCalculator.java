@@ -157,11 +157,17 @@ public class BattleCalculator {
         double attack = AtkPoke.getSpcAttack();
         double defense = DefPoke.getSpcDefense();
 
+        System.out.println("The Special Attack is" + attack);
+        System.out.println("The Special Defense is" + defense);
+
         //gets base damage from move
         double moveDmg = move.getDamage();
 
+        System.out.println("The Damage of the move is" + moveDmg);
+
         //incorporates all mulipliers and factors to find actual damange
-        double damage = ((1 / 2) * (attack / defense) * (moveDmg) * modifier * stab * criticalModifier * accuracyModifier);
+        double damage = ((attack / defense) * (moveDmg) * modifier
+                         * stab * criticalModifier);
 
         System.out.println("The Damage is:" + damage);
 
