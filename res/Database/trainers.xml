@@ -17,8 +17,8 @@
                 <pokemon>
                     <species>SNORLAX</species>
                     <moves>
-                        <move>Ice Beam</move>
-                        <move>Body Slam</move>
+                        <move>Tackle</move>
+                        <move>Lick</move>
                         <move>Crunch</move>
                         <move>Focus Punch</move>
                     </moves>
@@ -26,10 +26,10 @@
                 <pokemon>
                     <species>SLAKING</species>
                     <moves>
-                        <move>Flamethrower</move>
-                        <move>Brick Break</move>
+                        <move>Scratch</move>
+                        <move>Faint Attack</move>
                         <move>Rock Tomb</move>
-                        <move>Shadow Claw</move>
+                        <move>Flail</move>
                     </moves>
                 </pokemon>
                 <pokemon>
@@ -44,10 +44,10 @@
                 <pokemon>
                     <species>TAUROS</species>
                     <moves>
-                        <move>Zen Headbutt</move>
+                        <move>Rage</move>
                         <move>Tackle</move>
-                        <move>Iron Tail</move>
-                        <move>Pound</move>
+                        <move>Horn Attack</move>
+                        <move>Pursuit</move>
                     </moves>
                 </pokemon>
                 <pokemon>
@@ -99,6 +99,7 @@
                 <pokemon>
                     <species>DODRIO</species>
                     <moves>
+                        <move>Peck</move>
                         <move>Peck</move>
                         
                     </moves>
