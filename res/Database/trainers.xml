@@ -1,24 +1,6 @@
 <trainers>
     <professors>
-        <professor id='8'>
-            <name>Brian King</name>
-            <team>
-                <pokemon>
-                    <species>BULBASAUR</species>
-                    <moves>
-                        <move>Vine Whip</move>
-                    </moves>
-                </pokemon>
-                <pokemon>
-                    <species>SQUIRTLE</species>
-                    <moves>
-                        <move>Bubble</move>
-                    </moves>
-                </pokemon>
-            </team>
-            <introText>Prepare for the wrath of my goatee!</introText>
-            <outroText>How the fuck did I lose?</outroText>
-        </professor>
+
         
         <professor id='1'>
             <name>Chistopher Dancy</name>
@@ -27,21 +9,63 @@
                     <species>JIGGLYPUFF</species>
                     <moves>
                         <move>Pound</move>
+                        <move>Rollout</move>
+                        <move>Wake-Up Slap</move>
+                        <move>Body Slam</move>  
                     </moves>
                 </pokemon>
                 <pokemon>
-                    <species>JIGGLYPUFF</species>
+                    <species>SNORLAX</species>
                     <moves>
+                        <move>Ice Beam</move>
+                        <move>Body Slam</move>
+                        <move>Crunch</move>
+                        <move>Focus Punch</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                    <species>SLAKING</species>
+                    <moves>
+                        <move>Flamethrower</move>
+                        <move>Brick Break</move>
+                        <move>Rock Tomb</move>
+                        <move>Shadow Claw</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                    <species>BIDOOF</species>
+                    <moves>
+                        <move>Cut</move>
+                        <move>Rock Smash</move>
+                        <move>Headbutt</move>
+                        <move>Thunderbolt</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                    <species>TAUROS</species>
+                    <moves>
+                        <move>Zen Headbutt</move>
+                        <move>Tackle</move>
+                        <move>Iron Tail</move>
                         <move>Pound</move>
                     </moves>
                 </pokemon>
+                <pokemon>
+                    <species>LICKITUNG</species>
+                    <moves>
+                        <move>Lick</move>
+                        <move>Wrap</move>
+                        <move>Brick Break</move>
+                        <move>Shock Wave</move>
+                    </moves>
+                </pokemon>
             </team>
-            <introText>Jigglypuff?</introText>
-            <outroText>Jigglypuff. =(</outroText>
+            <introText>Do you want to dance?</introText>
+            <outroText>Next time, I'm bringing my robots. =(</outroText>
         </professor>
         
-        <professor id='3'>
-            <name>Benoit Razet</name>
+        <professor id='2'>
+            <name>Darakshan Mir</name>
             <team>
                 <pokemon>
                     <species>SLOWBRO</species>
@@ -56,6 +80,255 @@
                     </moves>
                 </pokemon>
             </team>
+            <introText>Prepare for the wrath of my emails!</introText>
+            <outroText>I'm gonna send some emails about this!</outroText>
+        </professor>
+        
+        <professor id='3'>
+            <name>Evan Peck</name>
+            <team>
+                <pokemon>
+                    <species>PIDGEOT</species>
+                    <moves>
+                        <move>Air Slash</move>
+                        <move>Steel Wing</move>
+                        <move>Thief</move>
+                        <move>Aerial Ace</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                    <species>DODRIO</species>
+                    <moves>
+                        <move>Peck</move>
+                        
+                    </moves>
+                </pokemon>
+                <pokemon>
+                    <species>ALTARIA</species>
+                    <moves>
+                        <move>Bubble</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                    <species>DRIFTBLIM</species>
+                    <moves>
+                        <move>Bubble</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                    <species>SKARMORY</species>
+                    <moves>
+                        <move>Bubble</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                    <species>CHARIZARD</species>
+                    <moves>
+                        <move>Bubble</move>
+                    </moves>
+                </pokemon>
+                
+            </team>
+            <introText>Jigglypuff?</introText>
+            <outroText>Jigglypuff. =(</outroText>
+        </professor>
+        
+        <professor id='4'>
+            <name>Benoit Razet</name>
+            <team>
+                <pokemon>
+                    <species>RAPIDASH</species>
+                    <moves>
+                        <move>Vine Whip</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                    <species>NINETALES</species>
+                    <moves>
+                        <move>Bubble</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                    <species>ARCANINE</species>
+                    <moves>
+                        <move>Bubble</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                    <species>CAMERUPT</species>
+                    <moves>
+                        <move>Bubble</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                    <species>HOUNDOOM</species>
+                    <moves>
+                        <move>Bubble</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                    <species>TYPHOLOSION</species>
+                    <moves>
+                        <move>Bubble</move>
+                    </moves>
+                </pokemon>
+            </team>
+            <introText>Jigglypuff?</introText>
+            <outroText>Jigglypuff. =(</outroText>
+        </professor>
+        
+        <professor id='5'>
+            <name>Xiannong Meng</name>
+            <team>
+                <pokemon>
+                    <species>PIKACHU</species>
+                    <moves>
+                        <move>Vine Whip</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                    <species>MAGNEZONE</species>
+                    <moves>
+                        <move>Bubble</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                    <species>JOLTEON</species>
+                    <moves>
+                        <move>Bubble</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                    <species>AMPHAROS</species>
+                    <moves>
+                        <move>Bubble</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                    <species>LUXRAY</species>
+                    <moves>
+                        <move>Bubble</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                    <species>ELECTIVIRE</species>
+                    <moves>
+                        <move>Bubble</move>
+                    </moves>
+                </pokemon>
+            </team>
+            <introText>Jigglypuff?</introText>
+            <outroText>Jigglypuff. =(</outroText>
+        </professor>
+        
+        <professor id='6'>
+            <name>Steve Guattery</name>
+            <team>
+                <pokemon>
+                    <species>CHATOT</species>
+                    <moves>
+                        <move>Vine Whip</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                    <species>TENTACRUEL</species>
+                    <moves>
+                        <move>Bubble</move>
+                    </moves>
+                </pokemon>
+                
+                <pokemon>
+                    <species>POLIWRATH</species>
+                    <moves>
+                        <move>Vine Whip</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                    <species>SHARPEDO</species>
+                    <moves>
+                        <move>Bubble</move>
+                    </moves>
+                </pokemon>
+                
+                <pokemon>
+                    <species>WAILORD</species>
+                    <moves>
+                        <move>Vine Whip</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                    <species>BLASTOISE</species>
+                    <moves>
+                        <move>Bubble</move>
+                    </moves>
+                </pokemon>
+            </team>
+            <introText>Jigglypuff?</introText>
+            <outroText>Jigglypuff. =(</outroText>
+        </professor>
+        
+        <professor id='7'>
+            <name>Alan Marchiori</name>
+            <team>
+                <pokemon>
+                    <species>RAYQUAZA</species>
+                    <moves>
+                        <move>Vine Whip</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                    <species>ARON</species>
+                    <moves>
+                        <move>Bubble</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                    <species>LAIRON</species>
+                    <moves>
+                        <move>Bubble</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                    <species>REGGICE</species>
+                    <moves>
+                        <move>Bubble</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                    <species>WOBBUFFET</species>
+                    <moves>
+                        <move>Bubble</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                    <species>RAYQUAZA</species>
+                    <moves>
+                        <move>Bubble</move>
+                    </moves>
+                </pokemon>
+            </team>
+            <introText>Jigglypuff?</introText>
+            <outroText>Jigglypuff. =(</outroText>
+        </professor>
+        
+        <professor id='8'>
+            <name>Brian King</name>
+            <team>
+                <pokemon>
+                    <species>SHUCKLE</species>
+                    <moves>
+                        <move>Vine Whip</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                    <species>DUGTRIO</species>
+                    <moves>
+                        <move>Bubble</move>
+                    </moves>
+                </pokemon>
+            </team>
+            <introText>Prepare for the wrath of my goatee!</introText>
+            <outroText>How the fuck did I lose?</outroText>
         </professor>
     </professors>
 </trainers>
