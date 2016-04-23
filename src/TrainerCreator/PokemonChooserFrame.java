@@ -306,15 +306,6 @@ public class PokemonChooserFrame extends javax.swing.JFrame implements
             } else {
                 hideMovesPnl();
             }
-
-        } else if (e.getSource() == cbxMove1) {
-
-        } else if (e.getSource() == cbxMove2) {
-
-        } else if (e.getSource() == cbxMove3) {
-
-        } else if (e.getSource() == cbxMove4) {
-
         }
     }
 
