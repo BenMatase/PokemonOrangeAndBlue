@@ -39,7 +39,7 @@ public class MenuButton {
      * @param text The string to draw on the button
      */
     public MenuButton(String text) {
-        this(text, Color.red);
+        this(text, ColorUtil.getOrange());
     }
 
     /**
@@ -137,6 +137,10 @@ public class MenuButton {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public void setHighlightColor(Color newColor) {
+        highlightColor = newColor;
     }
 
     //================

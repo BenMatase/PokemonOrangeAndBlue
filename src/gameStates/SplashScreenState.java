@@ -14,7 +14,6 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
-import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
@@ -42,6 +41,7 @@ public class SplashScreenState implements GameState {
     private Image pokemonLogo;
     private Image splashScreenImage;
     private Image versionImage;
+    private Image bgdImage;
 
     //====================
     // Mark: - Constructor
@@ -67,6 +67,7 @@ public class SplashScreenState implements GameState {
         pokemonLogo = new Image("res/Images/SplashScreen/PokemonLogo.png").getScaledCopy(0.9f);
         splashScreenImage = new Image("res/Images/SplashScreen/Bouffalant.png");
         versionImage = new Image("res/Images/SplashScreen/Version.png").getScaledCopy(0.5f);
+        bgdImage = new Image("res/Images/SplashScreen/Background.png");
 
         // Load fonts
         try {
@@ -82,13 +83,8 @@ public class SplashScreenState implements GameState {
     //==========================
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-        g.setAntiAlias(true);
         // Draw Background
-        g.setBackground(Color.white);
-        g.setColor(new Color(1, 84, 150));
-        g.fill(new Polygon(new float[]{0.0f, 0.0f, container.getWidth() - 10f, 0.0f, 0.0f, container.getHeight()}));
-        g.setColor(new Color(243, 110, 33));
-        g.fill(new Polygon(new float[]{container.getWidth(), container.getHeight(), container.getWidth(), 10f, 0.0f, container.getHeight()}));
+        g.drawImage(bgdImage, 0, 0);
 
         // Draw Pokemon Logo
         g.drawImage(pokemonLogo, container.getWidth() / 2 - pokemonLogo.getWidth() / 2, 0,

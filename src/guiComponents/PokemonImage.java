@@ -49,7 +49,7 @@ public class PokemonImage {
     private static final float defendDelay = fightActionDurationMS * 2;
 
     private float attackXOffset = 30f;
-    private float defendXOffset = 3f;
+    private float defendXOffset = 5f;
 
     private float deltaXAttack = attackXOffset / fightActionDurationMS;
     private float deltaXDefend = defendXOffset / fightActionDurationMS;
@@ -107,7 +107,6 @@ public class PokemonImage {
                     break;
                 case DEFEND:
                     if (currMS < defendDelay) {
-
                     } else if (currMS < defendDelay + fightActionDurationMS * 0.25f || (currMS < defendDelay + fightActionDurationMS && currMS > defendDelay + fightActionDurationMS * 0.75f)) {
                         offsetX += deltaXAttack * delta;
                     } else if (currMS < defendDelay + fightActionDurationMS * 0.75f) {
@@ -119,14 +118,16 @@ public class PokemonImage {
                     }
                     break;
                 case SWAP:
-                    image = tmpImage;
-                    x = (int) (centerX - image.getWidth() / 2);
-                    y = (int) (centerY - image.getHeight() / 2);
-                    offsetY = ymax - y;
-                    tmpImage = null;
-                    currMS = 0;
-                    deltaYAppear = (ymax - y) / appearanceDurationMS;
-                    actions.poll();
+                    if (currMS > 500) {
+                        image = tmpImage;
+                        x = (int) (centerX - image.getWidth() / 2);
+                        y = (int) (centerY - image.getHeight() / 2);
+                        offsetY = ymax - y;
+                        tmpImage = null;
+                        currMS = 0;
+                        deltaYAppear = (ymax - y) / appearanceDurationMS;
+                        actions.poll();
+                    }
                     break;
                 case APPEAR:
                     if (currMS < appearanceDurationMS && offsetY > 0) {
