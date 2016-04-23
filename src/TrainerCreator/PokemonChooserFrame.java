@@ -29,6 +29,8 @@ import javax.swing.JPanel;
 public class PokemonChooserFrame extends javax.swing.JFrame implements
         ActionListener {
 
+    private boolean clickedCreate;
+
     /**
      * Creates new form pokemonChooserFrame
      */
@@ -40,6 +42,8 @@ public class PokemonChooserFrame extends javax.swing.JFrame implements
 
         //populate pokemon drop down list with all pokemon names
         populateCbxPkmn();
+
+        clickedCreate = false;
 
         cbxPkmn.addActionListener(this);
         cbxMove1.addActionListener(this);
@@ -72,7 +76,7 @@ public class PokemonChooserFrame extends javax.swing.JFrame implements
         cbxMove3 = new javax.swing.JComboBox();
         cbxMove4 = new javax.swing.JComboBox();
         btnCreate = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btnCancel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -172,7 +176,7 @@ public class PokemonChooserFrame extends javax.swing.JFrame implements
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jButton1.setText("Cancel");
+        btnCancel.setText("Cancel");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -186,7 +190,7 @@ public class PokemonChooserFrame extends javax.swing.JFrame implements
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(btnCancel)
                 .addGap(21, 21, 21))
         );
         layout.setVerticalGroup(
@@ -197,7 +201,7 @@ public class PokemonChooserFrame extends javax.swing.JFrame implements
                 .addGap(18, 18, 18)
                 .addComponent(pnlMoves, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
+                .addComponent(btnCancel)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -205,13 +209,13 @@ public class PokemonChooserFrame extends javax.swing.JFrame implements
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnCreate;
     private javax.swing.JComboBox cbxMove1;
     private javax.swing.JComboBox cbxMove2;
     private javax.swing.JComboBox cbxMove3;
     private javax.swing.JComboBox cbxMove4;
     private javax.swing.JComboBox cbxPkmn;
-    private javax.swing.JButton jButton1;
     private javax.swing.JPanel pnlMoves;
     private javax.swing.JPanel pnlPkmn;
     // End of variables declaration//GEN-END:variables
@@ -306,6 +310,14 @@ public class PokemonChooserFrame extends javax.swing.JFrame implements
             } else {
                 hideMovesPnl();
             }
+        } else if (e.getSource() == btnCreate) {
+            if (hasChosenAMove()) {
+                clickedCreate = true;
+                this.setVisible(false);
+            }
+        } else if (e.getSource() == btnCancel) {
+            clickedCreate = false;
+            this.setVisible(false);
         }
     }
 

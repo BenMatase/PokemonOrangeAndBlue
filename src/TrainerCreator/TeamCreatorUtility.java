@@ -18,21 +18,21 @@ package TrainerCreator;
 import PokemonObjects.Pokemon;
 
 /**
+ * Want to show jFrame. When Create or Cancel is clicked, then this method will
+ * extract information and return a Pokemon
  *
  * @author Benjamin Matase
  */
 public class TeamCreatorUtility {
     public static Pokemon getPokemonGUI() {
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                //create view
-                PokemonChooserFrame pkmnChsrFrame = new PokemonChooserFrame();
+        PokemonChooserFrame pkmnChsrFrame = new PokemonChooserFrame();
+        pkmnChsrFrame.setVisible(true);
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                //make view visible
+//            }
+//        });
 
-                //make view visible
-                pkmnChsrFrame.setVisible(true);
-            }
-        });
         return null;
     }
 
