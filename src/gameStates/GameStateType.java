@@ -14,7 +14,7 @@ public enum GameStateType {
     BLACKSCREEN(0),
     SPLASHSCREEN(1),
     MAINMENU(2),
-    OVERWORLD(3),
+    TEAMPICKER(3),
     BATTLE(4);
 
     private int val;

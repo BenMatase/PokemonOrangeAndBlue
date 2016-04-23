@@ -156,7 +156,7 @@ public class InfoPanel extends MenuButton {
         } else {
             g.setColor(Color.yellow);
         }
-        g.fillRect(HPX, HPY, HPW * displayHP / maxHP, HPH);
+        g.fillRect(HPX, HPY, maxHP != 0 ? HPW * displayHP / maxHP : 0, HPH);
 
     }
 
@@ -195,6 +195,10 @@ public class InfoPanel extends MenuButton {
     public void setHP(int hp) {
         this.hpStep = (hp - curHP) / 2000f;
         this.curHP = hp;
+    }
+
+    public int getHP() {
+        return curHP;
     }
 
     public InfoPanel getCopy(boolean withImage) {
