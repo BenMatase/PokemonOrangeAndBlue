@@ -15,7 +15,10 @@
  */
 package TrainerCreator;
 
+import DatabaseLoaderUtilities.PokemonLoaderUtility;
 import PokemonObjects.Pokemon;
+import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  * Want to show jFrame. When Create or Cancel is clicked, then this method will
@@ -25,18 +28,19 @@ import PokemonObjects.Pokemon;
  */
 public class TeamCreatorUtility {
     public static Pokemon getPokemonGUI() {
-        PokemonChooserFrame pkmnChsrFrame = new PokemonChooserFrame();
-        pkmnChsrFrame.setVisible(true);
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                //make view visible
-//            }
-//        });
-
-        return null;
+        PokemonCreatorPanel pkmnPnl = new PokemonCreatorPanel();
+        JOptionPane.showMessageDialog(null, pkmnPnl, "Create your Pokemon",
+                                      JOptionPane.INFORMATION_MESSAGE);
+        return createPokemon(pkmnPnl);
     }
 
-    public static void main(String[] args) {
-        getPokemonGUI();
+    private static Pokemon createPokemon(PokemonCreatorPanel pkmnPnl) {
+        if (pkmnPnl.hasChosenPkmn() && pkmnPnl.hasChosenAMove()) {
+            String pkmnName = pkmnPnl.getPkmnName();
+            List<String> moves = pkmnPnl.getMovesList();
+            return PokemonLoaderUtility.createPokemon(pkmnName, pkmnName, moves);
+        } else {
+            return null;
+        }
     }
 }

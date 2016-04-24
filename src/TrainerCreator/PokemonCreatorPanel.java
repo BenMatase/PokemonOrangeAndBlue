@@ -3,12 +3,12 @@
  * Spring 2016
  *
  * Name: Benjamin Matase, Jason Corriveau, Eric Marshall, Alexander Murph
- * Date: Apr 21, 2016
- * Time: 4:21:12 PM
+ * Date: Apr 23, 2016
+ * Time: 11:36:41 PM
  *
  * Project: csci205FinalProject
  * Package: TrainerCreator
- * File: PokemonChooserFrame
+ * File: PokemonCreatorPanel
  * Description:
  *
  * ****************************************
@@ -18,40 +18,36 @@ package TrainerCreator;
 import DatabaseLoaderUtilities.PokemonLoaderUtility;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JComboBox;
-import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 /**
  *
  * @author Benjamin Matase
  */
-public class PokemonChooserFrame extends javax.swing.JFrame implements
+public class PokemonCreatorPanel extends javax.swing.JPanel implements
         ActionListener {
 
-    private boolean clickedCreate;
+    String EMPTY_CHOICE = " ";
 
     /**
-     * Creates new form pokemonChooserFrame
+     * Creates new form PokemonCreatorPanel
      */
-    public PokemonChooserFrame() {
+    public PokemonCreatorPanel() {
         initComponents();
 
         //hide panel with moves stuff originally
-        pnlMoves.setVisible(false);
+        hideMovesPnl();
 
         //populate pokemon drop down list with all pokemon names
         populateCbxPkmn();
-
-        clickedCreate = false;
 
         cbxPkmn.addActionListener(this);
         cbxMove1.addActionListener(this);
         cbxMove2.addActionListener(this);
         cbxMove3.addActionListener(this);
         cbxMove4.addActionListener(this);
-
-        pack();
     }
 
     /**
@@ -63,9 +59,8 @@ public class PokemonChooserFrame extends javax.swing.JFrame implements
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        pnlPkmn = new javax.swing.JPanel();
-        javax.swing.JLabel jLabel1 = new javax.swing.JLabel();
         cbxPkmn = new javax.swing.JComboBox();
+        javax.swing.JLabel jLabel1 = new javax.swing.JLabel();
         pnlMoves = new javax.swing.JPanel();
         javax.swing.JLabel jLabel2 = new javax.swing.JLabel();
         javax.swing.JLabel jLabel3 = new javax.swing.JLabel();
@@ -75,36 +70,10 @@ public class PokemonChooserFrame extends javax.swing.JFrame implements
         cbxMove2 = new javax.swing.JComboBox();
         cbxMove3 = new javax.swing.JComboBox();
         cbxMove4 = new javax.swing.JComboBox();
-        btnCreate = new javax.swing.JButton();
-        btnCancel = new javax.swing.JButton();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jLabel1.setText("Choose a Pokemon:");
-        jLabel1.setToolTipText("");
 
         cbxPkmn.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " " }));
 
-        javax.swing.GroupLayout pnlPkmnLayout = new javax.swing.GroupLayout(pnlPkmn);
-        pnlPkmn.setLayout(pnlPkmnLayout);
-        pnlPkmnLayout.setHorizontalGroup(
-            pnlPkmnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlPkmnLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cbxPkmn, 0, 226, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        pnlPkmnLayout.setVerticalGroup(
-            pnlPkmnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlPkmnLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pnlPkmnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(cbxPkmn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(23, Short.MAX_VALUE))
-        );
+        jLabel1.setText("Pokemon:");
 
         jLabel2.setText("Move 1:");
 
@@ -122,34 +91,29 @@ public class PokemonChooserFrame extends javax.swing.JFrame implements
 
         cbxMove4.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " " }));
 
-        btnCreate.setText("Create");
-
         javax.swing.GroupLayout pnlMovesLayout = new javax.swing.GroupLayout(pnlMoves);
         pnlMoves.setLayout(pnlMovesLayout);
         pnlMovesLayout.setHorizontalGroup(
             pnlMovesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlMovesLayout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(pnlMovesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlMovesLayout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cbxMove2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(pnlMovesLayout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cbxMove4, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(cbxMove4, 0, 296, Short.MAX_VALUE))
+                    .addGroup(pnlMovesLayout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cbxMove3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(pnlMovesLayout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cbxMove1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(pnlMovesLayout.createSequentialGroup()
-                        .addComponent(jLabel4)
+                        .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cbxMove3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGap(12, 12, 12))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlMovesLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(btnCreate)
+                        .addComponent(cbxMove2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         pnlMovesLayout.setVerticalGroup(
@@ -159,122 +123,56 @@ public class PokemonChooserFrame extends javax.swing.JFrame implements
                 .addGroup(pnlMovesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(cbxMove1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlMovesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3)
                     .addComponent(cbxMove2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlMovesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4)
                     .addComponent(cbxMove3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(pnlMovesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlMovesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5)
                     .addComponent(cbxMove4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnCreate)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        btnCancel.setText("Cancel");
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pnlMoves, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pnlPkmn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(pnlMoves, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(cbxPkmn, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnCancel)
-                .addGap(21, 21, 21))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(pnlPkmn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(pnlMoves, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbxPkmn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnCancel)
+                .addComponent(pnlMoves, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-
-        pack();
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCancel;
-    private javax.swing.JButton btnCreate;
     private javax.swing.JComboBox cbxMove1;
     private javax.swing.JComboBox cbxMove2;
     private javax.swing.JComboBox cbxMove3;
     private javax.swing.JComboBox cbxMove4;
     private javax.swing.JComboBox cbxPkmn;
     private javax.swing.JPanel pnlMoves;
-    private javax.swing.JPanel pnlPkmn;
     // End of variables declaration//GEN-END:variables
-
-    public JComboBox getCbxMove1() {
-        return cbxMove1;
-    }
-
-    public void setCbxMove1(JComboBox cbxMove1) {
-        this.cbxMove1 = cbxMove1;
-    }
-
-    public JComboBox getCbxMove2() {
-        return cbxMove2;
-    }
-
-    public void setCbxMove2(JComboBox cbxMove2) {
-        this.cbxMove2 = cbxMove2;
-    }
-
-    public JComboBox getCbxMove3() {
-        return cbxMove3;
-    }
-
-    public void setCbxMove3(JComboBox cbxMove3) {
-        this.cbxMove3 = cbxMove3;
-    }
-
-    public JComboBox getCbxMove4() {
-        return cbxMove4;
-    }
-
-    public void setCbxMove4(JComboBox cbxMove4) {
-        this.cbxMove4 = cbxMove4;
-    }
-
-    public JComboBox getCbxPkmn() {
-        return cbxPkmn;
-    }
-
-    public void setCbxPkmn(JComboBox cbxPkmn) {
-        this.cbxPkmn = cbxPkmn;
-    }
-
-    public JPanel getPnlPkmn() {
-        return pnlPkmn;
-    }
-
-    public void setPnlPkmn(JPanel pnlPkmn) {
-        this.pnlPkmn = pnlPkmn;
-    }
-
-    public JPanel getPnlMoves() {
-        return pnlMoves;
-    }
-
-    public void setPnlMoves(JPanel pnlMoves) {
-        this.pnlMoves = pnlMoves;
-    }
 
     public String getPkmnName() {
         return cbxPkmn.getSelectedItem().toString();
@@ -288,15 +186,15 @@ public class PokemonChooserFrame extends javax.swing.JFrame implements
         }
     }
 
-    private boolean hasChosenPkmn() {
-        return !cbxPkmn.getSelectedItem().equals(" ");
+    public boolean hasChosenPkmn() {
+        return !cbxPkmn.getSelectedItem().equals(EMPTY_CHOICE);
     }
 
-    private boolean hasChosenAMove() {
-        boolean hasMove1 = !cbxMove1.getSelectedItem().equals(" ");
-        boolean hasMove2 = !cbxMove2.getSelectedItem().equals(" ");
-        boolean hasMove3 = !cbxMove3.getSelectedItem().equals(" ");
-        boolean hasMove4 = !cbxMove4.getSelectedItem().equals(" ");
+    public boolean hasChosenAMove() {
+        boolean hasMove1 = !cbxMove1.getSelectedItem().equals(EMPTY_CHOICE);
+        boolean hasMove2 = !cbxMove2.getSelectedItem().equals(EMPTY_CHOICE);
+        boolean hasMove3 = !cbxMove3.getSelectedItem().equals(EMPTY_CHOICE);
+        boolean hasMove4 = !cbxMove4.getSelectedItem().equals(EMPTY_CHOICE);
 
         return hasMove1 || hasMove2 || hasMove3 || hasMove4;
     }
@@ -307,28 +205,22 @@ public class PokemonChooserFrame extends javax.swing.JFrame implements
             if (hasChosenPkmn()) {
                 showMovesPnl();
                 populateMoves();
+//                this.revalidate();
+                SwingUtilities.getWindowAncestor(this).pack();
             } else {
                 hideMovesPnl();
+//                this.revalidate();
+                SwingUtilities.getWindowAncestor(this).pack();
             }
-        } else if (e.getSource() == btnCreate) {
-            if (hasChosenAMove()) {
-                clickedCreate = true;
-                this.setVisible(false);
-            }
-        } else if (e.getSource() == btnCancel) {
-            clickedCreate = false;
-            this.setVisible(false);
         }
     }
 
     private void hideMovesPnl() {
         pnlMoves.setVisible(false);
-        this.pack();
     }
 
     private void showMovesPnl() {
         pnlMoves.setVisible(true);
-        this.pack();
     }
 
     private void populateMoves() {
@@ -349,10 +241,29 @@ public class PokemonChooserFrame extends javax.swing.JFrame implements
         cbxMove2.removeAllItems();
         cbxMove3.removeAllItems();
         cbxMove4.removeAllItems();
-        cbxMove1.addItem(" ");
-        cbxMove2.addItem(" ");
-        cbxMove3.addItem(" ");
-        cbxMove4.addItem(" ");
+        cbxMove1.addItem(EMPTY_CHOICE);
+        cbxMove2.addItem(EMPTY_CHOICE);
+        cbxMove3.addItem(EMPTY_CHOICE);
+        cbxMove4.addItem(EMPTY_CHOICE);
     }
 
+    //TODO: needs to be cleaned up
+    public List<String> getMovesList() {
+        List<String> moves = new ArrayList<>();
+
+        if (!cbxMove1.getSelectedItem().toString().equals(EMPTY_CHOICE)) {
+            moves.add(cbxMove1.getSelectedItem().toString());
+        }
+        if (!cbxMove2.getSelectedItem().toString().equals(EMPTY_CHOICE)) {
+            moves.add(cbxMove2.getSelectedItem().toString());
+        }
+        if (!cbxMove3.getSelectedItem().toString().equals(EMPTY_CHOICE)) {
+            moves.add(cbxMove2.getSelectedItem().toString());
+        }
+        if (!cbxMove4.getSelectedItem().toString().equals(EMPTY_CHOICE)) {
+            moves.add(cbxMove2.getSelectedItem().toString());
+        }
+
+        return moves;
+    }
 }
