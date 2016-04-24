@@ -3,7 +3,7 @@
 
         
         <professor id='1'>
-            <name>Chistopher Dancy</name>
+            <name>Professor Dancy</name>
             <team>
                 <pokemon>
                     <species>JIGGLYPUFF</species>
@@ -68,20 +68,62 @@
             <name>Darakshan Mir</name>
             <team>
                 <pokemon>
-                    <species>SLOWBRO</species>
+                    <species>KADABRA</species>
                     <moves>
-                        <move>Vine Whip</move>
+                        <move>Confusion</move>
+                        <move>Psybeam</move>
+                        <move>Shadow Ball</move>
+                        <move>Facade</move>
                     </moves>
                 </pokemon>
                 <pokemon>
-                    <species>SQUIRTLE</species>
+                    <species>DROWZEE</species>
                     <moves>
-                        <move>Bubble</move>
+                        <move>Pound</move>
+                        <move>Headbutt</move>
+                        <move>Confusion</move>
+                        <move>Psybeam</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                    <species>SPOINK</species>
+                    <moves>
+                        <move>Psybeam</move>
+                        <move>Bounce</move>
+                        <move>Iron Tail</move>
+                        <move>Thief</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                    <species>CHINGLING</species>
+                    <moves>
+                        <move>Confusion</move>
+                        <move>Psychic</move>
+                        <move>Shadow Ball</move>
+                        <move>Facade</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                    <species>ROTOM</species>
+                    <moves>
+                        <move>Thundershock</move>
+                        <move>Discharge</move>
+                        <move>Facade</move>
+                        <move>Shadow Ball</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                    <species>KIRLIA</species>
+                    <moves>
+                        <move>Confusion</move>
+                        <move>Psychic</move>
+                        <move>Secret Power</move>
+                        <move>Shadow Ball</move>
                     </moves>
                 </pokemon>
             </team>
-            <introText>Prepare for the wrath of my emails!</introText>
-            <outroText>I'm gonna send some emails about this!</outroText>
+            <introText>I'm gonna psych you out!</introText>
+            <outroText>How could I lose???</outroText>
         </professor>
         
         <professor id='3'>
@@ -90,8 +132,8 @@
                 <pokemon>
                     <species>PIDGEOT</species>
                     <moves>
-                        <move>Air Slash</move>
-                        <move>Steel Wing</move>
+                        <move>Gust</move>
+                        <move>Tackle</move>
                         <move>Thief</move>
                         <move>Aerial Ace</move>
                     </moves>
@@ -100,38 +142,51 @@
                     <species>DODRIO</species>
                     <moves>
                         <move>Peck</move>
-                        <move>Peck</move>
-                        
+                        <move>Pluck</move>
+                        <move>Rage</move>
+                        <move>Uproar</move>                       
                     </moves>
                 </pokemon>
                 <pokemon>
                     <species>ALTARIA</species>
                     <moves>
-                        <move>Bubble</move>
+                        <move>Peck</move>
+                        <move>Pluck</move>
+                        <move>Astonish</move>
+                        <move>DragonBreath</move>
                     </moves>
                 </pokemon>
                 <pokemon>
-                    <species>DRIFTBLIM</species>
+                    <species>DRIFBLIM</species>
                     <moves>
-                        <move>Bubble</move>
+                        <move>Gust</move>
+                        <move>Payback</move>
+                        <move>Shock Wave</move>
+                        <move>Shadow Ball</move>
                     </moves>
                 </pokemon>
                 <pokemon>
                     <species>SKARMORY</species>
                     <moves>
-                        <move>Bubble</move>
+                        <move>Swift</move>
+                        <move>Steel Wing</move>
+                        <move>Air Slash</move>
+                        <move>Night Slash</move>
                     </moves>
                 </pokemon>
                 <pokemon>
                     <species>CHARIZARD</species>
                     <moves>
-                        <move>Bubble</move>
+                        <move>Ember</move>
+                        <move>Wing Attack</move>
+                        <move>Air Slash</move>
+                        <move>Fire Fang</move>
                     </moves>
                 </pokemon>
                 
             </team>
-            <introText>Jigglypuff?</introText>
-            <outroText>Jigglypuff. =(</outroText>
+            <introText>I’ve computed all the moves you’ll choose.  You cannot win.</introText>
+            <outroText>Your victory was within my error margin.</outroText>
         </professor>
         
         <professor id='4'>
@@ -140,42 +195,60 @@
                 <pokemon>
                     <species>RAPIDASH</species>
                     <moves>
-                        <move>Vine Whip</move>
+                        <move>Stomp</move>
+                        <move>Ember</move>
+                        <move>Iron Tail</move>
+                        <move>Facade</move>
                     </moves>
                 </pokemon>
                 <pokemon>
                     <species>NINETALES</species>
                     <moves>
-                        <move>Bubble</move>
+                        <move>Flamethrower</move>
+                        <move>Ember</move>
+                        <move>Quick Attack</move>
+                        <move>Payback</move>
                     </moves>
                 </pokemon>
                 <pokemon>
                     <species>ARCANINE</species>
                     <moves>
-                        <move>Bubble</move>
+                        <move>Bite</move>
+                        <move>Fire Fang</move>
+                        <move>Ember</move>
+                        <move>Facade</move>
                     </moves>
                 </pokemon>
                 <pokemon>
                     <species>CAMERUPT</species>
                     <moves>
-                        <move>Bubble</move>
+                        <move>Tackle</move>
+                        <move>Ember</move>
+                        <move>Rock Slide</move>
+                        <move>Rock Smash</move>
                     </moves>
                 </pokemon>
                 <pokemon>
                     <species>HOUNDOOM</species>
                     <moves>
-                        <move>Bubble</move>
+                        <move>Thunder Fang</move>
+                        <move>Bite</move>
+                        <move>Ember</move>
+                        <move>Iron Tail</move>
                     </moves>
                 </pokemon>
                 <pokemon>
-                    <species>TYPHOLOSION</species>
+                    <species>TYPHLOSION</species>
                     <moves>
-                        <move>Bubble</move>
+                        <move>Tackle</move>
+                        <move>Flame Wheel</move>
+                        <move>Rollout</move>
+                        <move>Flamethrower</move>
                     </moves>
                 </pokemon>
             </team>
-            <introText>Jigglypuff?</introText>
-            <outroText>Jigglypuff. =(</outroText>
+            <introText>Je ne veux pas vraiment à la bataille en ce moment.</introText>
+            <outroText>Je ne me soucie pas . Quels sont les Pokemon?</outroText>
         </professor>
         
         <professor id='5'>
@@ -184,42 +257,60 @@
                 <pokemon>
                     <species>PIKACHU</species>
                     <moves>
-                        <move>Vine Whip</move>
+                        <move>Thundershock</move>
+                        <move>Secret Power</move>
+                        <move>Facade</move>
+                        <move>ThunderPunch</move>                        
                     </moves>
                 </pokemon>
                 <pokemon>
                     <species>MAGNEZONE</species>
                     <moves>
-                        <move>Bubble</move>
+                        <move>Spark</move>
+                        <move>Tackle</move>
+                        <move>Magnet Bomb</move>
+                        <move>Discharge</move>
                     </moves>
                 </pokemon>
                 <pokemon>
                     <species>JOLTEON</species>
                     <moves>
-                        <move>Bubble</move>
+                        <move>Thunder Fang</move>
+                        <move>Quick Attack</move>
+                        <move>Tackle</move>
+                        <move>Double Kick</move>
                     </moves>
                 </pokemon>
                 <pokemon>
                     <species>AMPHAROS</species>
                     <moves>
-                        <move>Bubble</move>
+                        <move>Tackle</move>
+                        <move>Thundershock</move>
+                        <move>Iron Tail</move>
+                        <move>Facade</move>
                     </moves>
                 </pokemon>
                 <pokemon>
                     <species>LUXRAY</species>
                     <moves>
-                        <move>Bubble</move>
+                        <move>Bite</move>
+                        <move>Spark</move>
+                        <move>Thunder Fang</move>
+                        <move>Secret Power</move>
                     </moves>
                 </pokemon>
                 <pokemon>
                     <species>ELECTIVIRE</species>
                     <moves>
-                        <move>Bubble</move>
+                        <move>Low Kick</move>
+                        <move>ThunderPunch</move>
+                        <move>Thunderbolt</move>
+                        <move>Facade</move>
                     </moves>
                 </pokemon>
             </team>
-            <introText>Jigglypuff?</introText>
-            <outroText>Jigglypuff. =(</outroText>
+            <introText>My Pokemon work in tandem like my vast computer network.</introText>
+            <outroText>Oh no! A virus!</outroText>
         </professor>
         
         <professor id='6'>
@@ -228,44 +319,62 @@
                 <pokemon>
                     <species>CHATOT</species>
                     <moves>
-                        <move>Vine Whip</move>
+                        <move>Peck</move>
+                        <move>Fury Attack</move>
+                        <move>Facade</move>
+                        <move>Secret Power</move>
                     </moves>
                 </pokemon>
                 <pokemon>
                     <species>TENTACRUEL</species>
                     <moves>
-                        <move>Bubble</move>
+                        <move>Constrict</move>
+                        <move>Bubblebeam</move>
+                        <move>Poison Jab</move>
+                        <move>Water Pulse</move>
                     </moves>
                 </pokemon>
                 
                 <pokemon>
                     <species>POLIWRATH</species>
                     <moves>
-                        <move>Vine Whip</move>
+                        <move>Focus Punch</move>
+                        <move>Bubblebeam</move>
+                        <move>Brick Break</move>
+                        <move>Secret Power</move>
                     </moves>
                 </pokemon>
                 <pokemon>
                     <species>SHARPEDO</species>
                     <moves>
-                        <move>Bubble</move>
+                        <move>Bite</move>
+                        <move>Rage</move>
+                        <move>Crunch</move>
+                        <move>Aqua Jet</move>
                     </moves>
                 </pokemon>
                 
                 <pokemon>
                     <species>WAILORD</species>
                     <moves>
-                        <move>Vine Whip</move>
+                        <move>Water Gun</move>
+                        <move>Astonish</move>
+                        <move>Water Pulse</move>
+                        <move>Secret Power</move>
                     </moves>
                 </pokemon>
                 <pokemon>
                     <species>BLASTOISE</species>
                     <moves>
                         <move>Bubble</move>
+                        <move>Aqua Tail</move>
+                        <move>Rapid Spin</move>
+                        <move>Surf</move>
                     </moves>
                 </pokemon>
             </team>
-            <introText>Jigglypuff?</introText>
-            <outroText>Jigglypuff. =(</outroText>
+            <introText>I coded all my stats in RRRR!!!!!</introText>
+            <outroText>Arr! Now it is I who’ll walk the plank!!!</outroText>
         </professor>
         
         <professor id='7'>
@@ -274,42 +383,60 @@
                 <pokemon>
                     <species>RAYQUAZA</species>
                     <moves>
-                        <move>Vine Whip</move>
+                        <move>Twister</move>
+                        <move>AncientPower</move>
+                        <move>Facade</move>
+                        <move>Secret Power</move>
                     </moves>
                 </pokemon>
                 <pokemon>
                     <species>ARON</species>
                     <moves>
-                        <move>Bubble</move>
+                        <move>Tackle</move>
+                        <move>Mud-Slap</move>
+                        <move>Headbutt</move>
+                        <move>Iron Tail</move>
                     </moves>
                 </pokemon>
                 <pokemon>
                     <species>LAIRON</species>
                     <moves>
-                        <move>Bubble</move>
+                        <move>Headbutt</move>
+                        <move>Metal Claw</move>
+                        <move>Mud-Slap</move>
+                        <move>Iron Tail</move>
                     </moves>
                 </pokemon>
                 <pokemon>
-                    <species>REGGICE</species>
+                    <species>REGICE</species>
                     <moves>
-                        <move>Bubble</move>
+                        <move>Icy Wind</move>
+                        <move>AncientPower</move>
+                        <move>Zap Cannon</move>
+                        <move>Focus Punch</move>
                     </moves>
                 </pokemon>
                 <pokemon>
-                    <species>WOBBUFFET</species>
+                    <species>SNEASEL</species>
                     <moves>
-                        <move>Bubble</move>
+                        <move>Scratch</move>
+                        <move>Quick Attack</move>
+                        <move>Faint Attack</move>
+                        <move>Slash</move>
                     </moves>
                 </pokemon>
                 <pokemon>
                     <species>RAYQUAZA</species>
                     <moves>
-                        <move>Bubble</move>
+                        <move>Dragon Claw</move>
+                        <move>ExtremeSpeed</move>
+                        <move>Iron Tail</move>
+                        <move>Shock Wave</move>
                     </moves>
                 </pokemon>
             </team>
-            <introText>Jigglypuff?</introText>
-            <outroText>Jigglypuff. =(</outroText>
+            <introText>Don’t you popo Purdue!</introText>
+            <outroText>Well, I guess Bucknell is better.</outroText>
         </professor>
         
         <professor id='8'>
@@ -318,18 +445,308 @@
                 <pokemon>
                     <species>SHUCKLE</species>
                     <moves>
-                        <move>Vine Whip</move>
+                        <move>Constrict</move>
+                        <move>Facade</move>
+                        <move>Strength</move>
+                        <move>Rock Tomb</move>
                     </moves>
                 </pokemon>
                 <pokemon>
                     <species>DUGTRIO</species>
                     <moves>
-                        <move>Bubble</move>
+                        <move>Tri Attack</move>
+                        <move>Scratch</move>
+                        <move>Mud-Slap</move>
+                        <move>Slash</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                    <species>ONIX</species>
+                    <moves>
+                        <move>Tackle</move>
+                        <move>Slam</move>
+                        <move>Iron Tail</move>
+                        <move>Rock Tomb</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                    <species>GOLEM</species>
+                    <moves>
+                        <move>Stone Edge</move>
+                        <move>Tackle</move>
+                        <move>Rollout</move>
+                        <move>Rock Smash</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                        <species>RHYDON</species>
+                    <moves>
+                        <move>Stomp</move>
+                        <move>Horn Attack</move>
+                        <move>Facade</move>
+                        <move>Thief</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                    <species>BASTIODON</species>
+                    <moves>
+                        <move>Tackle</move>
+                        <move>Iron Head</move>
+                        <move>Secret Power</move>
+                        <move>Rock Tomb</move>
                     </moves>
                 </pokemon>
             </team>
-            <introText>Prepare for the wrath of my goatee!</introText>
-            <outroText>How the fuck did I lose?</outroText>
+            <introText>Welcome to 205. Say goodbye to your free time.</introText>
+            <outroText>Next time I'm bringing my band!</outroText>
+        </professor>
+        
+        <professor id='9'>
+            <name>Elite Four's Eric</name>
+            <team>
+                <pokemon>
+                    <species>TAUROS</species>
+                    <moves>
+                        <move>Rage</move>
+                        <move>Tackle</move>
+                        <move>Horn Attack</move>
+                        <move>Pursuit</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                    <species>TAUROS</species>
+                    <moves>
+                        <move>Rage</move>
+                        <move>Tackle</move>
+                        <move>Horn Attack</move>
+                        <move>Pursuit</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                    <species>TAUROS</species>
+                    <moves>
+                        <move>Rage</move>
+                        <move>Tackle</move>
+                        <move>Horn Attack</move>
+                        <move>Pursuit</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                    <species>TAUROS</species>
+                    <moves>
+                        <move>Rage</move>
+                        <move>Tackle</move>
+                        <move>Horn Attack</move>
+                        <move>Pursuit</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                    <species>TAUROS</species>
+                    <moves>
+                        <move>Rage</move>
+                        <move>Tackle</move>
+                        <move>Horn Attack</move>
+                        <move>Pursuit</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                    <species>TAUROS</species>
+                    <moves>
+                        <move>Rage</move>
+                        <move>Tackle</move>
+                        <move>Horn Attack</move>
+                        <move>Pursuit</move>
+                    </moves>
+                </pokemon>
+            </team>
+            <introText>Get ready to meet your maker.</introText>
+            <outroText>I lost? Let me check if I made an error somewhere.</outroText>
+        </professor>
+        
+        <professor id='10'>
+            <name>Elite Four's Jason</name>
+            <team>
+                <pokemon>
+                    <species>PSYDUCK</species>
+                    <moves>
+                        <move>Scratch</move>
+                        <move>Water Gun</move>
+                        <move>Confusion</move>
+                        <move>Zen Headbutt</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                    <species>SALAMENCE</species>
+                    <moves>
+                        <move>Bite</move>
+                        <move>Dragon Claw</move>
+                        <move>Iron Tail</move>
+                        <move>Ember</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                    <species>ABOMASNOW</species>
+                    <moves>
+                        <move>Ice Punch</move>
+                        <move>Giga Drain</move>
+                        <move>Facade</move>
+                        <move>Rock Slide</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                    <species>PORYGON</species>
+                    <moves>
+                        <move>Tackle</move>
+                        <move>Psybeam</move>
+                        <move>Ice Beam</move>
+                        <move>Iron Tail</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                        <species>RAYQUAZA</species>
+                    <moves>
+                        <move>Dragon Claw</move>
+                        <move>Crunch</move>
+                        <move>Facade</move>
+                        <move>Secret Power</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                    <species>LAPRAS</species>
+                    <moves>
+                        <move>Body Slam</move>
+                        <move>Water Pulse</move>
+                        <move>Secret Power</move>
+                        <move>Facade</move>
+                    </moves>
+                </pokemon>
+            </team>
+            <introText>Good luck!</introText>
+            <outroText>Thanks for playing!</outroText>
+        </professor>
+        
+        <professor id='11'>
+            <name>Elite Four's Murph</name>
+            <team>
+                <pokemon>
+                    <species>TOGEKISS</species>
+                    <moves>
+                        <move>Sky Attack</move>
+                        <move>Future Sight</move>
+                        <move>Focus Punch</move>
+                        <move>Air Slash</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                    <species>DUGTRIO</species>
+                    <moves>
+                        <move>Tri Attack</move>
+                        <move>Scratch</move>
+                        <move>Mud-Slap</move>
+                        <move>Slash</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                    <species>BLAZIKEN</species>
+                    <moves>
+                        <move>Blaze Kick</move>
+                        <move>Brave Bird</move>
+                        <move>Flare Blitz</move>
+                        <move>Last Resort</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                    <species>MILOTIC</species>
+                    <moves>
+                        <move>Surf</move>
+                        <move>Ice Beam</move>
+                        <move>Giga Impact</move>
+                        <move>Dragon Pulse</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                        <species>GENGAR</species>
+                    <moves>
+                        <move>Shadow Ball</move>
+                        <move>Dark Pulse</move>
+                        <move>Thunder</move>
+                        <move>Psychic</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                    <species>METAGROSS</species>
+                    <moves>
+                        <move>Earthquake</move>
+                        <move>Meteor Mash</move>
+                        <move>Zen Headbutt</move>
+                        <move>Aerial Ace</move>
+                    </moves>
+                </pokemon>
+            </team>
+            <introText>Muahahaha.</introText>
+            <outroText>But how? I'm overpowered!</outroText>
+        </professor>
+        
+        <professor id='12'>
+            <name>Elite Four's Ben</name>
+            <team>
+                <pokemon>
+                    <species>LUDICOLO</species>
+                    <moves>
+                        <move>Ice Beam</move>
+                        <move>Giga Drain</move>
+                        <move>Surf</move>
+                        <move>Rain Dance</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                    <species>SLAKING</species>
+                    <moves>
+                        <move>Shadow Claw</move>
+                        <move>Earthquake</move>
+                        <move>Hammer Arm</move>
+                        <move>Giga Impact</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                    <species>POLIWRATH</species>
+                    <moves>
+                        <move>Waterfall</move>
+                        <move>Focus Punch</move>
+                        <move>Ice Beam</move>
+                        <move>Brick Break</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                    <species>TOXICROAK</species>
+                    <moves>
+                        <move>Poison Jab</move>
+                        <move>Rock Slide</move>
+                        <move>Sucker Punch</move>
+                        <move>Sludge Bomb</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                        <species>SHUCKLE</species>
+                    <moves>
+                        <move>Earthquake</move>
+                        <move>Sludge Bomb</move>
+                        <move>Rock Slide</move>
+                        <move>Sand Tomb</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                    <species>SLOWBRO</species>
+                    <moves>
+                        <move>Hydro Pump</move>
+                        <move>Psychic</move>
+                        <move>SolarBeam</move>
+                        <move>Fire Blast</move>
+                    </moves>
+                </pokemon>
+            </team>
+            <introText>I am the Scrum Master.</introText>
+            <outroText>I need to do more sprints!</outroText>
         </professor>
     </professors>
 </trainers>
