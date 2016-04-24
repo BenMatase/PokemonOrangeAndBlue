@@ -19,7 +19,7 @@ import org.newdawn.slick.geom.RoundedRectangle;
 public class MenuLayoutManager<T extends MenuButton> {
 
     private T[][] buttonMatrix;
-    private T[] buttonArray;
+    private T[] itemArray;
     private Class<T> type;
     private int[] selected = new int[]{-1, -1};
     private int size = 0;
@@ -27,9 +27,10 @@ public class MenuLayoutManager<T extends MenuButton> {
     private float[] buttonRectSize;
     private boolean drawBackground;
     private boolean showHighlight = true;
+    private Color bgdColor = Color.white;
     // Constants for drawing
-    private static final float X_PADDING = 6;
-    private static final float Y_PADDING = 6;
+    private static final float X_PADDING = 8;
+    private static final float Y_PADDING = 8;
 
     public MenuLayoutManager(RoundedRectangle drawArea, int x, int y, Class<T> empty) {
         this(drawArea, x, y, true, empty);
@@ -51,6 +52,10 @@ public class MenuLayoutManager<T extends MenuButton> {
         int width = (int) ((drawArea.getWidth() - (buttonMatrix.length + 1) * X_PADDING) / buttonMatrix.length);
         int height = (int) ((drawArea.getHeight() - (buttonMatrix[0].length + 1) * Y_PADDING) / buttonMatrix[0].length);
         buttonRectSize = new float[]{width, height};
+    }
+
+    public void setBackgroundColor(Color newColor) {
+        bgdColor = newColor;
     }
 
     private int[] getButtonCoords(int gridX, int gridY) {
@@ -79,7 +84,7 @@ public class MenuLayoutManager<T extends MenuButton> {
                 buttonMatrix[x][y] = null;
                 if (x == selected[0] && y == selected[1]) {
                     if (size != 0) {
-                        selected = find(buttonArray[0]);
+                        selected = find(itemArray[0]);
                     } else {
                         selected = new int[]{-1, -1};
                     }
@@ -105,7 +110,7 @@ public class MenuLayoutManager<T extends MenuButton> {
         }
     }
 
-    public MenuButton getLeft() {
+    public T getLeft() {
         if (selected[0] != 0 && buttonMatrix[selected[0] - 1][selected[1]] != null) {
             return buttonMatrix[selected[0] - 1][selected[1]];
         } else {
@@ -113,7 +118,7 @@ public class MenuLayoutManager<T extends MenuButton> {
         }
     }
 
-    public MenuButton getRight() {
+    public T getRight() {
         if (selected[0] < buttonMatrix.length - 1 && buttonMatrix[selected[0] + 1][selected[1]] != null) {
             return buttonMatrix[selected[0] + 1][selected[1]];
         } else {
@@ -121,7 +126,7 @@ public class MenuLayoutManager<T extends MenuButton> {
         }
     }
 
-    public MenuButton getUp() {
+    public T getUp() {
         if (selected[1] != 0 && buttonMatrix[selected[0]][selected[1] - 1] != null) {
             return buttonMatrix[selected[0]][selected[1] - 1];
         } else {
@@ -129,7 +134,7 @@ public class MenuLayoutManager<T extends MenuButton> {
         }
     }
 
-    public MenuButton getDown() {
+    public T getDown() {
         if (selected[1] < buttonMatrix[0].length - 1 && buttonMatrix[selected[0]][selected[1] + 1] != null) {
             return buttonMatrix[selected[0]][selected[1] + 1];
         } else {
@@ -141,7 +146,7 @@ public class MenuLayoutManager<T extends MenuButton> {
         return getButton(selected[0], selected[1]);
     }
 
-    public int[] find(MenuButton b) {
+    public int[] find(T b) {
         for (int x = 0; x < buttonMatrix.length; x++) {
             for (int y = 0; y < buttonMatrix[0].length; y++) {
                 if (buttonMatrix[x][y] == b) {
@@ -152,7 +157,7 @@ public class MenuLayoutManager<T extends MenuButton> {
         return null;
     }
 
-    public void setSelected(MenuButton b) {
+    public void setSelected(T b) {
         if (b != null) {
             int[] tmp = find(b);
             if (tmp != null && buttonMatrix[selected[0]][selected[1]] != b && buttonMatrix[tmp[0]][tmp[1]].isEnabled()) {
@@ -164,14 +169,14 @@ public class MenuLayoutManager<T extends MenuButton> {
     }
 
     public void disable() {
-        for (MenuButton b : getButtons()) {
+        for (T b : getItems()) {
             b.setEnabled(false);
             b.setHighlighted(false);
         }
     }
 
     public void enable() {
-        for (MenuButton b : buttonArray) {
+        for (T b : itemArray) {
             b.setEnabled(true);
             b.setHighlighted(false);
         }
@@ -180,6 +185,10 @@ public class MenuLayoutManager<T extends MenuButton> {
 
     public void shouldShowHighlight(boolean show) {
         showHighlight = show;
+    }
+
+    public boolean isShowingHighlight() {
+        return showHighlight;
     }
 
     public T getButton(int x, int y) {
@@ -195,28 +204,28 @@ public class MenuLayoutManager<T extends MenuButton> {
     }
 
     private void refreshArray() {
-        buttonArray = (T[]) Array.newInstance(type, size);
+        itemArray = (T[]) Array.newInstance(type, size);
         int i = 0;
         for (T[] row : buttonMatrix) {
             for (T btn : row) {
                 if (btn != null) {
-                    buttonArray[i] = btn;
+                    itemArray[i] = btn;
                     i += 1;
                 }
             }
         }
     }
 
-    public T[] getButtons() {
-        return buttonArray;
+    public T[] getItems() {
+        return itemArray;
     }
 
     public void render(GameContainer container, Graphics g) {
         if (drawBackground) {
-            g.setColor(Color.white);
+            g.setColor(bgdColor);
             g.fill(drawArea);
         }
-        for (MenuButton b : buttonArray) {
+        for (T b : itemArray) {
             if (buttonMatrix[selected[0]][selected[1]] == b) {
                 b.setHighlighted(showHighlight);
             } else {

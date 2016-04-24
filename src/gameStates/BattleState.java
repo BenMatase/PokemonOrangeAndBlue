@@ -5,7 +5,6 @@
  */
 package gameStates;
 
-import BattleUtility.AnimationEvent;
 import BattleUtility.EnemyDefeatEvent;
 import BattleUtility.Event;
 import BattleUtility.PokemonFaintEvent;
@@ -18,10 +17,12 @@ import PokemonController.BattleControl;
 import PokemonObjects.Move;
 import PokemonObjects.Pokemon;
 import PokemonObjects.TrainerType;
+import guiComponents.ColorUtil;
 import guiComponents.InfoPanel;
 import guiComponents.MenuButton;
 import guiComponents.MenuLayoutManager;
 import guiComponents.PokemonImage;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 import org.newdawn.slick.Color;
@@ -32,6 +33,7 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.Music;
 import org.newdawn.slick.MusicListener;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.RoundedRectangle;
 import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -48,7 +50,7 @@ public class BattleState implements GameState {
     // Control and model components
     private int ID;
     private StateBasedGame game;
-    private BattleMenuState state;
+    private BattleStateMenuType state;
     private PokeModel model;
     private BattleControl control;
 
@@ -81,6 +83,11 @@ public class BattleState implements GameState {
     // Music
     private Music introMusic;
     private Music bgdMusic;
+    private Music victoryMusic;
+
+    // Sounds
+    private Sound attackSound;
+    private Sound faintSound;
 
     // Action Relevant
     private boolean pokemonFainted;
@@ -113,9 +120,14 @@ public class BattleState implements GameState {
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
         this.game = game;
-        state = BattleMenuState.MAIN;
-        bgdMusic = new Music("./res/Sounds/BattleThemeLoop.ogg");
-        introMusic = new Music("./res/Sounds/BattleIntro.ogg");
+        state = BattleStateMenuType.MAIN;
+
+        // Init sound, takes awhile, so do it only once
+        bgdMusic = new Music("./res/Sounds/Music/BattleThemeLoop.ogg");
+        introMusic = new Music("./res/Sounds/Music/BattleIntro.ogg");
+        victoryMusic = new Music("./res/Sounds/Music/TrainerVictory.ogg");
+        faintSound = new Sound("./res/Sounds/Effects/pkmnFaint.wav");
+        attackSound = new Sound("./res/Sounds/Effects/normalMove.wav");
     }
 
     @Override
@@ -147,7 +159,7 @@ public class BattleState implements GameState {
                                                                (container.getWidth() - 3 * X_PADDING) * 0.75f,
                                                                container.getHeight() - bgdImage.getHeight() - 2 * Y_PADDING,
                                                                5);
-        RoundedRectangle right14DrawRect = new RoundedRectangle(container.getWidth() * 0.75f + X_PADDING * 0.5f,
+        RoundedRectangle right14DrawRect = new RoundedRectangle(X_PADDING + (container.getWidth() - 3 * X_PADDING) * 0.75f + X_PADDING,
                                                                 bgdImage.getHeight() + Y_PADDING,
                                                                 (container.getWidth() - 3 * X_PADDING) * 0.25f,
                                                                 container.getHeight() - bgdImage.getHeight() - 2 * Y_PADDING,
@@ -176,7 +188,7 @@ public class BattleState implements GameState {
         // Battle Controller
         control = new BattleControl(model);
         handleNewEvents(control.getInitialMessage());
-        this.state = BattleMenuState.HANDLING_EVENTS;
+        this.state = BattleStateMenuType.HANDLING_EVENTS;
     }
 
     /**
@@ -221,6 +233,7 @@ public class BattleState implements GameState {
     /**
      * Sets up the buttons to go in the main menu
      *
+     * @author Eric
      * @param buttonRect The rectangle to draw the buttons in
      * @param textDisplayRect The rectangle to draw the text display in
      */
@@ -239,10 +252,11 @@ public class BattleState implements GameState {
     }
 
     /**
-     * The fight menu display
+     * Sets up the fight menu display
      *
-     * @param left
-     * @param right
+     * @author Eric
+     * @param left The left rectangle, for displaying the attack options
+     * @param right The right rectangle, for displaying the cancel button
      */
     public void setupFightMenu(RoundedRectangle left, RoundedRectangle right) {
         fightMenuMgr = new MenuLayoutManager<>(left, 2, 2, MenuButton.class);
@@ -252,6 +266,12 @@ public class BattleState implements GameState {
         fightMenuCancelMgr.shouldShowHighlight(false);
     }
 
+    /**
+     * Sets up the HP bars
+     *
+     * @author Eric
+     * @param container The container to draw in
+     */
     public void setupHPBars(GameContainer container) {
         // HP BARS
         hpBarViewMgr = new MenuLayoutManager<>(new RoundedRectangle(0, 0, container.getWidth(), bgdImage.getHeight(), 0), 2, 3, false, InfoPanel.class);
@@ -260,6 +280,15 @@ public class BattleState implements GameState {
         hpBarViewMgr.disable();
     }
 
+    /**
+     * Sets up the Pokemon Menu
+     *
+     * @author Eric
+     * @param container The container to draw in
+     * @param left The left rectangle, for displaying a prompt
+     * @param right The right rectangle, for displaying the cancel button
+     * @throws SlickException
+     */
     public void setupPokemonMenu(GameContainer container, RoundedRectangle left, RoundedRectangle right) throws SlickException {
         // Pokemon Chooser Menu
         pokemonMenuMgr = new MenuLayoutManager<>(new RoundedRectangle(0, 0, container.getWidth(), bgdImage.getHeight(), 0), 2, 3, false, InfoPanel.class);
@@ -300,16 +329,28 @@ public class BattleState implements GameState {
         eventQueue = null;
 
         // Clear enemy
-        model.setEnemy(
-            null);
+        model.setEnemy(null);
+
+        // Clean up event queue
+        eventQueue = null;
 
         // Clean up music
         if (bgdMusic.playing()) {
             bgdMusic.fade(500, 0.0f, true);
+        } else if (victoryMusic.playing()) {
+            victoryMusic.fade(500, 0.0f, true);
         }
-        eventQueue = null;
+
     }
 
+    //=========================
+    //   _   _ _
+    //  | | | (_)
+    //  | | | |_  __ __      __
+    //  | | | | |/ _ \ \ /\ / /
+    //  \ \_/ / |  __/\ V  V /
+    //   \___/|_|\___| \_/\_/
+    //=========================
     //=========================
     // Mark: - Rendering (View)
     //=========================
@@ -353,7 +394,7 @@ public class BattleState implements GameState {
      * @param g The graphics context used to draw
      */
     private void drawBattleScene(GameContainer container, Graphics g) {
-        g.setBackground(Color.darkGray);
+        g.setBackground(ColorUtil.getBlue());
         g.drawImage(bgdImage, 0, 0, container.getWidth(), bgdImage.getHeight(), 0, 0, bgdImage.getWidth(), bgdImage.getHeight());
 
         // Draw Pokemon
@@ -393,7 +434,7 @@ public class BattleState implements GameState {
      * @param g The graphics context used to draw
      */
     private void drawPokemon(GameContainer container, Graphics g) {
-        g.setBackground(new Color(100, 0, 100));
+        g.setBackground(ColorUtil.getBlue());
         pokemonMenuMgr.render(container, g);
         if (pokemonFainted) {
             textDisplayViewMgr.render(container, g);
@@ -403,6 +444,14 @@ public class BattleState implements GameState {
         }
     }
 
+    // ===============================================
+    //  _____             _             _ _
+    // /  __ \           | |           | | |
+    // | /  \/ ___  _ __ | |_ _ __ ___ | | | ___ _ __
+    // | |    / _ \| '_ \| __| '__/ _ \| | |/ _ \ '__|
+    // | \__/\ (_) | | | | |_| | | (_) | | |  __/ |
+    //  \____/\___/|_| |_|\__|_|  \___/|_|_|\___|_|
+    // ===============================================
     //=====================================
     // Mark: - Logical Updates (Controller)
     //=====================================
@@ -426,7 +475,7 @@ public class BattleState implements GameState {
                         exitOnEmptyQueue = false;
                         game.enterState(GameStateType.SPLASHSCREEN.getValue(), new FadeOutTransition(), new FadeInTransition());
                     } else {
-                        this.state = BattleMenuState.MAIN;
+                        this.state = BattleStateMenuType.MAIN;
                     }
                 }
         }
@@ -441,44 +490,32 @@ public class BattleState implements GameState {
     public void handleNextEvent() throws SlickException {
         Event evt = eventQueue.peek();
         if (evt instanceof TextOutputEvent) {
-            System.out.println("Update display text to: '" + ((TextOutputEvent) evt).getMessage() + "'");
             textDisplayViewMgr.getButton(0, 0).setText(((TextOutputEvent) evt).getMessage());
             delay += 2000;
-        } else if (evt instanceof AnimationEvent) {
-            System.out.println("Animation");
         } else if (evt instanceof UpdateHealthBarEvent) {
             handleUpdateHPEvent((UpdateHealthBarEvent) evt);
-            System.out.println("Health Update");
         } else if (evt instanceof PokemonFaintEvent) {
             handleFaintEvent((PokemonFaintEvent) evt);
-            System.out.println("Pokemon Faint");
         } else if (evt instanceof UserDefeatEvent) {
-            UserDefeatEvent ude = (UserDefeatEvent) evt;
             exitOnEmptyQueue = true;
-            System.out.println("User Defeat");
         } else if (evt instanceof EnemyDefeatEvent) {
-            EnemyDefeatEvent ede = (EnemyDefeatEvent) evt;
             exitOnEmptyQueue = true;
-            System.out.println("Enemy Defeat");
         } else if (evt instanceof SwitchPokemonEvent) {
             handleSwitchEvent((SwitchPokemonEvent) evt);
-            System.out.println("Switch Pokemon");
-        } else if (evt != null) {
-            System.out.println("Other: " + evt.getClass().getSimpleName());
-        } else {
-            System.out.println("Null event");
         }
     }
 
     /**
-     * Handles the necessary items
+     * Handles what to do when pokemon are switched in and out
      *
-     * @param spe
+     * @author Eric
+     * @param spe The SwitchPokemonEvent describing what is happening
      */
     private void handleSwitchEvent(SwitchPokemonEvent spe) {
         if (spe.getSwitchPokemon().getTrainer() == TrainerType.NPC) {
             try {
                 enemyImage.swap(new Image("./res/Images/Sprites/front/" + model.getEnemy().getCurPokemon().getID() + ".png"));
+                System.out.println("Here");
                 hpBarViewMgr.set(0, 0, new InfoPanel(model.getEnemy().getCurPokemon().getCurHealth(), model.getEnemy().getCurPokemon().getHealth(), model.getEnemy().getCurPokemon().getName()));
             } catch (SlickException e) {
             }
@@ -491,14 +528,24 @@ public class BattleState implements GameState {
         }
     }
 
+    /**
+     * Handles what to do in the case that a Pokemon faints
+     *
+     * @author Eric
+     * @param pfe The PokemonFaintEvent describing what happened
+     * @throws SlickException
+     */
     private void handleFaintEvent(PokemonFaintEvent pfe) throws SlickException {
+        faintSound.play();
         switch (pfe.getTrainerType()) {
             case NPC:
                 enemyImage.disappear();
                 if (model.getEnemy().pokemonLiving()) {
                     eventQueue.poll();
                     handleNewEvents(control.enemyFaintSwitch());
-
+                } else {
+                    bgdMusic.fade(500, 0.0f, true);
+                    victoryMusic.play();
                 }
                 break;
             case USER:
@@ -506,7 +553,7 @@ public class BattleState implements GameState {
                 if (model.getUser().pokemonLiving()) {
                     updatePokemonMenuOptions();
                     pokemonFainted = true;
-                    state = BattleMenuState.POKEMON;
+                    state = BattleStateMenuType.POKEMON;
                     textDisplayViewMgr.getButton(0, 0).setText("Choose which Pokemon to send out");
                 }
                 break;
@@ -514,22 +561,28 @@ public class BattleState implements GameState {
         delay += 2000;
     }
 
+    /**
+     * Handles what to do when the HP of a Pokemon is changed
+     *
+     * @author Eric
+     * @param uhbe The UpdateHealthBarEvent that describes what happened
+     */
     private void handleUpdateHPEvent(UpdateHealthBarEvent uhbe) {
-        System.out.println("Trainer type is ==> " + uhbe.getTrainerType());
-        System.out.println(uhbe.getNewCurrHealth() + "=>" + model.getUser().getCurPokemon().getSpcAttack() + ", " + model.getEnemy().getCurPokemon().getSpcAttack());
         switch (uhbe.getTrainerType()) {
             case NPC:
-                hpBarViewMgr.getButton(0, 0).setHP(uhbe.getNewCurrHealth());
                 playerImage.attack();
-                if (uhbe.getNewCurrHealth() - model.getEnemy().getCurPokemon().getCurHealth() != 0) {
+                if (uhbe.getNewCurrHealth() != hpBarViewMgr.getButton(0, 0).getHP()) {
+                    attackSound.play();
                     enemyImage.defend();
+                    hpBarViewMgr.getButton(0, 0).setHP(uhbe.getNewCurrHealth());
                 }
                 break;
             case USER:
-                hpBarViewMgr.getButton(1, 2).setHP(uhbe.getNewCurrHealth());
                 enemyImage.attack();
-                if (uhbe.getNewCurrHealth() - model.getUser().getCurPokemon().getCurHealth() != 0) {
+                if (uhbe.getNewCurrHealth() != hpBarViewMgr.getButton(1, 2).getHP()) {
+                    attackSound.play();
                     playerImage.defend();
+                    hpBarViewMgr.getButton(1, 2).setHP(uhbe.getNewCurrHealth());
                 }
                 break;
         }
@@ -546,20 +599,20 @@ public class BattleState implements GameState {
         switch (mainMenuMgr.getSelected().getText()) {
             case "Fight":
                 updateFightMenuOptions();
-                state = BattleMenuState.FIGHT;
+                state = BattleStateMenuType.FIGHT;
                 break;
             case "Pokemon":
                 updatePokemonMenuOptions();
-                state = BattleMenuState.POKEMON;
+                state = BattleStateMenuType.POKEMON;
                 break;
             case "Bag":
                 eventQueue.add(new TextOutputEvent("College students can't afford stuff to put in a bag!"));
-                this.state = BattleMenuState.HANDLING_EVENTS;
+                this.state = BattleStateMenuType.HANDLING_EVENTS;
                 handleNextEvent();
                 break;
             case "Run":
                 eventQueue.add(new TextOutputEvent("You can't run from a trainer battle!"));
-                this.state = BattleMenuState.HANDLING_EVENTS;
+                this.state = BattleStateMenuType.HANDLING_EVENTS;
                 handleNextEvent();
                 break;
         }
@@ -601,12 +654,13 @@ public class BattleState implements GameState {
         } else if (fightMenuMgr.getSelected().getText().equals(model.getUser().getCurPokemon().getMoves()[3].getName())) {
             handleNewEvents(control.chooseAttack(model.getUser().getCurPokemon().getMoves()[3]));
         }
-        this.state = BattleMenuState.HANDLING_EVENTS;
+        this.state = BattleStateMenuType.HANDLING_EVENTS;
     }
 
     /**
      * Updates the pokemon available to
      *
+     * @author Eric
      * @throws SlickException
      */
     private void updatePokemonMenuOptions() throws SlickException {
@@ -623,9 +677,16 @@ public class BattleState implements GameState {
         }
     }
 
+    /**
+     * Handler for button selection in the Pokemon menu
+     *
+     * @author Eric
+     * @throws SlickException
+     */
     private void handlePokemonMenuSelection() throws SlickException {
+        System.out.println("Selected:" + Arrays.toString(pokemonMenuMgr.find(pokemonMenuMgr.getSelected())));
         for (Pokemon pkmn : model.getUser().getPokemon()) {
-            if (pkmn.getNickname().equals(pokemonMenuMgr.getSelected().getText())) {
+            if (pkmn.getName().equals(pokemonMenuMgr.getSelected().getText()) && pkmn.getCurHealth() == pokemonMenuMgr.getSelected().getHP()) {
                 if (pkmn.isAlive()) {
                     // pokemonFainted true if the user's current pokemon fainted (not picking by choice)
                     if (!pokemonFainted) {
@@ -641,6 +702,7 @@ public class BattleState implements GameState {
                     }
                     hpBarViewMgr.set(1, 2, pokemonMenuMgr.getSelected().getCopy(false));
                     mainMenuTextDisplay.getButton(0, 0).setText("What will " + hpBarViewMgr.getButton(1, 2).getText() + " do?");
+                    break;
                 }
             }
         }
@@ -653,7 +715,7 @@ public class BattleState implements GameState {
      * @author Eric
      */
     public void handleSubMenuCancelSelection() {
-        state = BattleMenuState.MAIN;
+        state = BattleStateMenuType.MAIN;
     }
 
     /**
@@ -666,7 +728,7 @@ public class BattleState implements GameState {
             eventQueue.add(newEvents.get(0));
             newEvents.remove(0);
         }
-        this.state = BattleMenuState.HANDLING_EVENTS;
+        this.state = BattleStateMenuType.HANDLING_EVENTS;
         handleNextEvent();
     }
 
@@ -675,10 +737,8 @@ public class BattleState implements GameState {
     //========================
     @Override
     public void mouseClicked(int button, int x, int y, int clickCount) {
-        System.out.print("Clicked in ");
         switch (state) {
             case MAIN:
-                System.out.println("Main");
                 if (mainMenuMgr.getSelected().contains(x, y)) {
                     try {
                         handleMainMenuSelection();
@@ -687,7 +747,6 @@ public class BattleState implements GameState {
                 }
                 break;
             case FIGHT:
-                System.out.println("Fight");
                 if (fightMenuMgr.getSelected().contains(x, y)) {
                     try {
                         handleFightMenuSelection();
@@ -700,7 +759,6 @@ public class BattleState implements GameState {
             case BAG:
                 break;
             case POKEMON:
-                System.out.println("Pokemon");
                 if (pokemonMenuMgr.getSelected().contains(x, y)) {
                     try {
                         handlePokemonMenuSelection();
@@ -718,21 +776,21 @@ public class BattleState implements GameState {
     public void mouseMoved(int oldx, int oldy, int newx, int newy) {
         switch (state) {
             case MAIN:
-                for (MenuButton btn : mainMenuMgr.getButtons()) {
+                for (MenuButton btn : mainMenuMgr.getItems()) {
                     if (btn.contains(newx, newy)) {
                         mainMenuMgr.setSelected(btn);
                     }
                 }
                 break;
             case FIGHT:
-                for (MenuButton btn : fightMenuMgr.getButtons()) {
+                for (MenuButton btn : fightMenuMgr.getItems()) {
                     if (btn.contains(newx, newy)) {
                         fightMenuMgr.setSelected(btn);
                     }
                 }
                 break;
             case POKEMON:
-                for (MenuButton pnl : pokemonMenuMgr.getButtons()) {
+                for (InfoPanel pnl : pokemonMenuMgr.getItems()) {
                     if (pnl.contains(newx, newy)) {
                         pokemonMenuMgr.setSelected(pnl);
                     }
@@ -769,19 +827,33 @@ public class BattleState implements GameState {
     @Override
     public void keyPressed(int key, char c) {
         switch (state) {
-            case MAIN: {
+            case MAIN:
                 try {
                     handleMainMenuKeyPress(key, c);
                 } catch (SlickException e) {
                 }
-            }
-            break;
-            case FIGHT: {
+                break;
+            case FIGHT:
                 try {
                     handleFightMenuKeyPress(key, c);
                 } catch (SlickException e) {
                 }
-            }
+                break;
+            case POKEMON:
+                try {
+                    handlePokemonMenuKeyPress(key, c);
+                } catch (SlickException e) {
+                }
+                break;
+            case HANDLING_EVENTS:
+                switch (key) {
+                    case Input.KEY_SPACE:
+                    case Input.KEY_ENTER:
+                        if (delay > 0) {
+                            delay = 0;
+                        }
+                        break;
+                }
         }
     }
 
@@ -810,7 +882,7 @@ public class BattleState implements GameState {
                 break;
             case Input.KEY_BACK:
             case Input.KEY_ESCAPE:
-                state = BattleMenuState.MAIN;
+                handleSubMenuCancelSelection();
                 break;
         }
     }
@@ -841,12 +913,39 @@ public class BattleState implements GameState {
         }
     }
 
+    private void handlePokemonMenuKeyPress(int key, char c) throws SlickException {
+        switch (key) {
+            case Input.KEY_LEFT:
+                pokemonMenuMgr.setSelected(pokemonMenuMgr.getLeft());
+                break;
+            case Input.KEY_RIGHT:
+                pokemonMenuMgr.setSelected(pokemonMenuMgr.getRight());
+                break;
+            case Input.KEY_DOWN:
+                pokemonMenuMgr.setSelected(pokemonMenuMgr.getDown());
+                break;
+            case Input.KEY_UP:
+                pokemonMenuMgr.setSelected(pokemonMenuMgr.getUp());
+                break;
+            case Input.KEY_SPACE:
+            case Input.KEY_ENTER:
+                handlePokemonMenuSelection();
+                break;
+            case Input.KEY_DELETE:
+            case Input.KEY_ESCAPE:
+                if (pokemonFainted) {
+                    handleSubMenuCancelSelection();
+                }
+                break;
+        }
+    }
+
     //====================================
     // Mark: - Accepting and Setting Input
     //====================================
     @Override
     public boolean isAcceptingInput() {
-        return this.state != BattleMenuState.HANDLING_EVENTS;
+        return true;
     }
 
     //============================================

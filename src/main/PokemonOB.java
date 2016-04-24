@@ -10,8 +10,8 @@ import gameStates.BattleState;
 import gameStates.BlackScreenState;
 import gameStates.GameStateType;
 import gameStates.MainMenuState;
-import gameStates.OverworldState;
 import gameStates.SplashScreenState;
+import gameStates.TeamPickerState;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
@@ -43,7 +43,7 @@ public class PokemonOB extends StateBasedGame {
         this.addState(new BlackScreenState(GameStateType.BLACKSCREEN.getValue()));
         this.addState(new SplashScreenState(GameStateType.SPLASHSCREEN.getValue()));
         this.addState(new MainMenuState(GameStateType.MAINMENU.getValue()));
-        this.addState(new OverworldState(GameStateType.OVERWORLD.getValue()));
+        this.addState(new TeamPickerState(GameStateType.TEAMPICKER.getValue(), model));
         this.addState(new BattleState(GameStateType.BATTLE.getValue(), model));
     }
 

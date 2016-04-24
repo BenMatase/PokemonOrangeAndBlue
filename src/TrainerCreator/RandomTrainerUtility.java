@@ -66,10 +66,21 @@ public class RandomTrainerUtility {
             List<String> allMoves = PokemonLoaderUtility.getMovesForPokemon(
                     pkmnName);
 
-            //get 4 random moves from all possible moves
-            for (int iMove = 0; iMove < 4; iMove++) {
+            //loop to repeat until get 4 damaging moves
+            while (true) {
+                //get a random move
                 String moveName = allMoves.get(random.nextInt(allMoves.size()));
-                pkmnMoves.add(moveName);
+
+                //make sure it is a damaging move, a little inefficient
+                if (!PokemonLoaderUtility.createMove(moveName).getType().toString().equals(
+                        "OTHER")) {
+                    pkmnMoves.add(moveName);
+                }
+
+                //once get 4, break out
+                if (pkmnMoves.size() == 4) {
+                    break;
+                }
             }
 
             Pokemon pkmn = PokemonLoaderUtility.createPokemon(pkmnName, pkmnName,
