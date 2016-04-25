@@ -5,15 +5,16 @@
  */
 package gameStates;
 
-import guiComponents.FontUtil;
-import guiComponents.SoundUtil;
+import guiComponents.FontUtils;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
+import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
@@ -35,11 +36,12 @@ public class SplashScreenState implements GameState {
     private TrueTypeFont pixelFont;
     private Color pixelFontColor;
     private float fadeDiff = -0.02f;
+    // Music
+    private Music splashScreenMusic;
     // Images
     private Image pokemonLogo;
     private Image splashScreenImage;
     private Image versionImage;
-    private Image bgdImage;
 
     //====================
     // Mark: - Constructor
@@ -58,47 +60,66 @@ public class SplashScreenState implements GameState {
 
         this.game = game;
 
+        // Load Music
+        splashScreenMusic = new Music("res/Sounds/OverworldTheme.ogg");
+
         // Load Images
-        pokemonLogo = new Image("res/Images/SplashScreen/PokemonLogo.png").getScaledCopy(0.9f);
+        pokemonLogo = new Image("res/Images/SplashScreen/PokemonLogo.png").getScaledCopy(
+                0.9f);
         splashScreenImage = new Image("res/Images/SplashScreen/Bouffalant.png");
-        versionImage = new Image("res/Images/SplashScreen/Version.png").getScaledCopy(0.5f);
+        versionImage = new Image("res/Images/SplashScreen/Version.png").getScaledCopy(
+                0.5f);
         bgdImage = new Image("res/Images/SplashScreen/Background.png");
 
         // Load fonts
         try {
-            pixelFont = FontUtil.getStdPixelFont();
+            pixelFont = FontUtils.getStdPixelFont();
         } catch (SlickException ex) {
             System.out.println("Error, failed to load font");
         }
         pixelFontColor = new Color(1.0f, 1.0f, 1.0f, 1.0f);
     }
 
-    //===========================
-    // Mark: - Rendering/Updating
-    //===========================
+    //==========================
+    // Mark: - Graphics Handling
+    //==========================
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
+        g.setAntiAlias(true);
         // Draw Background
-        g.drawImage(bgdImage, 0, 0);
+        g.setBackground(Color.white);
+        g.setColor(new Color(1, 84, 150));
+        g.fill(new Polygon(new float[]{0.0f, 0.0f, container.getWidth() - 10f, 0.0f, 0.0f, container.getHeight()}));
+        g.setColor(new Color(243, 110, 33));
+        g.fill(new Polygon(new float[]{container.getWidth(), container.getHeight(), container.getWidth(), 10f, 0.0f, container.getHeight()}));
 
         // Draw Pokemon Logo
-        g.drawImage(pokemonLogo, container.getWidth() / 2 - pokemonLogo.getWidth() / 2, 0,
-                    container.getWidth() / 2 + pokemonLogo.getWidth() / 2, pokemonLogo.getHeight(),
+        g.drawImage(pokemonLogo,
+                    container.getWidth() / 2 - pokemonLogo.getWidth() / 2, 0,
+                    container.getWidth() / 2 + pokemonLogo.getWidth() / 2,
+                    pokemonLogo.getHeight(),
                     0, 0, pokemonLogo.getWidth(), pokemonLogo.getHeight());
 
         // Draw center image
-        g.drawImage(splashScreenImage, container.getWidth() / 4, container.getHeight() / 4,
+        g.drawImage(splashScreenImage, container.getWidth() / 4,
+                    container.getHeight() / 4,
                     3 * container.getWidth() / 4, 3 * container.getHeight() / 4,
-                    0, 0, splashScreenImage.getWidth(), splashScreenImage.getHeight());
+                    0, 0, splashScreenImage.getWidth(),
+                    splashScreenImage.getHeight());
 
         // Draw version Image
-        g.drawImage(versionImage, container.getWidth() / 2 - versionImage.getWidth() / 2, container.getHeight() * 2 / 3,
-                    container.getWidth() / 2 + versionImage.getWidth() / 2, 5 * container.getHeight() / 6,
+        g.drawImage(versionImage,
+                    container.getWidth() / 2 - versionImage.getWidth() / 2,
+                    container.getHeight() * 2 / 3,
+                    container.getWidth() / 2 + versionImage.getWidth() / 2,
+                    5 * container.getHeight() / 6,
                     0, 0, versionImage.getWidth(), versionImage.getHeight());
 
         // Draw prompt String
         String promptString = "Press enter/space to start";
-        pixelFont.drawString(container.getWidth() / 2 - pixelFont.getWidth(promptString) / 2, (5 * container.getHeight() / 6), promptString, pixelFontColor);
+        pixelFont.drawString(container.getWidth() / 2 - pixelFont.getWidth(
+                promptString) / 2, (5 * container.getHeight() / 6), promptString,
+                             pixelFontColor);
     }
 
     @Override
@@ -120,7 +141,7 @@ public class SplashScreenState implements GameState {
     //=========================
     @Override
     public void enter(GameContainer container, StateBasedGame game) throws SlickException {
-        SoundUtil.playAlmaMater();
+        splashScreenMusic.loop(1.0f, 0.25f);
     }
 
     @Override
@@ -129,39 +150,21 @@ public class SplashScreenState implements GameState {
 
     private void goToMenu() {
 //        SoundUtil.playEnterBattle();
-        game.enterState(GameStateType.BATTLE.getValue(), new FadeOutTransition(), new FadeInTransition());
+        game.enterState(GameStateType.TEAMPICKER.getValue(),
+                        new FadeOutTransition(), new FadeInTransition());
     }
 
     //=======================
     // Mark: - Input Handlers
     //=======================
     @Override
-    public void mouseClicked(int button, int x, int y, int clickCount) {
-        goToMenu();
-    }
-
-    @Override
-    public void keyPressed(int key, char c) {
-        switch (key) {
-            case Input.KEY_SPACE:
-            case Input.KEY_ENTER:
-                goToMenu();
-                break;
-        }
-    }
-
-    @Override
-    public boolean isAcceptingInput() {
-        return true;
-    }
-
-    //===============
-    // Mark: - Unused
-    //===============
-    //<editor-fold>
-    @Override
     public void mouseWheelMoved(int change) {
 
+    }
+
+    @Override
+    public void mouseClicked(int button, int x, int y, int clickCount) {
+        goToMenu();
     }
 
     @Override
@@ -190,6 +193,11 @@ public class SplashScreenState implements GameState {
     }
 
     @Override
+    public boolean isAcceptingInput() {
+        return true;
+    }
+
+    @Override
     public void inputEnded() {
 
     }
@@ -197,6 +205,16 @@ public class SplashScreenState implements GameState {
     @Override
     public void inputStarted() {
 
+    }
+
+    @Override
+    public void keyPressed(int key, char c) {
+        switch (key) {
+            case Input.KEY_SPACE:
+            case Input.KEY_ENTER:
+                goToMenu();
+                break;
+        }
     }
 
     @Override
@@ -253,5 +271,4 @@ public class SplashScreenState implements GameState {
     public void controllerButtonReleased(int controller, int button) {
 
     }
-    //</editor-fold>
 }

@@ -258,10 +258,10 @@ public class PokemonCreatorPanel extends javax.swing.JPanel implements
             moves.add(cbxMove2.getSelectedItem().toString());
         }
         if (!cbxMove3.getSelectedItem().toString().equals(EMPTY_CHOICE)) {
-            moves.add(cbxMove2.getSelectedItem().toString());
+            moves.add(cbxMove3.getSelectedItem().toString());
         }
         if (!cbxMove4.getSelectedItem().toString().equals(EMPTY_CHOICE)) {
-            moves.add(cbxMove2.getSelectedItem().toString());
+            moves.add(cbxMove4.getSelectedItem().toString());
         }
 
         return moves;

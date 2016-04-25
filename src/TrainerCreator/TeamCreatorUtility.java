@@ -43,4 +43,8 @@ public class TeamCreatorUtility {
             return null;
         }
     }
+
+    public static void main(String[] args) {
+        getPokemonGUI();
+    }
 }
