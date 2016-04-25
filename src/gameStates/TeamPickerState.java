@@ -107,7 +107,7 @@ public class TeamPickerState implements GameState {
 
     @Override
     public void mouseClicked(int button, int x, int y, int clickCount) {
-        if (doneButtonMgr.getButton(0, 0).contains(x, y)) {
+        if (doneButtonMgr.getItem(0, 0).contains(x, y)) {
             handleDoneSelection();
         } else {
             if (teamMgr.getSelected().contains(x, y)) {
@@ -121,7 +121,7 @@ public class TeamPickerState implements GameState {
 
     @Override
     public void mouseMoved(int oldx, int oldy, int newx, int newy) {
-        if (doneButtonMgr.getButton(0, 0).contains(newx, newy)) {
+        if (doneButtonMgr.getItem(0, 0).contains(newx, newy)) {
             doneButtonMgr.shouldShowHighlight(true);
         } else if (doneButtonMgr.isShowingHighlight()) {
             doneButtonMgr.shouldShowHighlight(false);
