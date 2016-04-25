@@ -2761,7 +2761,7 @@ target.hp -= field.calculate(this, user, target, targets);
 </use>
 </move>
 
-<move name="Faint Attack" id="122">
+<move name="Feint Attack" id="122">
 <type>Dark</type>
 <class>Physical</class>
 <power>60</power>
