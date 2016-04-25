@@ -22,6 +22,7 @@ import guiComponents.InfoPanel;
 import guiComponents.MenuButton;
 import guiComponents.MenuLayoutManager;
 import guiComponents.PokemonImage;
+import guiComponents.SoundUtil;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -30,10 +31,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
-import org.newdawn.slick.Music;
-import org.newdawn.slick.MusicListener;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.RoundedRectangle;
 import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -80,15 +78,6 @@ public class BattleState implements GameState {
     private LinkedBlockingQueue<Event> eventQueue;
     private int delay = 0;
 
-    // Music
-    private Music introMusic;
-    private Music bgdMusic;
-    private Music victoryMusic;
-
-    // Sounds
-    private Sound attackSound;
-    private Sound faintSound;
-
     // Action Relevant
     private boolean pokemonFainted;
     private boolean exitOnEmptyQueue;
@@ -121,21 +110,12 @@ public class BattleState implements GameState {
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
         this.game = game;
         state = BattleStateMenuType.MAIN;
-
-        // Init sound, takes awhile, so do it only once
-        bgdMusic = new Music("./res/Sounds/Music/BattleThemeLoop.ogg");
-        introMusic = new Music("./res/Sounds/Music/BattleIntro.ogg");
-        victoryMusic = new Music("./res/Sounds/Music/TrainerVictory.ogg");
-        faintSound = new Sound("./res/Sounds/Effects/pkmnFaint.wav");
-        attackSound = new Sound("./res/Sounds/Effects/normalMove.wav");
     }
 
     @Override
     public void enter(GameContainer container, StateBasedGame game) throws SlickException {
 
         model = new PokeModel();
-
-        beginMusic();
 
         loadImages();
 
@@ -189,30 +169,6 @@ public class BattleState implements GameState {
         control = new BattleControl(model);
         handleNewEvents(control.getInitialMessage());
         this.state = BattleStateMenuType.HANDLING_EVENTS;
-    }
-
-    /**
-     * Starts the music playing and adds a listener to begin looping the
-     * background music
-     *
-     * @author Eric
-     */
-    public void beginMusic() {
-        introMusic.addListener(new MusicListener() {
-
-            @Override
-            public void musicEnded(Music music) {
-                bgdMusic.loop(1.0f, 0.25f);
-                introMusic.removeListener(this);
-            }
-
-            @Override
-            public void musicSwapped(Music music, Music newMusic) {
-
-            }
-        });
-        introMusic.play();
-        introMusic.play(1.0f, 0.25f);
     }
 
     /**
@@ -275,9 +231,10 @@ public class BattleState implements GameState {
     public void setupHPBars(GameContainer container) {
         // HP BARS
         hpBarViewMgr = new MenuLayoutManager<>(new RoundedRectangle(0, 0, container.getWidth(), bgdImage.getHeight(), 0), 2, 3, false, InfoPanel.class);
+        hpBarViewMgr.disable();
         hpBarViewMgr.set(1, 2, new InfoPanel(model.getUser().getCurPokemon().getCurHealth(), model.getUser().getCurPokemon().getHealth(), model.getUser().getCurPokemon().getNickname()));
         hpBarViewMgr.set(0, 0, new InfoPanel(model.getEnemy().getCurPokemon().getCurHealth(), model.getEnemy().getCurPokemon().getHealth(), model.getEnemy().getCurPokemon().getName()));
-        hpBarViewMgr.disable();
+
     }
 
     /**
@@ -333,13 +290,6 @@ public class BattleState implements GameState {
 
         // Clean up event queue
         eventQueue = null;
-
-        // Clean up music
-        if (bgdMusic.playing()) {
-            bgdMusic.fade(500, 0.0f, true);
-        } else if (victoryMusic.playing()) {
-            victoryMusic.fade(500, 0.0f, true);
-        }
 
     }
 
@@ -512,16 +462,17 @@ public class BattleState implements GameState {
      * @param spe The SwitchPokemonEvent describing what is happening
      */
     private void handleSwitchEvent(SwitchPokemonEvent spe) {
+        SoundUtil.playSwap();
         if (spe.getSwitchPokemon().getTrainer() == TrainerType.NPC) {
             try {
-                enemyImage.swap(new Image("./res/Images/Sprites/front/" + model.getEnemy().getCurPokemon().getID() + ".png"));
+                enemyImage.swap(new Image("./res/Images/Sprites/front/" + model.getEnemy().getCurPokemon().getID() + ".png"), true);
                 System.out.println("Here");
                 hpBarViewMgr.set(0, 0, new InfoPanel(model.getEnemy().getCurPokemon().getCurHealth(), model.getEnemy().getCurPokemon().getHealth(), model.getEnemy().getCurPokemon().getName()));
             } catch (SlickException e) {
             }
         } else {
             try {
-                playerImage.swap(new Image("./res/Images/Sprites/back/" + model.getUser().getCurPokemon().getID() + ".png"));
+                playerImage.swap(new Image("./res/Images/Sprites/back/" + model.getUser().getCurPokemon().getID() + ".png"), false);
             } catch (SlickException e) {
             }
             mainMenuTextDisplay.getSelected().setText("What will " + model.getUser().getCurPokemon().getNickname() + " do?");
@@ -536,7 +487,7 @@ public class BattleState implements GameState {
      * @throws SlickException
      */
     private void handleFaintEvent(PokemonFaintEvent pfe) throws SlickException {
-        faintSound.play();
+        SoundUtil.playFaint();
         switch (pfe.getTrainerType()) {
             case NPC:
                 enemyImage.disappear();
@@ -544,8 +495,7 @@ public class BattleState implements GameState {
                     eventQueue.poll();
                     handleNewEvents(control.enemyFaintSwitch());
                 } else {
-                    bgdMusic.fade(500, 0.0f, true);
-                    victoryMusic.play();
+                    SoundUtil.playVictory();
                 }
                 break;
             case USER:
@@ -572,7 +522,7 @@ public class BattleState implements GameState {
             case NPC:
                 playerImage.attack();
                 if (uhbe.getNewCurrHealth() != hpBarViewMgr.getButton(0, 0).getHP()) {
-                    attackSound.play();
+                    SoundUtil.playHit();
                     enemyImage.defend();
                     hpBarViewMgr.getButton(0, 0).setHP(uhbe.getNewCurrHealth());
                 }
@@ -580,7 +530,7 @@ public class BattleState implements GameState {
             case USER:
                 enemyImage.attack();
                 if (uhbe.getNewCurrHealth() != hpBarViewMgr.getButton(1, 2).getHP()) {
-                    attackSound.play();
+                    SoundUtil.playHit();
                     playerImage.defend();
                     hpBarViewMgr.getButton(1, 2).setHP(uhbe.getNewCurrHealth());
                 }

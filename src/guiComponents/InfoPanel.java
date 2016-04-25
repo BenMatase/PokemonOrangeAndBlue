@@ -106,7 +106,7 @@ public class InfoPanel extends MenuButton {
         recalculate();
 
         try {
-            font = FontUtils.getPixelFontWithSize(24f);
+            font = FontUtil.getPixelFontWithSize(24f);
         } catch (SlickException ex) {
         }
     }
@@ -136,10 +136,13 @@ public class InfoPanel extends MenuButton {
         g.drawString((int) displayHP + "/" + maxHP, (int) (HPX - font.getWidth((int) displayHP + "/" + maxHP) - HPB * 2), (int) HPY - 8);
         // Draw the name
         if (img != null) {
-            g.drawImage(img, drawArea.getX() + HPB, drawArea.getY() + HPB,
-                        drawArea.getX() + drawArea.getHeight() - 2 * HPB, drawArea.getY() + drawArea.getHeight() - 2 * HPB,
+            g.drawImage(img,
+                        drawArea.getX() + HPB,
+                        drawArea.getY() + HPB,
+                        drawArea.getX() + (img.getWidth() * (drawArea.getHeight() - 2 * HPB) / img.getHeight()),
+                        drawArea.getY() + (img.getHeight() * (drawArea.getHeight() - 2 * HPB) / img.getHeight()),
                         0, 0, img.getWidth(), img.getHeight());
-            g.drawString(text[0], (int) (drawArea.getX() + drawArea.getHeight()), (int) (drawArea.getY() + HPB * 2));
+            g.drawString(text[0], (int) (drawArea.getX() + drawArea.getHeight() + HPB), (int) (drawArea.getY() + HPB * 2));
         } else {
             g.drawString(text[0], (int) (drawArea.getX() + HPB * 2), (int) (drawArea.getY() + HPB * 2));
         }
@@ -204,9 +207,11 @@ public class InfoPanel extends MenuButton {
     public InfoPanel getCopy(boolean withImage) {
 
         if (img != null && withImage) {
-            return new InfoPanel(curHP, maxHP, getText(), img);
+            InfoPanel pnl = new InfoPanel(curHP, maxHP, getText(), img);
+            return pnl;
         }
-        return new InfoPanel(curHP, maxHP, getText());
+        InfoPanel pnl = new InfoPanel(curHP, maxHP, getText());
+        return pnl;
     }
 
     /**

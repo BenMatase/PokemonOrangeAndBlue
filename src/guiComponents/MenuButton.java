@@ -73,7 +73,7 @@ public class MenuButton {
         this.highlightColor = highlightColor;
         drawArea = new RoundedRectangle(x, y, width, height, 5);
         try {
-            font = FontUtils.getStdPixelFont();
+            font = FontUtil.getStdPixelFont();
         } catch (SlickException ex) {
         }
         this.text = new String[]{text};
@@ -209,7 +209,7 @@ public class MenuButton {
      */
     private void updateWrapSize() {
         try {
-            this.text = FontUtils.wrapString(String.join(" ", text), this.drawArea.getWidth() - 10);
+            this.text = FontUtil.wrapString(String.join(" ", text), this.drawArea.getWidth() - 10);
         } catch (Exception ex) {
         }
     }
