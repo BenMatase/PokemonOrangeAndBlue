@@ -40,6 +40,9 @@ public class SoundUtil {
     private static Sound hitSound;
     private static Sound swapSound;
 
+    private SoundUtil() {
+    }
+
     /**
      * Loads all sounds
      *

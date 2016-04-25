@@ -514,12 +514,21 @@
                     </moves>
                 </pokemon>
                 <pokemon>
-                    <species>TAUROS</species>
+                    <species>SLAKING</species>
                     <moves>
-                        <move>Rage</move>
-                        <move>Tackle</move>
-                        <move>Horn Attack</move>
-                        <move>Pursuit</move>
+                        <move>Shadow Claw</move>
+                        <move>Earthquake</move>
+                        <move>Hammer Arm</move>
+                        <move>Giga Impact</move>
+                    </moves>
+                </pokemon>
+                <pokemon>
+                        <species>RAYQUAZA</species>
+                    <moves>
+                        <move>Dragon Claw</move>
+                        <move>Crunch</move>
+                        <move>Facade</move>
+                        <move>Secret Power</move>
                     </moves>
                 </pokemon>
                 <pokemon>
@@ -532,30 +541,21 @@
                     </moves>
                 </pokemon>
                 <pokemon>
-                    <species>TAUROS</species>
+                    <species>SLAKING</species>
                     <moves>
-                        <move>Rage</move>
-                        <move>Tackle</move>
-                        <move>Horn Attack</move>
-                        <move>Pursuit</move>
+                        <move>Shadow Claw</move>
+                        <move>Earthquake</move>
+                        <move>Hammer Arm</move>
+                        <move>Giga Impact</move>
                     </moves>
                 </pokemon>
                 <pokemon>
-                    <species>TAUROS</species>
+                        <species>RAYQUAZA</species>
                     <moves>
-                        <move>Rage</move>
-                        <move>Tackle</move>
-                        <move>Horn Attack</move>
-                        <move>Pursuit</move>
-                    </moves>
-                </pokemon>
-                <pokemon>
-                    <species>TAUROS</species>
-                    <moves>
-                        <move>Rage</move>
-                        <move>Tackle</move>
-                        <move>Horn Attack</move>
-                        <move>Pursuit</move>
+                        <move>Dragon Claw</move>
+                        <move>Crunch</move>
+                        <move>Facade</move>
+                        <move>Secret Power</move>
                     </moves>
                 </pokemon>
             </team>
@@ -634,16 +634,16 @@
                         <move>Sky Attack</move>
                         <move>Future Sight</move>
                         <move>Focus Punch</move>
-                        <move>Air Slash</move>
+                        <move>Fire Blast</move>
                     </moves>
                 </pokemon>
                 <pokemon>
-                    <species>DUGTRIO</species>
+                    <species>FLYGON</species>
                     <moves>
-                        <move>Tri Attack</move>
-                        <move>Scratch</move>
-                        <move>Mud-Slap</move>
-                        <move>Slash</move>
+                        <move>Earthquake</move>
+                        <move>Dragon Claw</move>
+                        <move>Stone Edge</move>
+                        <move>Giga Impact</move>
                     </moves>
                 </pokemon>
                 <pokemon>

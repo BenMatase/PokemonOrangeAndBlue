@@ -407,8 +407,8 @@ public class BattleState implements GameState {
     //=====================================
     @Override
     public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
-        hpBarViewMgr.getButton(0, 0).update(delta);
-        hpBarViewMgr.getButton(1, 2).update(delta);
+        hpBarViewMgr.getItem(0, 0).update(delta);
+        hpBarViewMgr.getItem(1, 2).update(delta);
         playerImage.update(delta);
         enemyImage.update(delta);
         switch (state) {
@@ -440,7 +440,7 @@ public class BattleState implements GameState {
     public void handleNextEvent() throws SlickException {
         Event evt = eventQueue.peek();
         if (evt instanceof TextOutputEvent) {
-            textDisplayViewMgr.getButton(0, 0).setText(((TextOutputEvent) evt).getMessage());
+            textDisplayViewMgr.getItem(0, 0).setText(((TextOutputEvent) evt).getMessage());
             delay += 2000;
         } else if (evt instanceof UpdateHealthBarEvent) {
             handleUpdateHPEvent((UpdateHealthBarEvent) evt);
@@ -504,7 +504,7 @@ public class BattleState implements GameState {
                     updatePokemonMenuOptions();
                     pokemonFainted = true;
                     state = BattleStateMenuType.POKEMON;
-                    textDisplayViewMgr.getButton(0, 0).setText("Choose which Pokemon to send out");
+                    textDisplayViewMgr.getItem(0, 0).setText("Choose which Pokemon to send out");
                 }
                 break;
         }
@@ -521,18 +521,18 @@ public class BattleState implements GameState {
         switch (uhbe.getTrainerType()) {
             case NPC:
                 playerImage.attack();
-                if (uhbe.getNewCurrHealth() != hpBarViewMgr.getButton(0, 0).getHP()) {
+                if (uhbe.getNewCurrHealth() != hpBarViewMgr.getItem(0, 0).getHP()) {
                     SoundUtil.playHit();
                     enemyImage.defend();
-                    hpBarViewMgr.getButton(0, 0).setHP(uhbe.getNewCurrHealth());
+                    hpBarViewMgr.getItem(0, 0).setHP(uhbe.getNewCurrHealth());
                 }
                 break;
             case USER:
                 enemyImage.attack();
-                if (uhbe.getNewCurrHealth() != hpBarViewMgr.getButton(1, 2).getHP()) {
+                if (uhbe.getNewCurrHealth() != hpBarViewMgr.getItem(1, 2).getHP()) {
                     SoundUtil.playHit();
                     playerImage.defend();
-                    hpBarViewMgr.getButton(1, 2).setHP(uhbe.getNewCurrHealth());
+                    hpBarViewMgr.getItem(1, 2).setHP(uhbe.getNewCurrHealth());
                 }
                 break;
         }
@@ -651,7 +651,7 @@ public class BattleState implements GameState {
                         handleNewEvents(control.userFaintSwitch(pkmn));
                     }
                     hpBarViewMgr.set(1, 2, pokemonMenuMgr.getSelected().getCopy(false));
-                    mainMenuTextDisplay.getButton(0, 0).setText("What will " + hpBarViewMgr.getButton(1, 2).getText() + " do?");
+                    mainMenuTextDisplay.getItem(0, 0).setText("What will " + hpBarViewMgr.getItem(1, 2).getText() + " do?");
                     break;
                 }
             }
