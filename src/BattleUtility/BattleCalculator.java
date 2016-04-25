@@ -166,7 +166,7 @@ public class BattleCalculator {
         System.out.println("The Damage of the move is" + moveDmg);
 
         //incorporates all mulipliers and factors to find actual damange
-        double damage = ((attack / defense) * (moveDmg) * modifier
+        double damage = ((1.0 / 2.0) * (attack / defense) * (moveDmg) * modifier
                          * stab * criticalModifier * accuracyModifier);
 
         System.out.println("The Damage is:" + damage);

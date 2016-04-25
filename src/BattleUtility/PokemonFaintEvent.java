@@ -27,10 +27,21 @@ public class PokemonFaintEvent extends Event {
 
     TrainerType trainerType;
 
+    /**
+     * Constructor for a pokemon faint event.
+     *
+     * @param type
+     */
     public PokemonFaintEvent(TrainerType type) {
         this.trainerType = type;
     }
 
+    /**
+     * Gets which pokemon in a fight faints by returning if it was a user or
+     * enemy.
+     *
+     * @return
+     */
     public TrainerType getTrainerType() {
         return trainerType;
     }
