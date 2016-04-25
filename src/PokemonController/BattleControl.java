@@ -189,7 +189,7 @@ public class BattleControl {
         TextOutputEvent event1 = new TextOutputEvent(String.format(
                 "%s is out of usable pokemon!", user.getName()));
         TextOutputEvent event2 = new TextOutputEvent(String.format(
-                "%s fainted!", user.getName()));
+                "%s whited out!", user.getName()));
         UserDefeatEvent event3 = new UserDefeatEvent();
         ArrayList<Event> events = new ArrayList<>();
         events.add(event1);
