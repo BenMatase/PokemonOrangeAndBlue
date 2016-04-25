@@ -39,16 +39,20 @@ public class InfoPanel extends MenuButton {
     private int curHP;
 
     // Draw location values
+    private static final int PAD = 3;
+    // Health Bar
     private int HPH = 5;
-    private int HPB = 3;
     private int HPX;
     private int HPY;
     private int HPW;
-    private float hpStep = 0;
+    // Image
     private int IX;
     private int IY;
     private int IW;
     private int IH;
+
+    // Frame step size when updating
+    private float hpStep = 0;
 
     // Drawing constants
     private int X_PADDING = 5;
@@ -131,21 +135,21 @@ public class InfoPanel extends MenuButton {
         g.setColor(Color.black);
 
         // Draw the Health bar outline
-        g.fillRect(HPX - HPB, HPY, HPW + 2 * HPB, HPH);
-        g.fillRect(HPX, HPY - HPB, HPW, HPH + 2 * HPB);
+        g.fillRect(HPX - PAD, HPY, HPW + 2 * PAD, HPH);
+        g.fillRect(HPX, HPY - PAD, HPW, HPH + 2 * PAD);
 
         // Draw HP level string
         g.setFont(font);
         g.setColor(Color.black);
-        g.drawString((int) displayHP + "/" + maxHP, (int) (HPX - font.getWidth((int) displayHP + "/" + maxHP) - HPB * 2), (int) HPY - 8);
+        g.drawString((int) displayHP + "/" + maxHP, (int) (HPX - font.getWidth((int) displayHP + "/" + maxHP) - PAD * 2), (int) HPY - 8);
         // Draw the name
         if (img != null) {
             // Draw image if needed
             g.drawImage(img, IX, IY, IX + IW, IY + IH, 0, 0, img.getWidth(), img.getHeight());
 
-            g.drawString(text[0], (int) (drawArea.getX() + IW + 2 * HPB), (int) (drawArea.getY() + HPB * 2));
+            g.drawString(text[0], (int) (drawArea.getX() + IW + 2 * PAD), (int) (drawArea.getY() + PAD * 2));
         } else {
-            g.drawString(text[0], (int) (drawArea.getX() + HPB * 2), (int) (drawArea.getY() + HPB * 2));
+            g.drawString(text[0], (int) (drawArea.getX() + PAD * 2), (int) (drawArea.getY() + PAD * 2));
         }
 
         // Fill the health bar background
@@ -164,6 +168,11 @@ public class InfoPanel extends MenuButton {
 
     }
 
+    /**
+     * Updates the currently drawn HP value, incrementing by 'delta' MS
+     *
+     * @param delta The number of milliseconds since the last update
+     */
     public void update(float delta) {
         if (((int) displayHP > curHP && hpStep < 0) || ((int) displayHP < curHP && hpStep > 0)) {
             displayHP += hpStep * delta;
@@ -201,10 +210,19 @@ public class InfoPanel extends MenuButton {
         this.curHP = hp;
     }
 
+    //================
+    // Mark: - Getters
+    //================
     public int getHP() {
         return curHP;
     }
 
+    /**
+     * Gets a copy of the InfoPanel, optionally with the image it has.
+     *
+     * @param withImage Whether or not to include an image
+     * @return A copy of the InfoPanel
+     */
     public InfoPanel getCopy(boolean withImage) {
 
         if (img != null && withImage) {
@@ -215,29 +233,33 @@ public class InfoPanel extends MenuButton {
         return pnl;
     }
 
+    //================
+    // Mark: - Helpers
+    //================
     /**
      * Recalculates the constants for drawing the InfoPanel, used when the panel
-     * is moved or resized
+     * is moved or resized. This should greatly reduce the calculations required
+     * for rendering the image at runtime.
      */
     private void recalculate() {
         HPX = (int) (drawArea.getX() + drawArea.getWidth() / 2 - 5);
         HPY = (int) (drawArea.getY() + drawArea.getHeight() - HPH * 3);
-        HPW = (int) (drawArea.getWidth() / 2 - 2 * HPB);
+        HPW = (int) (drawArea.getWidth() / 2 - 2 * PAD);
         if (img != null) {
-            float imgDrawDim = (drawArea.getHeight() - HPB * 2);
+            float imgDrawDim = (drawArea.getHeight() - PAD * 2);
             if (img.getWidth() <= img.getHeight()) {
                 float imgScale = (imgDrawDim / img.getHeight());
                 IW = (int) (img.getWidth() * imgScale);
                 IH = (int) (img.getHeight() * imgScale);
-                IX = (int) (drawArea.getX() + HPB + (imgDrawDim / 2) - IW / 2);
-                IY = (int) (drawArea.getY() + HPB + IH);
+                IX = (int) (drawArea.getX() + PAD + (imgDrawDim / 2) - IW / 2);
+                IY = (int) (drawArea.getY() + PAD + IH);
 
             } else {
                 float imgScale = (imgDrawDim / img.getWidth());
                 IW = (int) (img.getWidth() * imgScale);
                 IH = (int) (img.getHeight() * imgScale);
-                IX = (int) (drawArea.getX() + HPB);
-                IY = (int) (drawArea.getY() + HPB + (imgDrawDim / 2 - IH / 2));
+                IX = (int) (drawArea.getX() + PAD);
+                IY = (int) (drawArea.getY() + PAD + (imgDrawDim / 2 - IH / 2));
             }
         }
     }

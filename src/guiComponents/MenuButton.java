@@ -112,6 +112,12 @@ public class MenuButton {
     //================
     // Mark: - Setters
     //================
+    /**
+     * Sets the size of the button
+     *
+     * @param width The new width
+     * @param height The new height
+     */
     public void setSize(float width, float height) {
         drawArea.setWidth(width);
         drawArea.setHeight(height);
@@ -120,25 +126,51 @@ public class MenuButton {
         drawArea.prune();
     }
 
+    /**
+     * Sets the position of the button
+     *
+     * @param x The new x position
+     * @param y The new y position
+     */
     public void setPosition(float x, float y) {
         drawArea.setX(x);
         drawArea.setY(y);
         drawArea.prune();
     }
 
+    /**
+     * Set whether the button should draw a highlight outline
+     *
+     * @param highlighted Whether or not the button should be highlighted
+     */
     public void setHighlighted(boolean highlighted) {
         isHighlighted = highlighted;
     }
 
+    /**
+     * Set the text the button draws
+     *
+     * @param text The text for the button to draw
+     */
     public void setText(String text) {
         this.text = new String[]{text};
         updateWrapSize();
     }
 
+    /**
+     * Whether or not the button is enabled
+     *
+     * @param enabled
+     */
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
 
+    /**
+     * Set the highlight color for the button
+     *
+     * @param newColor The new highlight color
+     */
     public void setHighlightColor(Color newColor) {
         highlightColor = newColor;
     }
