@@ -26,7 +26,7 @@ public class MenuLayoutManager<T extends MenuButton> {
     private RoundedRectangle drawArea;
     private float[] buttonRectSize;
     private boolean drawBackground;
-    private boolean showHighlight = true;
+    private boolean enabled = true;
     private Color bgdColor = Color.white;
     // Constants for drawing
     private static final float X_PADDING = 8;
@@ -64,35 +64,33 @@ public class MenuLayoutManager<T extends MenuButton> {
         return new int[]{x, y};
     }
 
-    private void setInMatrix(int x, int y, T b) {
-        if (b != null) {
-            if (buttonMatrix[x][y] == null) {
-                size += 1;
-            } else {
-                buttonMatrix[x][y].setHighlighted(false);
-            }
-            buttonMatrix[x][y] = b;
-            if (size == 1) {
+    private void setInMatrix(int x, int y, T item) {
+        // Different things for if the item is empty
+        if (item != null) {
+            // If nothing is selected, select the item
+            if (selected[0] == -1 && selected[1] == -1) {
+                item.setHighlighted(enabled);
+                item.setEnabled(enabled);
                 selected[0] = x;
                 selected[1] = y;
-                buttonMatrix[x][y].setHighlighted(true);
             }
+            if (buttonMatrix[x][y] == null) {
+                size += 1;
+            }
+            buttonMatrix[x][y] = item;
         } else {
+            // Only need to set if not already null
             if (buttonMatrix[x][y] != null) {
-                buttonMatrix[x][y].setHighlighted(false);
                 size -= 1;
                 buttonMatrix[x][y] = null;
-                if (x == selected[0] && y == selected[1]) {
-                    if (size != 0) {
-                        selected = find(itemArray[0]);
-                    } else {
-                        selected = new int[]{-1, -1};
-                    }
+                refreshArray();
+                // If size is not 0 and the button was selected
+                if (size > 0 && x == selected[0] && y == selected[1]) {
+                    setSelected(itemArray[0]);
+                } // If size is 0 and the button was selected
+                else if (x == selected[0] && y == selected[1]) {
+                    setSelected(null);
                 }
-            }
-            if (size == 0) {
-                selected[0] = -1;
-                selected[1] = -1;
             }
         }
         refreshArray();
@@ -100,6 +98,9 @@ public class MenuLayoutManager<T extends MenuButton> {
 
     public void set(int x, int y, T b) {
         if (b != null) {
+            b.setEnabled(enabled);
+            b.setHighlighted(false);
+            System.out.println("Set " + b + " to " + (enabled ? "enabled" : "disabled"));
             int[] coords = getButtonCoords(x, y);
             b.setPosition(coords[0], coords[1]);
             b.setSize(buttonRectSize[0], buttonRectSize[1]);
@@ -160,35 +161,47 @@ public class MenuLayoutManager<T extends MenuButton> {
     public void setSelected(T b) {
         if (b != null) {
             int[] tmp = find(b);
-            if (tmp != null && buttonMatrix[selected[0]][selected[1]] != b && buttonMatrix[tmp[0]][tmp[1]].isEnabled()) {
-                buttonMatrix[selected[0]][selected[1]].setHighlighted(false);
+            if (tmp != null && buttonMatrix[selected[0]][selected[1]] != b) {
+                if (selected[0] != -1 && selected[1] != -1) {
+                    buttonMatrix[selected[0]][selected[1]].setHighlighted(enabled);
+                }
                 selected = tmp;
-                buttonMatrix[selected[0]][selected[1]].setHighlighted(true);
+                buttonMatrix[selected[0]][selected[1]].setHighlighted(enabled);
             }
+        } else {
+            selected[0] = -1;
+            selected[1] = -1;
         }
     }
 
     public void disable() {
-        for (T b : getItems()) {
-            b.setEnabled(false);
-            b.setHighlighted(false);
+        this.enabled = false;
+        if (itemArray != null) {
+            for (T b : itemArray) {
+                b.setEnabled(enabled);
+                b.setHighlighted(false);
+            }
         }
+        setSelected(null);
     }
 
     public void enable() {
-        for (T b : itemArray) {
-            b.setEnabled(true);
-            b.setHighlighted(false);
+        this.enabled = true;
+        if (itemArray != null) {
+            for (T b : itemArray) {
+                b.setEnabled(enabled);
+                b.setHighlighted(false);
+            }
+            setSelected(itemArray[0]);
         }
-        setSelected(getSelected());
     }
 
     public void shouldShowHighlight(boolean show) {
-        showHighlight = show;
+        enabled = show;
     }
 
     public boolean isShowingHighlight() {
-        return showHighlight;
+        return enabled;
     }
 
     public T getButton(int x, int y) {
@@ -225,13 +238,15 @@ public class MenuLayoutManager<T extends MenuButton> {
             g.setColor(bgdColor);
             g.fill(drawArea);
         }
-        for (T b : itemArray) {
-            if (buttonMatrix[selected[0]][selected[1]] == b) {
-                b.setHighlighted(showHighlight);
-            } else {
-                b.setHighlighted(false);
+        if (itemArray != null) {
+            for (T b : itemArray) {
+                if (selected[0] != -1 && selected[1] != -1 && buttonMatrix[selected[0]][selected[1]] == b && enabled) {
+                    b.setHighlighted(enabled);
+                } else {
+                    b.setHighlighted(false);
+                }
+                b.render(container, g);
             }
-            b.render(container, g);
         }
     }
 }
