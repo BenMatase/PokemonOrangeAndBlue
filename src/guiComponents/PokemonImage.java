@@ -43,6 +43,7 @@ public class PokemonImage {
     private Image tmpImage;
     private LinkedBlockingQueue<AnimationAction> actions;
     private int currMS = 0;
+    private boolean freeYMax = false;
 
     private static final float fightActionDurationMS = 200f;
     private static final float appearanceDurationMS = 300;
@@ -122,6 +123,9 @@ public class PokemonImage {
                         image = tmpImage;
                         x = (int) (centerX - image.getWidth() / 2);
                         y = (int) (centerY - image.getHeight() / 2);
+                        if (freeYMax) {
+                            ymax = (int) (centerY + image.getHeight() / 2);
+                        }
                         offsetY = ymax - y;
                         tmpImage = null;
                         currMS = 0;
@@ -168,8 +172,9 @@ public class PokemonImage {
         actions.add(AnimationAction.APPEAR);
     }
 
-    public void swap(Image image) {
+    public void swap(Image image, boolean freeYMax) {
         tmpImage = image;
+
         actions.add(AnimationAction.DISAPPEAR);
         actions.add(AnimationAction.SWAP);
         actions.add(AnimationAction.APPEAR);
