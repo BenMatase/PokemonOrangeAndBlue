@@ -16,12 +16,15 @@
 package gameStates;
 
 import PokeModel.PokeModel;
+import PokemonObjects.Pokemon;
+import TrainerCreator.TeamCreatorUtility;
 import guiComponents.ColorUtil;
 import guiComponents.InfoPanel;
 import guiComponents.MenuButton;
 import guiComponents.MenuLayoutManager;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.RoundedRectangle;
@@ -74,7 +77,7 @@ public class TeamPickerState implements GameState {
 
         // Set up prompt display
         textDisplayMgr = new MenuLayoutManager<>(new RoundedRectangle(PADDING, PADDING * 2 + teamMgr.getDrawArea().getHeight(), (container.getWidth() - 3 * PADDING) * 0.75f, (container.getHeight() - 3 * PADDING) * 0.34f, 5), 1, 1, false, MenuButton.class);
-        textDisplayMgr.set(0, 0, new MenuButton("Choose your team"));
+        textDisplayMgr.set(0, 0, new MenuButton("Choose your Pokemon team (Press Enter when done)"));
         textDisplayMgr.disable();
 
         // Set up completion button
@@ -108,7 +111,10 @@ public class TeamPickerState implements GameState {
             handleDoneSelection();
         } else {
             if (teamMgr.getSelected().contains(x, y)) {
-                handleSelectedTeamSlot();
+                try {
+                    handleSelectedTeamSlot(teamMgr.find(teamMgr.getSelected()));
+                } catch (SlickException ex) {
+                }
             }
         }
     }
@@ -128,8 +134,11 @@ public class TeamPickerState implements GameState {
         }
     }
 
-    private void handleSelectedTeamSlot() {
-
+    private void handleSelectedTeamSlot(int[] coords) throws SlickException {
+        Pokemon pkmn = TeamCreatorUtility.getPokemonGUI();
+        if (pkmn != null) {
+            teamMgr.set(coords[0], coords[1], new InfoPanel(pkmn.getCurHealth(), pkmn.getHealth(), pkmn.getName(), new Image("./res/Images/Sprites/front/" + pkmn.getID() + ".png")));
+        }
     }
 
     private void handleDoneSelection() {

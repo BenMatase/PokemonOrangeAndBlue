@@ -5,13 +5,13 @@
  */
 package gameStates;
 
-import guiComponents.FontUtils;
+import guiComponents.FontUtil;
+import guiComponents.SoundUtil;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
-import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.state.GameState;
@@ -35,8 +35,6 @@ public class SplashScreenState implements GameState {
     private TrueTypeFont pixelFont;
     private Color pixelFontColor;
     private float fadeDiff = -0.02f;
-    // Music
-    private Music splashScreenMusic;
     // Images
     private Image pokemonLogo;
     private Image splashScreenImage;
@@ -60,9 +58,6 @@ public class SplashScreenState implements GameState {
 
         this.game = game;
 
-        // Load Music
-        splashScreenMusic = new Music("res/Sounds/OverworldTheme.ogg");
-
         // Load Images
         pokemonLogo = new Image("res/Images/SplashScreen/PokemonLogo.png").getScaledCopy(0.9f);
         splashScreenImage = new Image("res/Images/SplashScreen/Bouffalant.png");
@@ -71,16 +66,16 @@ public class SplashScreenState implements GameState {
 
         // Load fonts
         try {
-            pixelFont = FontUtils.getStdPixelFont();
+            pixelFont = FontUtil.getStdPixelFont();
         } catch (SlickException ex) {
             System.out.println("Error, failed to load font");
         }
         pixelFontColor = new Color(1.0f, 1.0f, 1.0f, 1.0f);
     }
 
-    //==========================
-    // Mark: - Graphics Handling
-    //==========================
+    //===========================
+    // Mark: - Rendering/Updating
+    //===========================
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
         // Draw Background
@@ -125,7 +120,7 @@ public class SplashScreenState implements GameState {
     //=========================
     @Override
     public void enter(GameContainer container, StateBasedGame game) throws SlickException {
-        splashScreenMusic.loop(1.0f, 0.25f);
+        SoundUtil.playAlmaMater();
     }
 
     @Override
@@ -133,9 +128,7 @@ public class SplashScreenState implements GameState {
     }
 
     private void goToMenu() {
-        if (splashScreenMusic != null && splashScreenMusic.playing()) {
-            splashScreenMusic.fade(500, 0.0f, false);
-        }
+//        SoundUtil.playEnterBattle();
         game.enterState(GameStateType.BATTLE.getValue(), new FadeOutTransition(), new FadeInTransition());
     }
 
@@ -143,13 +136,32 @@ public class SplashScreenState implements GameState {
     // Mark: - Input Handlers
     //=======================
     @Override
-    public void mouseWheelMoved(int change) {
-
+    public void mouseClicked(int button, int x, int y, int clickCount) {
+        goToMenu();
     }
 
     @Override
-    public void mouseClicked(int button, int x, int y, int clickCount) {
-        goToMenu();
+    public void keyPressed(int key, char c) {
+        switch (key) {
+            case Input.KEY_SPACE:
+            case Input.KEY_ENTER:
+                goToMenu();
+                break;
+        }
+    }
+
+    @Override
+    public boolean isAcceptingInput() {
+        return true;
+    }
+
+    //===============
+    // Mark: - Unused
+    //===============
+    //<editor-fold>
+    @Override
+    public void mouseWheelMoved(int change) {
+
     }
 
     @Override
@@ -178,11 +190,6 @@ public class SplashScreenState implements GameState {
     }
 
     @Override
-    public boolean isAcceptingInput() {
-        return true;
-    }
-
-    @Override
     public void inputEnded() {
 
     }
@@ -190,16 +197,6 @@ public class SplashScreenState implements GameState {
     @Override
     public void inputStarted() {
 
-    }
-
-    @Override
-    public void keyPressed(int key, char c) {
-        switch (key) {
-            case Input.KEY_SPACE:
-            case Input.KEY_ENTER:
-                goToMenu();
-                break;
-        }
     }
 
     @Override
@@ -256,4 +253,5 @@ public class SplashScreenState implements GameState {
     public void controllerButtonReleased(int controller, int button) {
 
     }
+    //</editor-fold>
 }
