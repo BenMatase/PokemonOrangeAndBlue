@@ -27,7 +27,7 @@
                     <species>SLAKING</species>
                     <moves>
                         <move>Scratch</move>
-                        <move>Faint Attack</move>
+                        <move>Feint Attack</move>
                         <move>Rock Tomb</move>
                         <move>Flail</move>
                     </moves>
@@ -421,7 +421,7 @@
                     <moves>
                         <move>Scratch</move>
                         <move>Quick Attack</move>
-                        <move>Faint Attack</move>
+                        <move>Feint Attack</move>
                         <move>Slash</move>
                     </moves>
                 </pokemon>
