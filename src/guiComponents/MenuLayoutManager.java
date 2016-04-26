@@ -219,7 +219,6 @@ public class MenuLayoutManager<T extends MenuButton> {
         if (item != null) {
             item.setEnabled(enabled);
             item.setHighlighted(false);
-            System.out.println("Set " + item + " to " + (enabled ? "enabled" : "disabled"));
             int[] coords = getItemDrawCoords(x, y);
             item.setPosition(coords[0], coords[1]);
             item.setSize(buttonRectSize[0], buttonRectSize[1]);

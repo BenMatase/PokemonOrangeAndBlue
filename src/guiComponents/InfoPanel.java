@@ -252,7 +252,7 @@ public class InfoPanel extends MenuButton {
                 IW = (int) (img.getWidth() * imgScale);
                 IH = (int) (img.getHeight() * imgScale);
                 IX = (int) (drawArea.getX() + PAD + (imgDrawDim / 2) - IW / 2);
-                IY = (int) (drawArea.getY() + PAD + IH);
+                IY = (int) (drawArea.getY() + PAD);
 
             } else {
                 float imgScale = (imgDrawDim / img.getWidth());

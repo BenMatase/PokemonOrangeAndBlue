@@ -128,8 +128,7 @@ public class SplashScreenState implements GameState {
     }
 
     private void goToMenu() {
-//        SoundUtil.playEnterBattle();
-        game.enterState(GameStateType.TEAMPICKER.getValue(), new FadeOutTransition(), new FadeInTransition());
+        game.enterState(GameStateType.TEAMPICKER.getValue(), new FadeOutTransition(Color.black, 500), new FadeInTransition(Color.black, 500));
     }
 
     //=======================
