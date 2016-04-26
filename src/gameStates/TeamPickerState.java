@@ -17,11 +17,13 @@ package gameStates;
 
 import PokeModel.PokeModel;
 import PokemonObjects.Pokemon;
+import PokemonObjects.UserTrainer;
 import TrainerCreator.TeamCreatorUtility;
 import guiComponents.ColorUtil;
 import guiComponents.InfoPanel;
 import guiComponents.MenuButton;
 import guiComponents.MenuLayoutManager;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -30,6 +32,8 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.RoundedRectangle;
 import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.state.transition.FadeInTransition;
+import org.newdawn.slick.state.transition.FadeOutTransition;
 
 /**
  *
@@ -44,9 +48,12 @@ public class TeamPickerState implements GameState {
     private MenuLayoutManager<MenuButton> textDisplayMgr;
     private MenuLayoutManager<MenuButton> doneButtonMgr;
 
-    private boolean selectingMember = false;
+    private boolean acceptingInput = true;
+    private Pokemon[] pkmns;
 
     private int PADDING = 5;
+
+    private StateBasedGame game;
 
     @Override
     public int getID() {
@@ -60,11 +67,12 @@ public class TeamPickerState implements GameState {
 
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
-
     }
 
     @Override
     public void enter(GameContainer container, StateBasedGame game) throws SlickException {
+        this.game = game;
+        pkmns = new Pokemon[6];
         // Set up pokemon choosing options
         teamMgr = new MenuLayoutManager<>(new RoundedRectangle(PADDING, PADDING, container.getWidth() - 2 * PADDING, (container.getHeight() - 3 * PADDING) * 0.66f, 5), 2, 3, false, InfoPanel.class);
         teamMgr.set(0, 0, new InfoPanel(0, 0, "CLICK TO ADD"));
@@ -89,7 +97,10 @@ public class TeamPickerState implements GameState {
 
     @Override
     public void leave(GameContainer container, StateBasedGame game) throws SlickException {
-
+        game = null;
+        doneButtonMgr = null;
+        textDisplayMgr = null;
+        teamMgr = null;
     }
 
     @Override
@@ -135,14 +146,33 @@ public class TeamPickerState implements GameState {
     }
 
     private void handleSelectedTeamSlot(int[] coords) throws SlickException {
+        acceptingInput = false;
         Pokemon pkmn = TeamCreatorUtility.getPokemonGUI();
         if (pkmn != null) {
+            int[] pnlLoc = teamMgr.find(teamMgr.getSelected());
             teamMgr.set(coords[0], coords[1], new InfoPanel(pkmn.getCurHealth(), pkmn.getHealth(), pkmn.getName(), new Image("./res/Images/Sprites/front/" + pkmn.getID() + ".png")));
+            pkmns[pnlLoc[0] + pnlLoc[1] * 2] = pkmn;
         }
+        acceptingInput = true;
     }
 
     private void handleDoneSelection() {
+        if (readPkmnIntoUser()) {
+            game.enterState(GameStateType.MAINMENU.getValue(), new FadeOutTransition(Color.black, 500), new FadeInTransition(Color.black, 500));
+        }
+    }
 
+    private boolean readPkmnIntoUser() {
+        UserTrainer user = new UserTrainer("Player");
+        int count = 0;
+        for (Pokemon pkmn : pkmns) {
+            if (pkmn != null) {
+                count += 1;
+                user.addPokemon(pkmn);
+            }
+        }
+        model.setUser(user);
+        return count > 0;
     }
 
     //<editor-fold>
@@ -174,7 +204,7 @@ public class TeamPickerState implements GameState {
     //</editor-fold>
     @Override
     public boolean isAcceptingInput() {
-        return true;
+        return acceptingInput;
     }
 
     @Override
@@ -193,7 +223,13 @@ public class TeamPickerState implements GameState {
                 teamMgr.setSelected(teamMgr.getDown());
                 break;
             case Input.KEY_ENTER:
+                handleDoneSelection();
+                break;
             case Input.KEY_SPACE:
+                try {
+                    handleSelectedTeamSlot(teamMgr.find(teamMgr.getSelected()));
+                } catch (SlickException ex) {
+                }
                 break;
         }
     }

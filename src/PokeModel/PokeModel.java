@@ -15,11 +15,9 @@
  */
 package PokeModel;
 
-import DatabaseLoaderUtilities.TrainerLoaderUtility;
 import PokemonObjects.EnemyTrainer;
 import PokemonObjects.Trainer;
 import PokemonObjects.UserTrainer;
-import TrainerCreator.RandomTrainerUtility;
 import java.util.List;
 
 /**
@@ -31,14 +29,12 @@ public class PokeModel {
     private UserTrainer user;
     private EnemyTrainer enemy;
 
+    private int curProf = 1;
+    private boolean curEnemyIsProf = false;
+
     private List<Trainer> trainers;
 
     public PokeModel() {
-        user = RandomTrainerUtility.getRandomUser(6, "Ben");
-//        enemy = RandomTrainerUtility.getRandomNPC(6, "Bethany");
-        enemy = TrainerLoaderUtility.loadProfessor(1);
-
-//        enemy.getCurPokemon().setSpeed(1);
     }
 
     public UserTrainer getUser() {
@@ -53,8 +49,28 @@ public class PokeModel {
         return enemy;
     }
 
-    public void setEnemy(EnemyTrainer enemy) {
+    public void setEnemy(EnemyTrainer enemy, boolean isProf) {
         this.enemy = enemy;
+        curEnemyIsProf = isProf;
+    }
+
+    public void clearEnemy() {
+        enemy = null;
+        curEnemyIsProf = false;
+    }
+
+    public boolean curEnemyIsProf() {
+        return curEnemyIsProf;
+    }
+
+    public void incrementProf() {
+        if (curProf < 12) {
+            curProf += 1;
+        }
+    }
+
+    public int getCurProf() {
+        return curProf;
     }
 
 }
