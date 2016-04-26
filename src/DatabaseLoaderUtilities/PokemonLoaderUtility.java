@@ -73,6 +73,17 @@ public class PokemonLoaderUtility {
         moveNode = loadNode(MOVES_FILE_PATH);
     }
 
+    public static void init() {
+        System.out.print("Loading Databases..");
+        if (pokemonNode == null) {
+            loadPokemonNode();
+        }
+        if (moveNode == null) {
+            loadMoveNode();
+        }
+        System.out.println("Done.");
+    }
+
     /**
      * Makes an Element which is the root node of the xml file specified at the
      * given file path.
@@ -149,7 +160,12 @@ public class PokemonLoaderUtility {
 
         //populates string list
         for (Element moveNode : moveNodes) {
-            movesStr.add(moveNode.getChildText("name"));
+            String name = moveNode.getChildText("name");
+            Move move = PokemonLoaderUtility.createMove(name);
+            if (move != null && move.getDamage() > 1 && !movesStr.contains(
+                    name)) {
+                movesStr.add(name);
+            }
         }
 
         return movesStr;
@@ -166,6 +182,10 @@ public class PokemonLoaderUtility {
     public static Move createMove(String moveName) {
         //get node of specified move
         Element moveNode = getMoveNode(moveName);
+
+        if (moveNode == null) {
+            return null;
+        }
 
         //get the type of the move from the xml and make into enum
         PokemonType type = PokemonType.valueOf(
