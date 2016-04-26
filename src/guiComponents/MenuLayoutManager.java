@@ -18,7 +18,7 @@ import org.newdawn.slick.geom.RoundedRectangle;
  */
 public class MenuLayoutManager<T extends MenuButton> {
 
-    private T[][] buttonMatrix;
+    private T[][] itemMatrix;
     private T[] itemArray;
     private Class<T> type;
     private int[] selected = new int[]{-1, -1};
@@ -32,38 +32,271 @@ public class MenuLayoutManager<T extends MenuButton> {
     private static final float X_PADDING = 8;
     private static final float Y_PADDING = 8;
 
+    //====================
+    // Mark - Constructors
+    //====================
+    /**
+     * Constructor for an empty MenuLayoutManager. Automatically draws the
+     * background
+     *
+     * @param drawArea The Rounded Rectangle to draw the Manager's items in
+     * @param x The number of slots to put items in horizontally
+     * @param y The number of slots to put items in vertically
+     * @param empty The class that will be put into the MenuLayoutManager
+     */
     public MenuLayoutManager(RoundedRectangle drawArea, int x, int y, Class<T> empty) {
         this(drawArea, x, y, true, empty);
     }
 
+    /**
+     * Constructor for an empty MenuLayoutManager. Gives the option to not draw
+     * the background
+     *
+     * @param drawArea The Rounded Rectangle to draw the Manager's items in
+     * @param x The number of slots to put items in horizontally
+     * @param y The number of slots to put items in vertically
+     * @param drawBackground Whether or not the background should be drawn
+     * @param empty The class that will be put into the MenuLayoutManager
+     */
     public MenuLayoutManager(RoundedRectangle drawArea, int x, int y, boolean drawBackground, Class<T> empty) {
         this.type = empty;
-        buttonMatrix = (T[][]) Array.newInstance(empty, x, y);
+        itemMatrix = (T[][]) Array.newInstance(empty, x, y);
         this.drawArea = drawArea;
         this.drawBackground = drawBackground;
         calculateButtonRectSize();
     }
 
+    //=================
+    // Mark - Rendering
+    //=================
+    /**
+     * Draw the MenuLayoutManager
+     *
+     * @param container The container to do the drawing in
+     * @param g The Graphics context used for drawing
+     */
+    public void render(GameContainer container, Graphics g) {
+        if (drawBackground) {
+            g.setColor(bgdColor);
+            g.fill(drawArea);
+        }
+        if (itemArray != null) {
+            for (T b : itemArray) {
+                if (selected[0] != -1 && selected[1] != -1 && itemMatrix[selected[0]][selected[1]] == b && enabled) {
+                    b.setHighlighted(enabled);
+                } else {
+                    b.setHighlighted(false);
+                }
+                b.render(container, g);
+            }
+        }
+    }
+
+    //===============
+    // Mark - Getters
+    //===============
+    /**
+     * Gets the Rounded Rectangle representing the area the MenuLayoutManager
+     * covers
+     *
+     * @return The Rounded Rectangle draw area of the MenuLayoutManager
+     */
     public RoundedRectangle getDrawArea() {
         return drawArea;
     }
 
-    private void calculateButtonRectSize() {
-        int width = (int) ((drawArea.getWidth() - (buttonMatrix.length + 1) * X_PADDING) / buttonMatrix.length);
-        int height = (int) ((drawArea.getHeight() - (buttonMatrix[0].length + 1) * Y_PADDING) / buttonMatrix[0].length);
-        buttonRectSize = new float[]{width, height};
+    /**
+     * Gets the item to the left of the currently selected one
+     *
+     * @return The item to the left
+     */
+    public T getLeft() {
+        if (selected[0] != 0 && itemMatrix[selected[0] - 1][selected[1]] != null) {
+            return itemMatrix[selected[0] - 1][selected[1]];
+        } else {
+            return itemMatrix[selected[0]][selected[1]];
+        }
     }
 
+    /**
+     * Gets the item to the right of the currently selected one
+     *
+     * @return The item to the right
+     */
+    public T getRight() {
+        if (selected[0] < itemMatrix.length - 1 && itemMatrix[selected[0] + 1][selected[1]] != null) {
+            return itemMatrix[selected[0] + 1][selected[1]];
+        } else {
+            return itemMatrix[selected[0]][selected[1]];
+        }
+    }
+
+    /**
+     * Gets the item to the up of the currently selected one
+     *
+     * @return The item to the up
+     */
+    public T getUp() {
+        if (selected[1] != 0 && itemMatrix[selected[0]][selected[1] - 1] != null) {
+            return itemMatrix[selected[0]][selected[1] - 1];
+        } else {
+            return itemMatrix[selected[0]][selected[1]];
+        }
+    }
+
+    /**
+     * Gets the item to the down of the currently selected one
+     *
+     * @return The item to the down
+     */
+    public T getDown() {
+        if (selected[1] < itemMatrix[0].length - 1 && itemMatrix[selected[0]][selected[1] + 1] != null) {
+            return itemMatrix[selected[0]][selected[1] + 1];
+        } else {
+            return itemMatrix[selected[0]][selected[1]];
+        }
+    }
+
+    /**
+     * Gets the currently selected item
+     *
+     * @return The currently selected item
+     */
+    public T getSelected() {
+        return getItem(selected[0], selected[1]);
+    }
+
+    /**
+     * Gets the item at the given index in the matrix
+     *
+     * @param x The x-index
+     * @param y The y-index
+     * @return The item at the given index in the matrix, null if it's empty
+     */
+    public T getItem(int x, int y) {
+        return itemMatrix[x][y] != null ? (T) itemMatrix[x][y] : null;
+    }
+
+    /**
+     * Gets whether or not the MenuLayoutManager is showing the highlights on
+     * the buttons
+     *
+     * @return True if the highlights are being shown, false otherwise
+     */
+    public boolean isShowingHighlight() {
+        return enabled;
+    }
+
+    /**
+     * Gets whether or not the background should be drawn
+     *
+     * @return True if the background should be drawn, false otherwise
+     */
+    public boolean getDrawBackground() {
+        return drawBackground;
+    }
+
+    /**
+     * Gets an array of the items in the MenuLayoutManager
+     *
+     * @return An array of all of the items in the MenuLayoutManager
+     */
+    public T[] getItems() {
+        return itemArray;
+    }
+
+    //===============
+    // Mark - Setters
+    //===============
+    /**
+     * Inserts an item at the given index in the matrix
+     *
+     * @param x The x-index to insert at
+     * @param y The y-index to insert at
+     * @param item The item to insert
+     */
+    public void set(int x, int y, T item) {
+        if (item != null) {
+            item.setEnabled(enabled);
+            item.setHighlighted(false);
+            int[] coords = getItemDrawCoords(x, y);
+            item.setPosition(coords[0], coords[1]);
+            item.setSize(buttonRectSize[0], buttonRectSize[1]);
+            item.setHighlighted(false);
+            setInMatrix(x, y, item);
+        } else {
+            setInMatrix(x, y, null);
+        }
+    }
+
+    /**
+     * Set the selected item in the MenuLayoutManager
+     *
+     * @param item The item to set as selected
+     */
+    public void setSelected(T item) {
+        if (item != null) {
+            int[] tmp = find(item);
+            if (tmp != null && itemMatrix[selected[0]][selected[1]] != item) {
+                if (selected[0] != -1 && selected[1] != -1) {
+                    itemMatrix[selected[0]][selected[1]].setHighlighted(enabled);
+                }
+                selected = tmp;
+                itemMatrix[selected[0]][selected[1]].setHighlighted(enabled);
+            }
+        } else {
+            selected[0] = -1;
+            selected[1] = -1;
+        }
+    }
+
+    /**
+     * Set whether the buttons should show the highlights
+     *
+     * @param show True if the buttons should show highlights when hovered over
+     */
+    public void shouldShowHighlight(boolean show) {
+        enabled = show;
+    }
+
+    /**
+     * Sets the background color for the MenuLayoutManager
+     *
+     * @param newColor The new background color
+     */
     public void setBackgroundColor(Color newColor) {
         bgdColor = newColor;
     }
 
-    private int[] getButtonCoords(int gridX, int gridY) {
-        int x = (int) (drawArea.getX() + (X_PADDING * (gridX + 1)) + buttonRectSize[0] * gridX);
-        int y = (int) (drawArea.getY() + (Y_PADDING * (gridY + 1)) + buttonRectSize[1] * gridY);
-        return new int[]{x, y};
+    /**
+     * Set whether the background should be drawn
+     *
+     * @param drawBackground Whether the background should be drawn
+     */
+    public void setDrawBackground(boolean drawBackground) {
+        this.drawBackground = drawBackground;
     }
 
+    //===============
+    // Mark - Helpers
+    //===============
+    /**
+     * Recalculates the dimensions of the buttons
+     */
+    private void calculateButtonRectSize() {
+        int width = (int) ((drawArea.getWidth() - (itemMatrix.length + 1) * X_PADDING) / itemMatrix.length);
+        int height = (int) ((drawArea.getHeight() - (itemMatrix[0].length + 1) * Y_PADDING) / itemMatrix[0].length);
+        buttonRectSize = new float[]{width, height};
+    }
+
+    /**
+     * Helper for setting buttons into the matrix. This does all of the nasty
+     * calculations and handles cases
+     *
+     * @param x The x-index to place at
+     * @param y The y-index to place at
+     * @param item The item to place
+     */
     private void setInMatrix(int x, int y, T item) {
         // Different things for if the item is empty
         if (item != null) {
@@ -74,15 +307,15 @@ public class MenuLayoutManager<T extends MenuButton> {
                 selected[0] = x;
                 selected[1] = y;
             }
-            if (buttonMatrix[x][y] == null) {
+            if (itemMatrix[x][y] == null) {
                 size += 1;
             }
-            buttonMatrix[x][y] = item;
+            itemMatrix[x][y] = item;
         } else {
             // Only need to set if not already null
-            if (buttonMatrix[x][y] != null) {
+            if (itemMatrix[x][y] != null) {
                 size -= 1;
-                buttonMatrix[x][y] = null;
+                itemMatrix[x][y] = null;
                 refreshArray();
                 // If size is not 0 and the button was selected
                 if (size > 0 && x == selected[0] && y == selected[1]) {
@@ -96,61 +329,29 @@ public class MenuLayoutManager<T extends MenuButton> {
         refreshArray();
     }
 
-    public void set(int x, int y, T b) {
-        if (b != null) {
-            b.setEnabled(enabled);
-            b.setHighlighted(false);
-            System.out.println("Set " + b + " to " + (enabled ? "enabled" : "disabled"));
-            int[] coords = getButtonCoords(x, y);
-            b.setPosition(coords[0], coords[1]);
-            b.setSize(buttonRectSize[0], buttonRectSize[1]);
-            b.setHighlighted(false);
-            setInMatrix(x, y, b);
-        } else {
-            setInMatrix(x, y, null);
-        }
+    /**
+     * Gets the coordinates for the item at the given indices
+     *
+     * @param gridX The x-index in the matrix
+     * @param gridY The y-index in the matrix
+     * @return The x and y coordinates of the buttons to draw
+     */
+    private int[] getItemDrawCoords(int gridX, int gridY) {
+        int x = (int) (drawArea.getX() + (X_PADDING * (gridX + 1)) + buttonRectSize[0] * gridX);
+        int y = (int) (drawArea.getY() + (Y_PADDING * (gridY + 1)) + buttonRectSize[1] * gridY);
+        return new int[]{x, y};
     }
 
-    public T getLeft() {
-        if (selected[0] != 0 && buttonMatrix[selected[0] - 1][selected[1]] != null) {
-            return buttonMatrix[selected[0] - 1][selected[1]];
-        } else {
-            return buttonMatrix[selected[0]][selected[1]];
-        }
-    }
-
-    public T getRight() {
-        if (selected[0] < buttonMatrix.length - 1 && buttonMatrix[selected[0] + 1][selected[1]] != null) {
-            return buttonMatrix[selected[0] + 1][selected[1]];
-        } else {
-            return buttonMatrix[selected[0]][selected[1]];
-        }
-    }
-
-    public T getUp() {
-        if (selected[1] != 0 && buttonMatrix[selected[0]][selected[1] - 1] != null) {
-            return buttonMatrix[selected[0]][selected[1] - 1];
-        } else {
-            return buttonMatrix[selected[0]][selected[1]];
-        }
-    }
-
-    public T getDown() {
-        if (selected[1] < buttonMatrix[0].length - 1 && buttonMatrix[selected[0]][selected[1] + 1] != null) {
-            return buttonMatrix[selected[0]][selected[1] + 1];
-        } else {
-            return buttonMatrix[selected[0]][selected[1]];
-        }
-    }
-
-    public T getSelected() {
-        return getButton(selected[0], selected[1]);
-    }
-
+    /**
+     * Finds a given item in the matrix and gets its indices
+     *
+     * @param b The item to find
+     * @return The x and y coordinates of the buttons to draw
+     */
     public int[] find(T b) {
-        for (int x = 0; x < buttonMatrix.length; x++) {
-            for (int y = 0; y < buttonMatrix[0].length; y++) {
-                if (buttonMatrix[x][y] == b) {
+        for (int x = 0; x < itemMatrix.length; x++) {
+            for (int y = 0; y < itemMatrix[0].length; y++) {
+                if (itemMatrix[x][y] == b) {
                     return new int[]{x, y};
                 }
             }
@@ -158,22 +359,9 @@ public class MenuLayoutManager<T extends MenuButton> {
         return null;
     }
 
-    public void setSelected(T b) {
-        if (b != null) {
-            int[] tmp = find(b);
-            if (tmp != null && buttonMatrix[selected[0]][selected[1]] != b) {
-                if (selected[0] != -1 && selected[1] != -1) {
-                    buttonMatrix[selected[0]][selected[1]].setHighlighted(enabled);
-                }
-                selected = tmp;
-                buttonMatrix[selected[0]][selected[1]].setHighlighted(enabled);
-            }
-        } else {
-            selected[0] = -1;
-            selected[1] = -1;
-        }
-    }
-
+    /**
+     * Disables all of the buttons in the matrix
+     */
     public void disable() {
         this.enabled = false;
         if (itemArray != null) {
@@ -185,6 +373,9 @@ public class MenuLayoutManager<T extends MenuButton> {
         setSelected(null);
     }
 
+    /**
+     * Disables all of the buttons in the matrix
+     */
     public void enable() {
         this.enabled = true;
         if (itemArray != null) {
@@ -196,30 +387,13 @@ public class MenuLayoutManager<T extends MenuButton> {
         }
     }
 
-    public void shouldShowHighlight(boolean show) {
-        enabled = show;
-    }
-
-    public boolean isShowingHighlight() {
-        return enabled;
-    }
-
-    public T getButton(int x, int y) {
-        return buttonMatrix[x][y] != null ? (T) buttonMatrix[x][y] : null;
-    }
-
-    public boolean getDrawBackground() {
-        return drawBackground;
-    }
-
-    public void setDrawBackground(boolean drawBackground) {
-        this.drawBackground = drawBackground;
-    }
-
+    /**
+     * Refreshes the array of items in the MenuLayoutManager from the matrix
+     */
     private void refreshArray() {
         itemArray = (T[]) Array.newInstance(type, size);
         int i = 0;
-        for (T[] row : buttonMatrix) {
+        for (T[] row : itemMatrix) {
             for (T btn : row) {
                 if (btn != null) {
                     itemArray[i] = btn;
@@ -229,24 +403,4 @@ public class MenuLayoutManager<T extends MenuButton> {
         }
     }
 
-    public T[] getItems() {
-        return itemArray;
-    }
-
-    public void render(GameContainer container, Graphics g) {
-        if (drawBackground) {
-            g.setColor(bgdColor);
-            g.fill(drawArea);
-        }
-        if (itemArray != null) {
-            for (T b : itemArray) {
-                if (selected[0] != -1 && selected[1] != -1 && buttonMatrix[selected[0]][selected[1]] == b && enabled) {
-                    b.setHighlighted(enabled);
-                } else {
-                    b.setHighlighted(false);
-                }
-                b.render(container, g);
-            }
-        }
-    }
 }

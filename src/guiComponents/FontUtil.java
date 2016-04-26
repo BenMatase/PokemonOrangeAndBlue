@@ -21,8 +21,7 @@ public class FontUtil {
     // Store the standard font, so we can use it as a singleton, and won't have to create it every time we use it
     public static TrueTypeFont stdPxFont;
 
-    public FontUtil() throws SlickException {
-        throw new SlickException("Can't instantiate FontManager Object");
+    private FontUtil() {
     }
 
     /**

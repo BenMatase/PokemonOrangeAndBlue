@@ -43,7 +43,7 @@ public class PokemonOB extends StateBasedGame {
         // The first state added will be the one that is loaded first, when the application is launched
         this.addState(new BlackScreenState(GameStateType.BLACKSCREEN.getValue()));
         this.addState(new SplashScreenState(GameStateType.SPLASHSCREEN.getValue()));
-        this.addState(new MainMenuState(GameStateType.MAINMENU.getValue()));
+        this.addState(new MainMenuState(GameStateType.MAINMENU.getValue(), model));
         this.addState(new TeamPickerState(GameStateType.TEAMPICKER.getValue(), model));
         this.addState(new BattleState(GameStateType.BATTLE.getValue(), model));
     }

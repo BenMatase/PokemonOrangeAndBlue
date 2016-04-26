@@ -23,9 +23,18 @@ import org.newdawn.slick.Color;
  */
 public class ColorUtil {
 
+    // Singleton instances
     private static Color orange;
     private static Color blue;
 
+    private ColorUtil() {
+    }
+
+    /**
+     * Gets the singleton Bucknell Orange
+     *
+     * @return An orange color
+     */
     public static Color getOrange() {
         if (orange == null) {
             orange = new Color(247, 112, 39);
@@ -33,6 +42,11 @@ public class ColorUtil {
         return orange;
     }
 
+    /**
+     * Gets the singleton Bucknell Blue
+     *
+     * @return A blue color
+     */
     public static Color getBlue() {
         if (blue == null) {
             blue = new Color(11, 84, 149);
