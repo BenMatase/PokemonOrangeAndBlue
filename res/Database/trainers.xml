@@ -247,8 +247,8 @@
                     </moves>
                 </pokemon>
             </team>
-            <introText>Je ne veux pas vraiment à la bataille en ce moment.</introText>
-            <outroText>Je ne me soucie pas . Quels sont les Pokemon?</outroText>
+            <introText>Je ne veux pas vraiment a la bataille en ce moment.</introText>
+            <outroText>Je ne me soucie pas. Quels sont les Pokemon?</outroText>
         </professor>
         
         <professor id='5'>
@@ -519,7 +519,7 @@
                         <move>Shadow Claw</move>
                         <move>Earthquake</move>
                         <move>Hammer Arm</move>
-                        <move>Giga Impact</move>
+                        <move>Scratch</move>
                     </moves>
                 </pokemon>
                 <pokemon>
@@ -546,7 +546,7 @@
                         <move>Shadow Claw</move>
                         <move>Earthquake</move>
                         <move>Hammer Arm</move>
-                        <move>Giga Impact</move>
+                        <move>Scratch</move>
                     </moves>
                 </pokemon>
                 <pokemon>
@@ -650,9 +650,9 @@
                     <species>BLAZIKEN</species>
                     <moves>
                         <move>Blaze Kick</move>
-                        <move>Brave Bird</move>
-                        <move>Flare Blitz</move>
+                        <move>Double Kick</move>
                         <move>Last Resort</move>
+                        <move>Brick Break</move>
                     </moves>
                 </pokemon>
                 <pokemon>
@@ -677,7 +677,7 @@
                     <species>METAGROSS</species>
                     <moves>
                         <move>Earthquake</move>
-                        <move>Confusion</move>
+                        <move>Meteor Mash</move>
                         <move>Zen Headbutt</move>
                         <move>Aerial Ace</move>
                     </moves>
