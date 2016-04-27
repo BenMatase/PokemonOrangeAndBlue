@@ -15,9 +15,7 @@ package DatabaseLoaderUtilities;
  *
  * ****************************************
  */
-
 import BattleUtility.PokemonType;
-import DatabaseLoaderUtilities.PokemonLoaderUtility;
 import PokemonObjects.Move;
 import PokemonObjects.Move.AttackType;
 import PokemonObjects.Pokemon;
@@ -25,12 +23,13 @@ import PokemonObjects.TrainerType;
 import java.util.ArrayList;
 import java.util.List;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 /**
  * Test class to test all of the public methods in PokemonLoaderUtility
  *
- * @author Benjamin Matase
+ * @author Benjamin Matase and Jason Corriveau
  */
 public class PokemonLoaderUtilityTest {
     /**
@@ -57,25 +56,23 @@ public class PokemonLoaderUtilityTest {
     /**
      * Test of getMovesForPokemon method, of class PokemonLoaderUtility.
      *
-     * @author Benjamin Matase
+     * @author Ben Matase and Jason Corriveau
      */
     @Test
     public void testGetMovesForPokemon() {
         System.out.println("getMovesForPokemon");
-        //again testing number of moves instead of them all being correct
+        //testing to ensure each pokemon has at least 1 move.
 
-        //get moves for a bulbasaur
-        String pokemonName = "BULBASAUR";
-
-        //I counted 54 from the xml
-        int expResult = 54;
-
-        //get the size of the returned list
-        int result = PokemonLoaderUtility.getMovesForPokemon(
-                pokemonName).size();
-
-        //compare real and expected result
-        assertEquals(expResult, result);
+        List<String> allPokemon = PokemonLoaderUtility.getPokemonNames();
+        List<String> pkmnMoves;
+        for (String pkmn : allPokemon) {
+            pkmnMoves = PokemonLoaderUtility.getMovesForPokemon(pkmn);
+            //test to ensure every pokemon has at least 1 move to add
+            if (pkmnMoves.isEmpty()) {
+                System.out.println(pkmn);
+            }
+            assertTrue(pkmnMoves.size() > 0);
+        }
     }
 
     /**
