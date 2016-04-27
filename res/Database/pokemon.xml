@@ -2638,6 +2638,10 @@
         <name>Harden</name>
         <lvl>7</lvl>
       </move>
+      <move type='level-up'>
+        <name>Headbutt</name>
+        <lvl>12</lvl>
+      </move>
     </moves>
   </pokemon>
   <pokemon id='12'>
@@ -2994,6 +2998,10 @@
       <move type='level-up'>
         <name>Harden</name>
         <lvl>7</lvl>
+      </move>
+      <move type='level-up'>
+        <name>Headbutt</name>
+        <lvl>12</lvl>
       </move>
     </moves>
   </pokemon>
@@ -35230,6 +35238,10 @@
         <name>Transform</name>
         <lvl>1</lvl>
       </move>
+      <move type='level-up'>
+        <name>Tackle</name>
+        <lvl>1</lvl>
+      </move>
     </moves>
   </pokemon>
   <pokemon id='133'>
@@ -54849,6 +54861,10 @@
         <name>Hidden Power</name>
         <lvl>1</lvl>
       </move>
+      <move type='level-up'>
+        <name>Secret Power</name>
+        <lvl>1</lvl>
+      </move>
     </moves>
   </pokemon>
   <pokemon id='202'>
@@ -54893,6 +54909,10 @@
       </move>
       <move type='level-up'>
         <name>Destiny Bond</name>
+        <lvl>1</lvl>
+      </move>
+      <move type='level-up'>
+        <name>Pound</name>
         <lvl>1</lvl>
       </move>
     </moves>
@@ -64190,6 +64210,10 @@
         <lvl>31</lvl>
       </move>
       <move type='level-up'>
+        <name>Pound</name>
+        <lvl>31</lvl>
+      </move>
+      <move type='level-up'>
         <name>Sketch</name>
         <lvl>41</lvl>
       </move>
@@ -72405,6 +72429,10 @@
         <name>Harden</name>
         <lvl>7</lvl>
       </move>
+      <move type='level-up'>
+        <name>Headbutt</name>
+        <lvl>7</lvl>
+      </move>
     </moves>
   </pokemon>
   <pokemon id='267'>
@@ -72700,6 +72728,10 @@
       </move>
       <move type='level-up'>
         <name>Harden</name>
+        <lvl>7</lvl>
+      </move>
+      <move type='level-up'>
+        <name>Headbutt</name>
         <lvl>7</lvl>
       </move>
     </moves>
@@ -98342,6 +98374,10 @@
         <lvl>15</lvl>
       </move>
       <move type='level-up'>
+        <name>Pound</name>
+        <lvl>17</lvl>
+      </move>
+      <move type='level-up'>
         <name>Safeguard</name>
         <lvl>15</lvl>
       </move>
@@ -109446,6 +109482,10 @@
       <move type='level-up'>
         <name>Bide</name>
         <lvl>1</lvl>
+      </move>
+      <move type='level-up'>
+        <name>Headbutt</name>
+        <lvl>7</lvl>
       </move>
     </moves>
   </pokemon>
