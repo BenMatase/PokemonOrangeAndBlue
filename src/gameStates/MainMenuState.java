@@ -5,8 +5,9 @@
  */
 package gameStates;
 
+import DatabaseLoaderUtilities.TrainerLoaderUtility;
 import PokeModel.PokeModel;
-import TrainerCreator.RandomTrainerUtility;
+import TrainerCreator.RandomCreatorUtility;
 import guiComponents.MenuButton;
 import guiComponents.MenuLayoutManager;
 import guiComponents.SoundUtil;
@@ -54,9 +55,10 @@ public class MainMenuState implements GameState {
     @Override
     public void enter(GameContainer container, StateBasedGame game) throws SlickException {
         this.game = game;
-        menuMgr = new MenuLayoutManager<>(new RoundedRectangle(container.getWidth() / 4, container.getHeight() / 4, container.getWidth() / 2, container.getHeight() / 2, 5), 1, 3, MenuButton.class);
-        menuMgr.set(0, 0, new MenuButton("Random Trainer"));
-        menuMgr.set(0, 1, new MenuButton("Next Champion"));
+        menuMgr = new MenuLayoutManager<>(new RoundedRectangle(5, container.getHeight() / 4, container.getWidth() - 10, container.getHeight() / 2, 5), 1, 3, MenuButton.class);
+        menuMgr.setDrawBackground(false);
+        menuMgr.set(0, 0, new MenuButton("Battle Random Trainer"));
+        menuMgr.set(0, 1, new MenuButton("Battle " + TrainerLoaderUtility.loadProfessor(model.getCurProf()).getName()));
         menuMgr.set(0, 2, new MenuButton("Restart"));
 
     }
@@ -102,19 +104,17 @@ public class MainMenuState implements GameState {
     }
 
     private void handleSelection() {
-        switch (menuMgr.getSelected().getText()) {
-            case "Random Trainer":
-                model.setEnemy(RandomTrainerUtility.getRandomNPC(6, "Random Trainer"), false);
-                SoundUtil.playEnterBattle();
-                game.enterState(GameStateType.BATTLE.getValue(), new FadeOutTransition(Color.black, 500), new FadeInTransition(Color.black, 500));
-                break;
-            case "Next Champion":
-                model.setEnemy(DatabaseLoaderUtilities.TrainerLoaderUtility.loadProfessor(model.getCurProf()), true);
-                SoundUtil.playEnterBattle();
-                game.enterState(GameStateType.BATTLE.getValue(), new FadeOutTransition(Color.black, 500), new FadeInTransition(Color.black, 500));
-                break;
-            case "Restart":
-                game.enterState(GameStateType.TEAMPICKER.getValue(), new FadeOutTransition(Color.black, 500), new FadeInTransition(Color.black, 500));
+        if ("Battle Random Trainer".equals(menuMgr.getSelected().getText())) {
+            model.setEnemy(RandomCreatorUtility.getRandomNPC(6, "Random Trainer"), false);
+            SoundUtil.playEnterBattle();
+            game.enterState(GameStateType.BATTLE.getValue(), new FadeOutTransition(Color.black, 500), new FadeInTransition(Color.black, 500));
+        } else if (menuMgr.getSelected().getText().equals("Battle " + TrainerLoaderUtility.loadProfessor(model.getCurProf()).getName())) {
+            model.setEnemy(DatabaseLoaderUtilities.TrainerLoaderUtility.loadProfessor(model.getCurProf()), true);
+            SoundUtil.playEnterBattle();
+            game.enterState(GameStateType.BATTLE.getValue(), new FadeOutTransition(Color.black, 500), new FadeInTransition(Color.black, 500));
+        }
+        if ("Restart".equals(menuMgr.getSelected().getText())) {
+            game.enterState(GameStateType.TEAMPICKER.getValue(), new FadeOutTransition(Color.black, 500), new FadeInTransition(Color.black, 500));
         }
     }
 

@@ -19,6 +19,8 @@ import PokemonObjects.TrainerType;
 import java.util.concurrent.LinkedBlockingQueue;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.gui.GUIContext;
 
 /**
@@ -26,6 +28,11 @@ import org.newdawn.slick.gui.GUIContext;
  * @author Eric
  */
 public class PokemonImage {
+
+    public enum FillType {
+
+        CROP, SCALE;
+    }
 
     private enum AnimationAction {
 
@@ -42,20 +49,23 @@ public class PokemonImage {
 
     // Constants for drawing
     private float attackXOffset = 30f;
-    private float defendXOffset = 5f;
+    private float defendXOffset = 10f;
     private static final float fightActionDurationMS = 200f;
     private static final float appearanceDurationMS = 300;
     private static final float defendDelay = fightActionDurationMS * 2;
 
     // Variable constraints and positions
-    private boolean freeYMax = false;
+    private TrainerType type;
+    private Rectangle drawRect;
+    private FillType fillType;
     private float offsetX = 0;
     private float offsetY = 0;
-    private float centerX = 0;
-    private float centerY = 0;
-    private int x;
-    private int y;
+    // The default values for the image, when not offset
+    private int baseX;
+    private int baseY;
+    // Maximum absolute y position
     private int ymax;
+    // Motion variables
     private float deltaXAttack = attackXOffset / fightActionDurationMS;
     private float deltaXDefend = defendXOffset / fightActionDurationMS;
     private float deltaYAppear = 0;
@@ -63,39 +73,31 @@ public class PokemonImage {
     //=====================
     // Mark: - Constructors
     //=====================
-    /**
-     * Constructor without a constrained maximum y
-     *
-     * @param x0 The location of the horizontal center of the image
-     * @param y0 The location of the vertical center of the image
-     * @param image The image to draw
-     * @param trainerType The type of trainer
-     */
-    public PokemonImage(int x0, int y0, Image image, TrainerType trainerType) {
-        this(x0, y0, y0 + image.getHeight() / 2, image, trainerType);
+//    /**
+//     * Constructor without a constrained maximum y
+//     *
+//     * @param x0 The location of the horizontal center of the image
+//     * @param y0 The location of the vertical center of the image
+//     * @param image The image to draw
+//     * @param trainerType The type of trainer
+//     */
+    public PokemonImage(int tlx, int tly, int brx, int bry, FillType fillType, int id, TrainerType trainerType) throws SlickException {
+        this(tlx, tly, brx, bry, fillType, "./res/Images/Sprites/" + (trainerType == TrainerType.NPC ? "front/" : "back/") + id + ".png", trainerType);
     }
 
-    /**
-     * Constructor without a constrained maximum y
-     *
-     * @param x0 The location of the horizontal center of the image
-     * @param y0 The location of the vertical center of the image
-     * @param ymax The maximum y value of the image
-     * @param image The image to draw
-     * @param trainerType The type of trainer
-     */
-    public PokemonImage(int x0, int y0, int ymax, Image image, TrainerType trainerType) {
-        actions = new LinkedBlockingQueue<>();
-        centerX = x0;
-        centerY = y0;
-        x = (int) (x0 - image.getWidth() / 2f);
-        y = (int) (y0 - image.getHeight() / 2f);
-        this.ymax = ymax;
-        this.offsetY = ymax - y;
-        this.image = image;
-        deltaYAppear = (ymax - y) / appearanceDurationMS;
+    public PokemonImage(int tlx, int tly, int brx, int bry, FillType fillType, String ref, TrainerType trainerType) throws SlickException {
+        this(tlx, tly, brx, bry, fillType, new Image(ref), trainerType);
+    }
 
-        // Flips for NPC
+    public PokemonImage(int tlx, int tly, int brx, int bry, FillType fillType, Image image, TrainerType trainerType) {
+        // Set drawing constants and do setup
+        drawRect = new Rectangle(tlx, tly, brx - tlx, bry - tly);
+        this.fillType = fillType;
+        ymax = (int) drawRect.getMaxY();
+        this.offsetY = drawRect.getHeight();
+        setImage(image);
+        this.type = trainerType;
+        this.actions = new LinkedBlockingQueue<>();
         if (trainerType == TrainerType.NPC) {
             deltaXAttack *= -1;
             deltaXDefend *= -1;
@@ -113,14 +115,10 @@ public class PokemonImage {
      */
     public void render(GUIContext container, Graphics g) {
         g.drawImage(image,
-                    x + (int) offsetX,
-                    y + (int) offsetY,
-                    x + (int) offsetX + image.getWidth(),
-                    ymax,
-                    0,
-                    0,
-                    image.getWidth(),
-                    ymax - (y + offsetY));
+                    baseX + offsetX, baseY + offsetY,
+                    baseX + offsetX + image.getWidth(), ymax,
+                    0, 0,
+                    image.getWidth(), ymax - (baseY + offsetY));
     }
 
     //=================
@@ -137,7 +135,6 @@ public class PokemonImage {
             switch (actions.peek()) {
                 case ATTACK:
                     if (currMS < fightActionDurationMS / 2) {
-                        System.out.println(offsetX);
                         offsetX += deltaXAttack * delta;
                     } else if (currMS < fightActionDurationMS) {
                         offsetX -= deltaXAttack * delta;
@@ -150,9 +147,9 @@ public class PokemonImage {
                 case DEFEND:
                     if (currMS < defendDelay) {
                     } else if (currMS < defendDelay + fightActionDurationMS * 0.25f || (currMS < defendDelay + fightActionDurationMS && currMS > defendDelay + fightActionDurationMS * 0.75f)) {
-                        offsetX += deltaXAttack * delta;
+                        offsetX += deltaXDefend * delta;
                     } else if (currMS < defendDelay + fightActionDurationMS * 0.75f) {
-                        offsetX -= deltaXAttack * delta;
+                        offsetX -= deltaXDefend * delta;
                     } else {
                         offsetX = 0;
                         currMS = 0;
@@ -161,16 +158,9 @@ public class PokemonImage {
                     break;
                 case SWAP:
                     if (currMS > 500) {
-                        image = tmpImage;
-                        x = (int) (centerX - image.getWidth() / 2);
-                        y = (int) (centerY - image.getHeight() / 2);
-                        if (freeYMax) {
-                            ymax = (int) (centerY + image.getHeight() / 2);
-                        }
-                        offsetY = ymax - y;
+                        setImage(tmpImage);
                         tmpImage = null;
                         currMS = 0;
-                        deltaYAppear = (ymax - y) / appearanceDurationMS;
                         actions.poll();
                     }
                     break;
@@ -184,10 +174,10 @@ public class PokemonImage {
                     }
                     break;
                 case DISAPPEAR:
-                    if (currMS < appearanceDurationMS && y + offsetY < ymax) {
+                    if (currMS < appearanceDurationMS && baseY + offsetY < ymax) {
                         offsetY += deltaYAppear * delta;
                     } else {
-                        offsetY = ymax - y;
+                        offsetY = ymax - baseY;
                         currMS = 0;
                         actions.poll();
                     }
@@ -228,20 +218,44 @@ public class PokemonImage {
         actions.add(AnimationAction.APPEAR);
     }
 
-    /**
-     * Swap the image with a new one, animating the switch by disappearing and
-     * reappearing
-     *
-     * @param image The new image
-     * @param freeYMax Whether the ymax should be recalculated when the switch
-     * is made
-     */
-    public void swap(Image image, boolean freeYMax) {
-        tmpImage = image;
-
+    public void swap(int id) {
+        try {
+            tmpImage = new Image("./res/Images/Sprites/" + (type == TrainerType.NPC ? "front/" : "back/") + id + ".png");
+        } catch (SlickException ex) {
+            tmpImage = image;
+        }
         actions.add(AnimationAction.DISAPPEAR);
         actions.add(AnimationAction.SWAP);
         actions.add(AnimationAction.APPEAR);
     }
 
+    private void updateImageConstants() {
+        switch (fillType) {
+            case CROP:
+                if (drawRect.getHeight() > image.getHeight()) {
+                    this.deltaYAppear = drawRect.getHeight() / appearanceDurationMS;
+                    baseY = (int) (drawRect.getMaxY() - image.getHeight() * 0.75f);
+                } else {
+                    this.deltaYAppear = image.getHeight() / appearanceDurationMS;
+                    baseY = (int) drawRect.getY();
+                }
+                break;
+            case SCALE:
+                baseY = (int) drawRect.getMaxY() - image.getHeight();
+                deltaYAppear = image.getHeight() / appearanceDurationMS;
+                break;
+        }
+        offsetY = drawRect.getMaxY() - baseY;
+        baseX = (int) (drawRect.getCenterX() - image.getWidth() / 2);
+
+    }
+
+    private void setImage(Image img) {
+        if (fillType == FillType.SCALE && img.getHeight() > drawRect.getHeight()) {
+            image = img.getScaledCopy(0.9f * drawRect.getHeight() / img.getHeight());
+        } else {
+            image = img;
+        }
+        updateImageConstants();
+    }
 }

@@ -247,6 +247,7 @@ public class MenuLayoutManager<T extends MenuButton> {
         } else {
             selected[0] = -1;
             selected[1] = -1;
+
         }
     }
 
@@ -401,6 +402,15 @@ public class MenuLayoutManager<T extends MenuButton> {
                 }
             }
         }
+    }
+
+    public void clear() {
+        selected[0] = -1;
+        selected[1] = -1;
+        itemMatrix = (T[][]) Array.newInstance(type, itemMatrix.length, itemMatrix[0].length);
+        size = 0;
+        refreshArray();
+
     }
 
 }
