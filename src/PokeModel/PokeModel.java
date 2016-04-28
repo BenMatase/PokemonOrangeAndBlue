@@ -16,13 +16,13 @@
 package PokeModel;
 
 import PokemonObjects.EnemyTrainer;
-import PokemonObjects.Trainer;
 import PokemonObjects.UserTrainer;
-import java.util.List;
 
 /**
+ * Class that holds the model of the game such as the enemy trainers and user
+ * trainer.
  *
- * @author Benjamin Matase
+ * @author Benjamin Matase and Eric Marshall
  */
 public class PokeModel {
 
@@ -31,8 +31,6 @@ public class PokeModel {
 
     private int curProf = 1;
     private boolean curEnemyIsProf = false;
-
-    private List<Trainer> trainers;
 
     public PokeModel() {
     }
@@ -49,11 +47,22 @@ public class PokeModel {
         return enemy;
     }
 
+    /**
+     *
+     * @param enemy
+     * @param isProf
+     *
+     * @author Eric Marshall
+     */
     public void setEnemy(EnemyTrainer enemy, boolean isProf) {
         this.enemy = enemy;
         curEnemyIsProf = isProf;
     }
 
+    /**
+     *
+     * @author Eric Marshall
+     */
     public void clearEnemy() {
         enemy = null;
         curEnemyIsProf = false;
@@ -63,6 +72,10 @@ public class PokeModel {
         return curEnemyIsProf;
     }
 
+    /**
+     *
+     * @author Eric Marshall
+     */
     public void incrementProf() {
         if (curProf < 12) {
             curProf += 1;
