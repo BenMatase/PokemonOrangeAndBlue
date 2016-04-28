@@ -6,7 +6,7 @@
 package gameStates;
 
 import PokeModel.PokeModel;
-import TrainerCreator.RandomTrainerUtility;
+import TrainerCreator.RandomCreatorUtility;
 import guiComponents.MenuButton;
 import guiComponents.MenuLayoutManager;
 import guiComponents.SoundUtil;
@@ -104,7 +104,7 @@ public class MainMenuState implements GameState {
     private void handleSelection() {
         switch (menuMgr.getSelected().getText()) {
             case "Random Trainer":
-                model.setEnemy(RandomTrainerUtility.getRandomNPC(6, "Random Trainer"), false);
+                model.setEnemy(RandomCreatorUtility.getRandomNPC(6, "Random Trainer"), false);
                 SoundUtil.playEnterBattle();
                 game.enterState(GameStateType.BATTLE.getValue(), new FadeOutTransition(Color.black, 500), new FadeInTransition(Color.black, 500));
                 break;
