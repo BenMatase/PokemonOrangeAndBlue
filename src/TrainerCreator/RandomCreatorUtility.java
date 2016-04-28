@@ -32,13 +32,17 @@ import java.util.Random;
 public class RandomCreatorUtility {
 
     /**
-     * TODO: have arguments to set greeting and goodbye message Gets an Gets an
-     * EnemyTrainer with name and with numPkmn amount of random Pokemon on its
-     * team. Also gives default greeting and goodbye of "Hello!" and "Goodbye!"
+     * TODO: have arguments to set greeting and goodbye message
+     *
+     * Gets an EnemyTrainer with name and with numPkmn amount of random Pokemon
+     * on its team. Also gives default greeting and goodbye of "Hello!" and
+     * "Goodbye!"
      *
      * @param numPkmn An integer between 1 and 6 specifying how many Pokemon.
      * @param name The desired name of the trainer.
-     * @return
+     * @return An NPC with random Pokemon with random moves.
+     *
+     * @author Benjamin Matase
      */
     public static EnemyTrainer getRandomNPC(int numPkmn, String name) {
         //TODO: check if numPkmn is between 1 and 6
@@ -53,7 +57,9 @@ public class RandomCreatorUtility {
      *
      * @param numPkmn An integer between 1 and 6 specifying how many Pokemon.
      * @param name The desired name of the user.
-     * @return
+     * @return A UserTrainer with random Pokemon with random moves.
+     *
+     * @author Benjamin Matase
      */
     public static UserTrainer getRandomUser(int numPkmn, String name) {
         //TODO: check if numPkmn is between 1 and 6
@@ -67,6 +73,8 @@ public class RandomCreatorUtility {
      * that Pokemon.
      *
      * @return A Pokemon with a random species and random four moves.
+     *
+     * @author Benjamin Matase
      */
     public static Pokemon getRandomPokemon() {
         //TODO: get rid of need to load all Pokemon and moves everytime
@@ -106,6 +114,8 @@ public class RandomCreatorUtility {
      * between 1 and 6.
      * @param trainer The trainer that will have the randomized Pokemon added
      * to.
+     *
+     * @author Benjamin Matase
      */
     private static void fillRandomTrainer(int numPkmn, Trainer trainer) {
         //get numPkmn randomized and add to trainer

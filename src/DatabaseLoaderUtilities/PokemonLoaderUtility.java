@@ -30,9 +30,10 @@ import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 
 /**
- * A utility class that uses a Singleton design pattern to make sure pokemonNode
- * and moveNode are initialized when necessary. Reads information from two xml
- * files for moves and Pokemon so that the game can get accurate information.
+ * A utility class that uses a rough Singleton design pattern to make sure
+ * pokemonNode and moveNode are initialized when necessary. Reads information
+ * from two xml files for moves and Pokemon so that the game can get accurate
+ * information.
  *
  * Source for XML's:
  * <a href="https://github.com/r4vi/zipper-demo/blob/master/resources/pokemon.xml">
@@ -40,14 +41,18 @@ import org.jdom2.input.SAXBuilder;
  * <a href="https://github.com/cathyjf/PokemonLabBot/blob/master/moves.xml">
  * moves.xml</a>
  *
- * TODO: account for errors in nomenclature of moves
- *
  * TODO: account for failure of setting either root Element
  *
  * @author Benjamin Matase
  */
 public class PokemonLoaderUtility {
+    /**
+     * Relative path to pokemon.xml database file in project
+     */
     private static final String POKEMON_FILE_PATH = "./res/Database/pokemon.xml";
+    /**
+     * Relative path to moves.xml database file in project
+     */
     private static final String MOVES_FILE_PATH = "./res/Database/moves.xml";
 
     private static Element pokemonNode;
@@ -73,6 +78,12 @@ public class PokemonLoaderUtility {
         moveNode = loadNode(MOVES_FILE_PATH);
     }
 
+    /**
+     * Initializes the Pokemon and Moves nodes so that can be loaded during
+     * start of program
+     *
+     * @author Benjamin Matase
+     */
     public static void init() {
         System.out.print("Loading Databases..");
         if (pokemonNode == null) {
@@ -125,9 +136,12 @@ public class PokemonLoaderUtility {
             loadPokemonNode();
         }
 
+        //get all nodes of type pokmeon
         List<Element> pokemonNodes = pokemonNode.getChildren("pokemon");
+
         List<String> pokemonNames = new ArrayList<String>();
 
+        //extract name from each pokemon node and add it to the list
         for (Element node : pokemonNodes) {
             pokemonNames.add(node.getChildText("name"));
         }
@@ -137,7 +151,7 @@ public class PokemonLoaderUtility {
 
     /**
      * Gets a list of all moves that a Pokemon can learn according to
-     * pokemon.xml.
+     * pokemon.xml database.
      *
      * @param pokemonName The name of the Pokemon as it appears in pokemon.xml.
      * @return A list of all moves that the specified Pokemon can have.
@@ -151,7 +165,7 @@ public class PokemonLoaderUtility {
 
         List<String> movesStr = new ArrayList<>();
 
-        //get the node for the specified Pokemono
+        //get the node for the specified Pokemon
         Element pokemon = getPokemonNode(pokemonName);
 
         //gets all moves Pokemon can learn
@@ -160,8 +174,13 @@ public class PokemonLoaderUtility {
 
         //populates string list
         for (Element moveNode : moveNodes) {
+            //get the name of the move
             String name = moveNode.getChildText("name");
+
+            //create the move
             Move move = PokemonLoaderUtility.createMove(name);
+
+            //filters out non-existant, non-damaging, and repeat moves
             if (move != null && move.getDamage() > 1 && !movesStr.contains(
                     name)) {
                 movesStr.add(name);
@@ -183,6 +202,7 @@ public class PokemonLoaderUtility {
         //get node of specified move
         Element moveNode = getMoveNode(moveName);
 
+        //if move doesn't exist in the database, return null
         if (moveNode == null) {
             return null;
         }
@@ -211,10 +231,9 @@ public class PokemonLoaderUtility {
      * Goes through all the moves and finds the node that corresponds to the
      * moveName.
      *
-     * TODO: possible refactor
-     *
      * @param moveName The name of the move that is specified in the xml.
-     * @return The node corresponding to the moveName.
+     * @return The node corresponding to the moveName. If move doesn't exist in
+     * database, returns null.
      *
      * @author Benjamin Matase
      */
@@ -223,15 +242,24 @@ public class PokemonLoaderUtility {
             loadMoveNode();
         }
 
+        //get the move name as all lowercase
         String moveNameLower = moveName.toLowerCase();
 
+        //get all of the moves
         List<Element> moveNodes = moveNode.getChildren("move");
+
+        //go through all of the move nodes in moves.xml
         for (Element moveNode : moveNodes) {
+            //also make the current move node's name to lower case
             String currNodeMoveNameLower = moveNode.getAttribute("name").getValue().toLowerCase();
+
+            //compare, and if same, return current node
             if (currNodeMoveNameLower.equals(moveNameLower)) {
                 return moveNode;
             }
         }
+
+        //if couldn't find move, return null
         return null;
     }
 
@@ -241,7 +269,8 @@ public class PokemonLoaderUtility {
      *
      * @param pokemonName The name (species) of the Pokemon as specified in the
      * xml.
-     * @return The node corresponding to the pokemonNode.
+     * @return The node corresponding to the pokemonNode. If couldn't find a
+     * match, return null.
      *
      * @author Benjamin Matase
      */
@@ -250,17 +279,22 @@ public class PokemonLoaderUtility {
             loadPokemonNode();
         }
 
+        //get all pokemon nodes
         List<Element> pokemonNodes = pokemonNode.getChildren("pokemon");
+
+        //go through all of the pokemon nodes until find a match
         for (Element pokemonNode : pokemonNodes) {
             if (pokemonNode.getChild("name").getText().equals(pokemonName)) {
                 return pokemonNode;
             }
         }
+
+        //if couldn't find the corresponding pokemon node, return null.
         return null;
     }
 
     /**
-     * Extracts all information about a certain Pokemon with a certain moveset
+     * Extracts all information about a certain Pokemon with a certain move set
      * and then create a Pokemon object with specified unique attributes.
      *
      * TODO: limit moveNames to be more than 0 and less than 5
@@ -279,7 +313,7 @@ public class PokemonLoaderUtility {
                                         List<String> moveNames) {
         Element pokemonNode = getPokemonNode(pokemonName);
 
-        //fill Pokemon nation dex number TODO: add this to Pokemon
+        //fill Pokemon nation dex number
         int natDexNum = Integer.parseInt(
                 pokemonNode.getAttribute("id").getValue());
 
@@ -294,7 +328,7 @@ public class PokemonLoaderUtility {
         int spatt = Integer.parseInt(stats.getChildText("SAT"));
         int spdef = Integer.parseInt(stats.getChildText("SDF"));
 
-        //TODO: should be refactored to have list off types in Pokemon
+        //get types nodes
         List<Element> typesNodes = pokemonNode.getChildren("type");
 
         //every pokemon has at least one type
