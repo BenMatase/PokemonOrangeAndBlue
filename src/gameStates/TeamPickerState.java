@@ -18,11 +18,14 @@ package gameStates;
 import PokeModel.PokeModel;
 import PokemonObjects.Pokemon;
 import PokemonObjects.UserTrainer;
+import TrainerCreator.RandomCreatorUtility;
 import TrainerCreator.TeamCreatorUtility;
 import guiComponents.ColorUtil;
 import guiComponents.InfoPanel;
 import guiComponents.MenuButton;
 import guiComponents.MenuLayoutManager;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -156,7 +159,17 @@ public class TeamPickerState implements GameState {
     }
 
     private void handleRandomTeamSelection() {
-
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 2; j++) {
+                Pokemon pkmn = RandomCreatorUtility.getRandomPokemon();
+                try {
+                    teamMgr.set(j, i, new InfoPanel(pkmn.getCurHealth(), pkmn.getHealth(), pkmn.getName(), new Image("./res/Images/Sprites/front/" + pkmn.getID() + ".png")));
+                    pkmns[j + i * 2] = pkmn;
+                } catch (SlickException ex) {
+                    Logger.getLogger(TeamPickerState.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
     }
 
     private void handleSelectedTeamSlot(int[] coords) throws SlickException {;

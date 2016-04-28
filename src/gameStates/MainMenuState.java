@@ -104,23 +104,8 @@ public class MainMenuState implements GameState {
     }
 
     private void handleSelection() {
-<<<<<<< HEAD
-        switch (menuMgr.getSelected().getText()) {
-            case "Random Trainer":
-                model.setEnemy(RandomCreatorUtility.getRandomNPC(6, "Random Trainer"), false);
-                SoundUtil.playEnterBattle();
-                game.enterState(GameStateType.BATTLE.getValue(), new FadeOutTransition(Color.black, 500), new FadeInTransition(Color.black, 500));
-                break;
-            case "Next Champion":
-                model.setEnemy(DatabaseLoaderUtilities.TrainerLoaderUtility.loadProfessor(model.getCurProf()), true);
-                SoundUtil.playEnterBattle();
-                game.enterState(GameStateType.BATTLE.getValue(), new FadeOutTransition(Color.black, 500), new FadeInTransition(Color.black, 500));
-                break;
-            case "Restart":
-                game.enterState(GameStateType.TEAMPICKER.getValue(), new FadeOutTransition(Color.black, 500), new FadeInTransition(Color.black, 500));
-=======
         if ("Battle Random Trainer".equals(menuMgr.getSelected().getText())) {
-            model.setEnemy(RandomTrainerUtility.getRandomNPC(6, "Random Trainer"), false);
+            model.setEnemy(RandomCreatorUtility.getRandomNPC(6, "Random Trainer"), false);
             SoundUtil.playEnterBattle();
             game.enterState(GameStateType.BATTLE.getValue(), new FadeOutTransition(Color.black, 500), new FadeInTransition(Color.black, 500));
         } else if (menuMgr.getSelected().getText().equals("Battle " + TrainerLoaderUtility.loadProfessor(model.getCurProf()).getName())) {
@@ -130,7 +115,6 @@ public class MainMenuState implements GameState {
         }
         if ("Restart".equals(menuMgr.getSelected().getText())) {
             game.enterState(GameStateType.TEAMPICKER.getValue(), new FadeOutTransition(Color.black, 500), new FadeInTransition(Color.black, 500));
->>>>>>> Graphics
         }
     }
 
