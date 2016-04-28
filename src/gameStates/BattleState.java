@@ -68,10 +68,14 @@ public class BattleState implements GameState {
     private MenuLayoutManager<InfoPanel> pokemonMenuMgr;
 
     // Constants for centers of images
-    private int ex = 418;
-    private int ey = 55;
-    private int px = 73;
-    private int py = 193;
+    private int etlx = 316;
+    private int etly = 0;
+    private int ebrx = etlx + 200;
+    private int ebry = etly + 93;
+    private int ptlx = 0;
+    private int ptly = 126;
+    private int pbrx = ptlx + 210;
+    private int pbry = ptly + 98;
 
     // Text Display and animation handling
     private LinkedBlockingQueue<Event> eventQueue;
@@ -176,11 +180,10 @@ public class BattleState implements GameState {
      */
     public void loadImages() throws SlickException {
         bgdImage = new Image("res/Images/Battle/BattleGrass.png");
-        Image tmp = new Image("./res/Images/Sprites/back/" + model.getUser().getCurPokemon().getID() + ".png");
-        playerImage = new PokemonImage(px, py, bgdImage.getHeight(), tmp, TrainerType.USER);
-        tmp = new Image("./res/Images/Sprites/front/" + model.getEnemy().getCurPokemon().getID() + ".png");
-        enemyImage = new PokemonImage(ex, ey, tmp, TrainerType.NPC);
-        tmp = null;
+        System.out.println(bgdImage.getHeight());
+        playerImage = new PokemonImage(ptlx, ptly, pbrx, pbry, PokemonImage.FillType.CROP, model.getUser().getCurPokemon().getID(), TrainerType.USER);
+//        playerImage = new PokemonImage(px, py, bgdImage.getHeight(), tmp, TrainerType.USER);
+        enemyImage = new PokemonImage(etlx, etly, ebrx, ebry, PokemonImage.FillType.SCALE, model.getEnemy().getCurPokemon().getID(), TrainerType.NPC);
     }
 
     /**
@@ -467,16 +470,10 @@ public class BattleState implements GameState {
     private void handleSwitchEvent(SwitchPokemonEvent spe) {
         SoundUtil.playSwap();
         if (spe.getSwitchPokemon().getTrainer() == TrainerType.NPC) {
-            try {
-                enemyImage.swap(new Image("./res/Images/Sprites/front/" + model.getEnemy().getCurPokemon().getID() + ".png"), true);
-                hpBarViewMgr.set(0, 0, new InfoPanel(model.getEnemy().getCurPokemon().getCurHealth(), model.getEnemy().getCurPokemon().getHealth(), model.getEnemy().getCurPokemon().getName()));
-            } catch (SlickException e) {
-            }
+            enemyImage.swap(model.getEnemy().getCurPokemon().getID());
+            hpBarViewMgr.set(0, 0, new InfoPanel(model.getEnemy().getCurPokemon().getCurHealth(), model.getEnemy().getCurPokemon().getHealth(), model.getEnemy().getCurPokemon().getName()));
         } else {
-            try {
-                playerImage.swap(new Image("./res/Images/Sprites/back/" + model.getUser().getCurPokemon().getID() + ".png"), false);
-            } catch (SlickException e) {
-            }
+            playerImage.swap(model.getUser().getCurPokemon().getID());
             mainMenuTextDisplay.getSelected().setText("What will " + model.getUser().getCurPokemon().getNickname() + " do?");
         }
     }
@@ -578,13 +575,10 @@ public class BattleState implements GameState {
     private void updateFightMenuOptions() {
         Move[] moves = model.getUser().getCurPokemon().getMoves();
         int[][] slots = new int[][]{{0, 0}, {1, 0}, {0, 1}, {1, 1}};
+        fightMenuMgr.clear();
         for (int i = 0; i < 4; i++) {
             if (i < moves.length) {
-                fightMenuMgr.set(slots[i][0],
-                                 slots[i][1],
-                                 new MenuButton(moves[i].getName()));
-            } else {
-                fightMenuMgr.set(slots[i][0], slots[i][1], null);
+                fightMenuMgr.set(slots[i][0], slots[i][1], new MenuButton(moves[i].getName()));
             }
         }
     }
@@ -620,6 +614,7 @@ public class BattleState implements GameState {
         int i = 0;
         Image img;
         InfoPanel pnl;
+        pokemonMenuMgr.clear();
         for (Pokemon pkmn : model.getUser().getPokemon()) {
             img = new Image("./res/Images/Sprites/front/" + pkmn.getID() + ".png");
             pnl = new InfoPanel(pkmn.getCurHealth(), pkmn.getHealth(), pkmn.getNickname(), img);

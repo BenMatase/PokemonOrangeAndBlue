@@ -60,7 +60,7 @@ public class SoundUtil {
             @Override
             public void musicEnded(Music music) {
                 curMusic = battleMusic;
-                curMusic.loop();
+                curMusic.loop(1.0f, 0.1f);
             }
 
             @Override
@@ -118,9 +118,9 @@ public class SoundUtil {
             }
             curMusic = newMusic;
             if (loop) {
-                curMusic.loop(1.0f, 0.5f);
+                curMusic.loop(1.0f, 0.1f);
             } else {
-                curMusic.play(1.0f, 0.5f);
+                curMusic.play(1.0f, 0.1f);
             }
         }
     }
@@ -132,20 +132,20 @@ public class SoundUtil {
      * Play the Pokemon faint sound
      */
     public static void playFaint() {
-        faintSound.play();
+        faintSound.play(1.0f, 0.5f);
     }
 
     /**
      * Play the Pokemon hit sound
      */
     public static void playHit() {
-        hitSound.play();
+        hitSound.play(1.0f, 0.5f);
     }
 
     /**
      * Play the Pokemon swap sound
      */
     public static void playSwap() {
-        swapSound.play();
+        swapSound.play(1.0f, 0.5f);
     }
 }

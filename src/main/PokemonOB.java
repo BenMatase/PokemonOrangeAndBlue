@@ -28,7 +28,7 @@ public class PokemonOB extends StateBasedGame {
     // Application Properties
     public static final int WIDTH = 512;
     public static final int HEIGHT = 384;
-    public static final int FPS = 45;
+    public static final int FPS = 60;
     public static final double VERSION = 0.1;
     public static PokeModel model;
 
@@ -44,9 +44,9 @@ public class PokemonOB extends StateBasedGame {
         // The first state added will be the one that is loaded first, when the application is launched
         this.addState(new BlackScreenState(GameStateType.BLACKSCREEN.getValue()));
         this.addState(new SplashScreenState(
-                GameStateType.SPLASHSCREEN.getValue()));
+            GameStateType.SPLASHSCREEN.getValue()));
         this.addState(
-                new MainMenuState(GameStateType.MAINMENU.getValue(), model));
+            new MainMenuState(GameStateType.MAINMENU.getValue(), model));
         this.addState(new TeamPickerState(GameStateType.TEAMPICKER.getValue(),
                                           model));
         this.addState(new BattleState(GameStateType.BATTLE.getValue(), model));
@@ -60,7 +60,7 @@ public class PokemonOB extends StateBasedGame {
             //loads databases here so delay is in beginning
             PokemonLoaderUtility.init();
             AppGameContainer app = new AppGameContainer(new PokemonOB(
-                    "Pokémon Orange and Blue v" + VERSION));
+                "Pokémon Orange and Blue v" + VERSION));
             app.setDisplayMode(WIDTH, HEIGHT, false);
             app.setTargetFrameRate(FPS);
             app.setShowFPS(true);
