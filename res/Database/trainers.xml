@@ -65,7 +65,7 @@
         </professor>
         
         <professor id='2'>
-            <name>Darakshan Mir</name>
+            <name>Professor Mir</name>
             <team>
                 <pokemon>
                     <species>KADABRA</species>
@@ -127,7 +127,7 @@
         </professor>
         
         <professor id='3'>
-            <name>Evan Peck</name>
+            <name>Professor Peck</name>
             <team>
                 <pokemon>
                     <species>PIDGEOT</species>
@@ -190,7 +190,7 @@
         </professor>
         
         <professor id='4'>
-            <name>Benoit Razet</name>
+            <name>Professor Razet</name>
             <team>
                 <pokemon>
                     <species>RAPIDASH</species>
@@ -252,7 +252,7 @@
         </professor>
         
         <professor id='5'>
-            <name>Xiannong Meng</name>
+            <name>Professor Meng</name>
             <team>
                 <pokemon>
                     <species>PIKACHU</species>
@@ -314,7 +314,7 @@
         </professor>
         
         <professor id='6'>
-            <name>Steve Guattery</name>
+            <name>Professor Guattery</name>
             <team>
                 <pokemon>
                     <species>CHATOT</species>
@@ -378,7 +378,7 @@
         </professor>
         
         <professor id='7'>
-            <name>Alan Marchiori</name>
+            <name>Professor Marchiori</name>
             <team>
                 <pokemon>
                     <species>RAYQUAZA</species>
@@ -440,7 +440,7 @@
         </professor>
         
         <professor id='8'>
-            <name>Brian King</name>
+            <name>Professor King</name>
             <team>
                 <pokemon>
                     <species>SHUCKLE</species>
