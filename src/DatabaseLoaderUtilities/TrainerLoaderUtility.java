@@ -26,15 +26,30 @@ import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 
 /**
+ * A Utility class to handle the creation of Professors as EnemyTrainers from
+ * the professors.xml which we created by ourselves using Pokemon that we felt
+ * fit each of the participating professors.
  *
  * @author Benjamin Matase
  */
 public class TrainerLoaderUtility {
-
+    /**
+     * Relative path to trainers.xml database in project
+     */
     private static final String TRAINERS_FILE_PATH = "./res/Database/trainers.xml";
 
     private static Element trainerRootNode;
 
+    /**
+     * Loads a professor by their specified number.
+     *
+     * @param profNum The number each professor is given in professor.xml. Is
+     * the index of the sequence which is the order they appear in the game.
+     * @return An enemy trainer with Pokemon, name, and intro/outro text as
+     * specified in professors.xml database
+     *
+     * @author Benjamin Matase
+     */
     public static EnemyTrainer loadProfessor(int profNum) {
         if (trainerRootNode == null) {
             loadTrainerRootNode();
@@ -88,6 +103,12 @@ public class TrainerLoaderUtility {
 
     }
 
+    /**
+     * Loads the global Element for the class that is the root node for all of
+     * the professors in professors.xml.
+     *
+     * @author Benjamin Matase
+     */
     private static void loadTrainerRootNode() {
         trainerRootNode = loadNode(TRAINERS_FILE_PATH);
     }

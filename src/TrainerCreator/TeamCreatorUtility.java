@@ -27,6 +27,7 @@ import javax.swing.JOptionPane;
  * @author Benjamin Matase
  */
 public class TeamCreatorUtility {
+
     public static Pokemon getPokemonGUI() {
         PokemonCreatorPanel pkmnPnl = new PokemonCreatorPanel();
         JOptionPane.showMessageDialog(null, pkmnPnl, "Create your Pokemon",

@@ -20,19 +20,26 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JComboBox;
 import javax.swing.SwingUtilities;
 
 /**
+ * Panel for the user to choose a Pokemon and up to four moves to create.
  *
  * @author Benjamin Matase
  */
 public class PokemonCreatorPanel extends javax.swing.JPanel implements
         ActionListener {
 
+    /**
+     * The string to be the default, empty choice for all the drop down lists
+     */
     String EMPTY_CHOICE = " ";
 
     /**
      * Creates new form PokemonCreatorPanel
+     *
+     * @author Benjamin Matase
      */
     public PokemonCreatorPanel() {
         initComponents();
@@ -43,6 +50,7 @@ public class PokemonCreatorPanel extends javax.swing.JPanel implements
         //populate pokemon drop down list with all pokemon names
         populateCbxPkmn();
 
+        //Add listeners for the combo boxes
         cbxPkmn.addActionListener(this);
         cbxMove1.addActionListener(this);
         cbxMove2.addActionListener(this);
@@ -174,10 +182,23 @@ public class PokemonCreatorPanel extends javax.swing.JPanel implements
     private javax.swing.JPanel pnlMoves;
     // End of variables declaration//GEN-END:variables
 
+    /**
+     * Gets the currently selected Pokemon.
+     *
+     * @return The currently selected item in the pokemon combo box
+     *
+     * @author Benjamin Matase
+     */
     public String getPkmnName() {
         return cbxPkmn.getSelectedItem().toString();
     }
 
+    /**
+     * Populates the Pokemon combo box with all of the Pokemon from the
+     * database.
+     *
+     * @author Benjamin Matase
+     */
     private void populateCbxPkmn() {
         List<String> pkmnNameList = PokemonLoaderUtility.getPokemonNames();
 
@@ -186,48 +207,103 @@ public class PokemonCreatorPanel extends javax.swing.JPanel implements
         }
     }
 
+    /**
+     * Returns whether the Pokemon combo box is not the default value.
+     *
+     * @return Whether the Pokemon combo box is not empty.
+     *
+     * @author Benjamin Matase
+     */
     public boolean hasChosenPkmn() {
-        return !cbxPkmn.getSelectedItem().equals(EMPTY_CHOICE);
+        return isNotEmpty(cbxPkmn);
     }
 
+    /**
+     * Whether any of the move combo boxes are not empty.
+     *
+     * @return Whether a move has been selected.
+     *
+     * @author Benjamin Matase
+     */
     public boolean hasChosenAMove() {
-        boolean hasMove1 = !cbxMove1.getSelectedItem().equals(EMPTY_CHOICE);
-        boolean hasMove2 = !cbxMove2.getSelectedItem().equals(EMPTY_CHOICE);
-        boolean hasMove3 = !cbxMove3.getSelectedItem().equals(EMPTY_CHOICE);
-        boolean hasMove4 = !cbxMove4.getSelectedItem().equals(EMPTY_CHOICE);
-
-        return hasMove1 || hasMove2 || hasMove3 || hasMove4;
+        return isNotEmpty(cbxMove1) || isNotEmpty(cbxMove2) || isNotEmpty(
+                cbxMove3) || isNotEmpty(cbxMove4);
     }
 
+    /**
+     * Whether the specified comboBox has the default value selected.
+     *
+     * @param comboBox The combo box to check.
+     * @return Whether the combo box is not the default value.
+     *
+     * @author Benjamin Matase
+     */
+    private boolean isNotEmpty(JComboBox comboBox) {
+        return !comboBox.getSelectedItem().equals(EMPTY_CHOICE);
+    }
+
+    /**
+     * The ActionEvent handling method.
+     *
+     * @param e The ActionEvent raised.
+     *
+     * @author Benjamin Matase
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == cbxPkmn) {
-            if (hasChosenPkmn()) {
+            if (isNotEmpty(cbxPkmn)) {
+                //show the moves stuff
                 showMovesPnl();
+
+                //populate the moves depending on the pokemon chosen
                 populateMoves();
-//                this.revalidate();
+
+                //make window as small as possible
                 SwingUtilities.getWindowAncestor(this).pack();
             } else {
+                //hide the moves stuff
                 hideMovesPnl();
-//                this.revalidate();
+
+                //make window as small as possible
                 SwingUtilities.getWindowAncestor(this).pack();
             }
         }
     }
 
+    /**
+     * Hides the moves panel and thus all of the moves combo boxes.
+     *
+     * @author Benjaimn Matase
+     */
     private void hideMovesPnl() {
         pnlMoves.setVisible(false);
     }
 
+    /**
+     * Makes the moves panel visible and thus all of the moves combo boxes.
+     *
+     * @author Benjamin Matase
+     */
     private void showMovesPnl() {
         pnlMoves.setVisible(true);
     }
 
+    /**
+     * Populates the four move combo boxes with all possible moves for the
+     * Pokemon chosen in cbxPkmn.
+     *
+     * @author Benjamin Matase
+     */
     private void populateMoves() {
-        String pkmnName = cbxPkmn.getSelectedItem().toString();
+        //get all of the move names for the specified Pokemon
         List<String> moveNames = PokemonLoaderUtility.getMovesForPokemon(
-                pkmnName);
-        resetCbxs();
+                getPkmnName());
+
+        //reset all of the combo boxes
+        resetMoveCbxs();
+
+        //populate each combo box with the same moves
         for (String moveName : moveNames) {
             cbxMove1.addItem(moveName);
             cbxMove2.addItem(moveName);
@@ -236,34 +312,51 @@ public class PokemonCreatorPanel extends javax.swing.JPanel implements
         }
     }
 
-    private void resetCbxs() {
+    /**
+     * Resets all of the move combo boxes to be just the empty choice.
+     *
+     * @author Benjamin Matase
+     */
+    private void resetMoveCbxs() {
+        //remove all the items
         cbxMove1.removeAllItems();
         cbxMove2.removeAllItems();
         cbxMove3.removeAllItems();
         cbxMove4.removeAllItems();
+
+        //add in the default, empty choice
         cbxMove1.addItem(EMPTY_CHOICE);
         cbxMove2.addItem(EMPTY_CHOICE);
         cbxMove3.addItem(EMPTY_CHOICE);
         cbxMove4.addItem(EMPTY_CHOICE);
     }
 
-    //TODO: needs to be cleaned up
+    /**
+     * Gets all of the moves selected by the user.
+     *
+     * TODO: needs to be cleaned up how each combo box is seperate item
+     *
+     * @return The list of all of the selected moves.
+     *
+     * @author Benjamin Matase
+     */
     public List<String> getMovesList() {
         List<String> moves = new ArrayList<>();
 
-        if (!cbxMove1.getSelectedItem().toString().equals(EMPTY_CHOICE)) {
+        if (isNotEmpty(cbxMove1)) {
             moves.add(cbxMove1.getSelectedItem().toString());
         }
-        if (!cbxMove2.getSelectedItem().toString().equals(EMPTY_CHOICE)) {
+        if (isNotEmpty(cbxMove2)) {
             moves.add(cbxMove2.getSelectedItem().toString());
         }
-        if (!cbxMove3.getSelectedItem().toString().equals(EMPTY_CHOICE)) {
+        if (isNotEmpty(cbxMove3)) {
             moves.add(cbxMove3.getSelectedItem().toString());
         }
-        if (!cbxMove4.getSelectedItem().toString().equals(EMPTY_CHOICE)) {
+        if (isNotEmpty(cbxMove4)) {
             moves.add(cbxMove4.getSelectedItem().toString());
         }
 
         return moves;
     }
+
 }

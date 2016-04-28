@@ -18,11 +18,14 @@ package gameStates;
 import PokeModel.PokeModel;
 import PokemonObjects.Pokemon;
 import PokemonObjects.UserTrainer;
+import TrainerCreator.RandomCreatorUtility;
 import TrainerCreator.TeamCreatorUtility;
 import guiComponents.ColorUtil;
 import guiComponents.InfoPanel;
 import guiComponents.MenuButton;
 import guiComponents.MenuLayoutManager;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -48,7 +51,6 @@ public class TeamPickerState implements GameState {
     private MenuLayoutManager<MenuButton> textDisplayMgr;
     private MenuLayoutManager<MenuButton> doneButtonMgr;
 
-    private boolean acceptingInput = true;
     private Pokemon[] pkmns;
 
     private int PADDING = 5;
@@ -89,8 +91,9 @@ public class TeamPickerState implements GameState {
         textDisplayMgr.disable();
 
         // Set up completion button
-        doneButtonMgr = new MenuLayoutManager<>(new RoundedRectangle(PADDING * 2 + textDisplayMgr.getDrawArea().getWidth(), PADDING * 2 + teamMgr.getDrawArea().getHeight(), (container.getWidth() - 3 * PADDING) * 0.25f, (container.getHeight() - 3 * PADDING) * 0.34f, 5), 1, 1, false, MenuButton.class);
-        doneButtonMgr.set(0, 0, new MenuButton("Done"));
+        doneButtonMgr = new MenuLayoutManager<>(new RoundedRectangle(PADDING * 2 + textDisplayMgr.getDrawArea().getWidth(), PADDING * 2 + teamMgr.getDrawArea().getHeight(), (container.getWidth() - 3 * PADDING) * 0.25f, (container.getHeight() - 3 * PADDING) * 0.34f, 5), 1, 2, false, MenuButton.class);
+        doneButtonMgr.set(0, 1, new MenuButton("Done"));
+        doneButtonMgr.set(0, 0, new MenuButton("Random"));
         doneButtonMgr.shouldShowHighlight(false);
 
     }
@@ -119,6 +122,8 @@ public class TeamPickerState implements GameState {
     @Override
     public void mouseClicked(int button, int x, int y, int clickCount) {
         if (doneButtonMgr.getItem(0, 0).contains(x, y)) {
+            handleRandomTeamSelection();
+        } else if (doneButtonMgr.getItem(0, 1).contains(x, y)) {
             handleDoneSelection();
         } else {
             if (teamMgr.getSelected().contains(x, y)) {
@@ -128,13 +133,21 @@ public class TeamPickerState implements GameState {
                 }
             }
         }
+
     }
 
     @Override
     public void mouseMoved(int oldx, int oldy, int newx, int newy) {
-        if (doneButtonMgr.getItem(0, 0).contains(newx, newy)) {
+        MenuButton b = null;
+        for (MenuButton btn : doneButtonMgr.getItems()) {
+            if (btn.contains(newx, newy)) {
+                b = btn;
+            }
+        }
+        if (b != null) {
             doneButtonMgr.shouldShowHighlight(true);
-        } else if (doneButtonMgr.isShowingHighlight()) {
+            doneButtonMgr.setSelected(b);
+        } else {
             doneButtonMgr.shouldShowHighlight(false);
         }
         for (InfoPanel pnl : teamMgr.getItems()) {
@@ -145,15 +158,27 @@ public class TeamPickerState implements GameState {
         }
     }
 
-    private void handleSelectedTeamSlot(int[] coords) throws SlickException {
-        acceptingInput = false;
+    private void handleRandomTeamSelection() {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 2; j++) {
+                Pokemon pkmn = RandomCreatorUtility.getRandomPokemon();
+                try {
+                    teamMgr.set(j, i, new InfoPanel(pkmn.getCurHealth(), pkmn.getHealth(), pkmn.getName(), new Image("./res/Images/Sprites/front/" + pkmn.getID() + ".png")));
+                    pkmns[j + i * 2] = pkmn;
+                } catch (SlickException ex) {
+                    Logger.getLogger(TeamPickerState.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }
+
+    private void handleSelectedTeamSlot(int[] coords) throws SlickException {;
         Pokemon pkmn = TeamCreatorUtility.getPokemonGUI();
         if (pkmn != null) {
             int[] pnlLoc = teamMgr.find(teamMgr.getSelected());
             teamMgr.set(coords[0], coords[1], new InfoPanel(pkmn.getCurHealth(), pkmn.getHealth(), pkmn.getName(), new Image("./res/Images/Sprites/front/" + pkmn.getID() + ".png")));
             pkmns[pnlLoc[0] + pnlLoc[1] * 2] = pkmn;
         }
-        acceptingInput = true;
     }
 
     private void handleDoneSelection() {
@@ -204,7 +229,7 @@ public class TeamPickerState implements GameState {
     //</editor-fold>
     @Override
     public boolean isAcceptingInput() {
-        return acceptingInput;
+        return true;
     }
 
     @Override
