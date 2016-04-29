@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package guiComponents;
+package gameStates.guiComponents;
 
+import util.FontUtil;
+import util.ColorUtil;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -115,6 +117,7 @@ public class MenuButton {
     /**
      * Sets the size of the button
      *
+     * @author Eric
      * @param width The new width
      * @param height The new height
      */
@@ -129,6 +132,7 @@ public class MenuButton {
     /**
      * Sets the position of the button
      *
+     * @author Eric
      * @param x The new x position
      * @param y The new y position
      */
@@ -141,6 +145,7 @@ public class MenuButton {
     /**
      * Set whether the button should draw a highlight outline
      *
+     * @author Eric
      * @param highlighted Whether or not the button should be highlighted
      */
     public void setHighlighted(boolean highlighted) {
@@ -150,6 +155,7 @@ public class MenuButton {
     /**
      * Set the text the button draws
      *
+     * @author Eric
      * @param text The text for the button to draw
      */
     public void setText(String text) {
@@ -160,6 +166,7 @@ public class MenuButton {
     /**
      * Whether or not the button is enabled
      *
+     * @author Eric
      * @param enabled
      */
     public void setEnabled(boolean enabled) {
@@ -169,6 +176,7 @@ public class MenuButton {
     /**
      * Set the highlight color for the button
      *
+     * @author Eric
      * @param newColor The new highlight color
      */
     public void setHighlightColor(Color newColor) {
@@ -217,6 +225,7 @@ public class MenuButton {
      * Gets the coordinate to draw s at so that it is centered within the
      * button
      *
+     * @author Eric
      * @param s The string to draw
      * @return The x position to draw the string at
      */
@@ -228,6 +237,7 @@ public class MenuButton {
      * Gets the coordinate to draw s at so that it is at the right location
      * within the button when the text is wrapped
      *
+     * @author Eric
      * @param s The string to draw
      * @param num The line number, starting at 0
      * @return The y position to draw the string at
@@ -238,6 +248,8 @@ public class MenuButton {
 
     /**
      * Updates the strings that are printed on the button.
+     *
+     * @author Eric
      */
     private void updateWrapSize() {
         try {
@@ -253,6 +265,7 @@ public class MenuButton {
      * Tells whether the point given by the ordered pair (x, y) is contained
      * within the button
      *
+     * @author Eric
      * @param x The x position in pixels
      * @param y The y position in pixels
      * @return true if the point lies within the button

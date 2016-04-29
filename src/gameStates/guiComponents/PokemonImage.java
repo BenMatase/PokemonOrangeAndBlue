@@ -13,7 +13,7 @@
  *
  * ****************************************
  */
-package guiComponents;
+package gameStates.guiComponents;
 
 import PokemonObjects.TrainerType;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -24,16 +24,31 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.gui.GUIContext;
 
 /**
+ * A class for drawing and animating images of Pokemon. PokemonImages are
+ * capable of appearing, disappearing, attacking, defending, and swapping their
+ * image out.
  *
  * @author Eric
  */
 public class PokemonImage {
 
+    /**
+     * An enum telling whether the image should be cropped or scaled. Can only
+     * be set at initialization
+     *
+     * @author Eric
+     */
     public enum FillType {
 
         CROP, SCALE;
     }
 
+    /**
+     * An enum describing the animations that can be performed by the
+     * PokemonImage.
+     *
+     * @author Eric
+     */
     private enum AnimationAction {
 
         ATTACK, DEFEND, DISAPPEAR, APPEAR, SWAP;
@@ -60,11 +75,10 @@ public class PokemonImage {
     private FillType fillType;
     private float offsetX = 0;
     private float offsetY = 0;
-    // The default values for the image, when not offset
     private int baseX;
     private int baseY;
-    // Maximum absolute y position
-    private int ymax;
+    private int maxY;
+
     // Motion variables
     private float deltaXAttack = attackXOffset / fightActionDurationMS;
     private float deltaXDefend = defendXOffset / fightActionDurationMS;
@@ -73,27 +87,60 @@ public class PokemonImage {
     //=====================
     // Mark: - Constructors
     //=====================
-//    /**
-//     * Constructor without a constrained maximum y
-//     *
-//     * @param x0 The location of the horizontal center of the image
-//     * @param y0 The location of the vertical center of the image
-//     * @param image The image to draw
-//     * @param trainerType The type of trainer
-//     */
+    /**
+     * Constructor that constructs the image from the Pokemon id and Trainer
+     * type
+     *
+     * @author Eric
+     * @param tlx Top left X of the draw area
+     * @param tly Top left Y of the draw area
+     * @param brx Bottom right X of the draw area
+     * @param bry Bottom right Y of the draw area
+     * @param fillType Whether the image should be cropped or scaled
+     * @param id The National Dex ID of the Pokemon
+     * @param trainerType Whether the owning trainer is an enemy or the player
+     * @throws SlickException
+     */
     public PokemonImage(int tlx, int tly, int brx, int bry, FillType fillType, int id, TrainerType trainerType) throws SlickException {
         this(tlx, tly, brx, bry, fillType, "./res/Images/Sprites/" + (trainerType == TrainerType.NPC ? "front/" : "back/") + id + ".png", trainerType);
     }
 
+    /**
+     * Constructor that constructs the image from the Pokemon id and Trainer
+     * type
+     *
+     * @author Eric
+     * @param tlx Top left X of the draw area
+     * @param tly Top left Y of the draw area
+     * @param brx Bottom right X of the draw area
+     * @param bry Bottom right Y of the draw area
+     * @param fillType Whether the image should be cropped or scaled
+     * @param ref The String reference to the image
+     * @param trainerType Whether the owning trainer is an enemy or the player
+     * @throws SlickException
+     */
     public PokemonImage(int tlx, int tly, int brx, int bry, FillType fillType, String ref, TrainerType trainerType) throws SlickException {
         this(tlx, tly, brx, bry, fillType, new Image(ref), trainerType);
     }
 
+    /**
+     * Constructor that constructs the image from the Pokemon id and Trainer
+     * type
+     *
+     * @author Eric
+     * @param tlx Top left X of the draw area
+     * @param tly Top left Y of the draw area
+     * @param brx Bottom right X of the draw area
+     * @param bry Bottom right Y of the draw area
+     * @param fillType Whether the image should be cropped or scaled
+     * @param image The image to draw
+     * @param trainerType Whether the owning trainer is an enemy or the player
+     */
     public PokemonImage(int tlx, int tly, int brx, int bry, FillType fillType, Image image, TrainerType trainerType) {
         // Set drawing constants and do setup
         drawRect = new Rectangle(tlx, tly, brx - tlx, bry - tly);
         this.fillType = fillType;
-        ymax = (int) drawRect.getMaxY();
+        maxY = (int) drawRect.getMaxY();
         this.offsetY = drawRect.getHeight();
         setImage(image);
         this.type = trainerType;
@@ -110,15 +157,16 @@ public class PokemonImage {
     /**
      * Render the image
      *
+     * @author Eric
      * @param container The container to be drawn in
      * @param g The Graphics context to draw with
      */
     public void render(GUIContext container, Graphics g) {
         g.drawImage(image,
                     baseX + offsetX, baseY + offsetY,
-                    baseX + offsetX + image.getWidth(), ymax,
+                    baseX + offsetX + image.getWidth(), maxY,
                     0, 0,
-                    image.getWidth(), ymax - (baseY + offsetY));
+                    image.getWidth(), maxY - (baseY + offsetY));
     }
 
     //=================
@@ -127,6 +175,7 @@ public class PokemonImage {
     /**
      * Logically updates the image when it is animating
      *
+     * @author Eric
      * @param delta The number of milliseconds since the last update
      */
     public void update(float delta) {
@@ -134,57 +183,106 @@ public class PokemonImage {
             currMS += delta;
             switch (actions.peek()) {
                 case ATTACK:
-                    if (currMS < fightActionDurationMS / 2) {
-                        offsetX += deltaXAttack * delta;
-                    } else if (currMS < fightActionDurationMS) {
-                        offsetX -= deltaXAttack * delta;
-                    } else {
-                        offsetX = 0;
-                        currMS = 0;
-                        actions.poll();
-                    }
+                    attackUpdate(delta);
                     break;
                 case DEFEND:
-                    if (currMS < defendDelay) {
-                    } else if (currMS < defendDelay + fightActionDurationMS * 0.25f || (currMS < defendDelay + fightActionDurationMS && currMS > defendDelay + fightActionDurationMS * 0.75f)) {
-                        offsetX += deltaXDefend * delta;
-                    } else if (currMS < defendDelay + fightActionDurationMS * 0.75f) {
-                        offsetX -= deltaXDefend * delta;
-                    } else {
-                        offsetX = 0;
-                        currMS = 0;
-                        actions.poll();
-                    }
+                    defendUpdate(delta);
                     break;
                 case SWAP:
-                    if (currMS > 500) {
-                        setImage(tmpImage);
-                        tmpImage = null;
-                        currMS = 0;
-                        actions.poll();
-                    }
+                    swapUpdate(delta);
                     break;
                 case APPEAR:
-                    if (currMS < appearanceDurationMS && offsetY > 0) {
-                        offsetY -= deltaYAppear * delta;
-                    } else {
-                        offsetY = 0;
-                        currMS = 0;
-                        actions.poll();
-                    }
+                    appearUpdate(delta);
                     break;
                 case DISAPPEAR:
-                    if (currMS < appearanceDurationMS && baseY + offsetY < ymax) {
-                        offsetY += deltaYAppear * delta;
-                    } else {
-                        offsetY = ymax - baseY;
-                        currMS = 0;
-                        actions.poll();
-                    }
+                    disappearUpdate(delta);
                     break;
             }
         }
+    }
 
+    /**
+     * Updates the draw location for defend animations
+     *
+     * @author Eric
+     * @param delta The delta in ms
+     */
+    private void defendUpdate(float delta) {
+        if (currMS < defendDelay) {
+        } else if (currMS < defendDelay + fightActionDurationMS * 0.25f || (currMS < defendDelay + fightActionDurationMS && currMS > defendDelay + fightActionDurationMS * 0.75f)) {
+            offsetX += deltaXDefend * delta;
+        } else if (currMS < defendDelay + fightActionDurationMS * 0.75f) {
+            offsetX -= deltaXDefend * delta;
+        } else {
+            offsetX = 0;
+            currMS = 0;
+            actions.poll();
+        }
+    }
+
+    /**
+     * Updates the draw location for attack animations
+     *
+     * @author Eric
+     * @param delta The delta in ms
+     */
+    private void attackUpdate(float delta) {
+        if (currMS < fightActionDurationMS / 2) {
+            offsetX += deltaXAttack * delta;
+        } else if (currMS < fightActionDurationMS) {
+            offsetX -= deltaXAttack * delta;
+        } else {
+            offsetX = 0;
+            currMS = 0;
+            actions.poll();
+        }
+    }
+
+    /**
+     * Updates the draw location for swap animations
+     *
+     * @author Eric
+     * @param delta The delta in ms
+     */
+    private void swapUpdate(float delta) {
+        if (currMS > 500) {
+            setImage(tmpImage);
+            tmpImage = null;
+            currMS = 0;
+            actions.poll();
+        }
+    }
+
+    /**
+     * Updates the draw location for appear animations
+     *
+     * @author Eric
+     * @param delta The delta in ms
+     */
+    private void appearUpdate(float delta) {
+        if (currMS < appearanceDurationMS && offsetY > 0) {
+            offsetY -= deltaYAppear * delta;
+        } else {
+            offsetY = 0;
+            currMS = 0;
+            actions.poll();
+        }
+    }
+
+    /**
+     * Updates the draw location for disappear animations
+     *
+     * @author Eric
+     * @param delta The delta in ms
+     */
+    private void disappearUpdate(float delta) {
+        if (currMS < appearanceDurationMS && baseY + offsetY < maxY) {
+            offsetY += deltaYAppear * delta;
+        } else {
+            offsetY = maxY - baseY;
+            currMS = 0;
+            actions.poll();
+        }
     }
 
     //===================
@@ -192,6 +290,8 @@ public class PokemonImage {
     //===================
     /**
      * Animate the button for an attack action
+     *
+     * @author Eric
      */
     public void attack() {
         actions.add(AnimationAction.ATTACK);
@@ -199,6 +299,8 @@ public class PokemonImage {
 
     /**
      * Animate the button for a defend action
+     *
+     * @author Eric
      */
     public void defend() {
         actions.add(AnimationAction.DEFEND);
@@ -206,6 +308,8 @@ public class PokemonImage {
 
     /**
      * Animate the button for a disappear action
+     *
+     * @author Eric
      */
     public void disappear() {
         actions.add(AnimationAction.DISAPPEAR);
@@ -218,6 +322,12 @@ public class PokemonImage {
         actions.add(AnimationAction.APPEAR);
     }
 
+    /**
+     * Swaps the current image with the image of the Pokemon with the given ID
+     *
+     * @author Eric & Jason
+     * @param id The National Dex ID of the Pokemon
+     */
     public void swap(int id) {
         try {
             tmpImage = new Image("./res/Images/Sprites/" + (type == TrainerType.NPC ? "front/" : "back/") + id + ".png");
@@ -229,6 +339,11 @@ public class PokemonImage {
         actions.add(AnimationAction.APPEAR);
     }
 
+    /**
+     * Updates the drawing variables for the image when it is swapped
+     *
+     * @author Eric & Jason
+     */
     private void updateImageConstants() {
         switch (fillType) {
             case CROP:
@@ -250,6 +365,13 @@ public class PokemonImage {
 
     }
 
+    /**
+     * Calls the necessary functions to update the image and the necessary
+     * constraints
+     *
+     * @author Eric & Jason
+     * @param img The new image to be shown
+     */
     private void setImage(Image img) {
         if (fillType == FillType.SCALE && img.getHeight() > drawRect.getHeight()) {
             image = img.getScaledCopy(0.9f * drawRect.getHeight() / img.getHeight());

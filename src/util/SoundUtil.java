@@ -13,7 +13,7 @@
  *
  * ****************************************
  */
-package guiComponents;
+package util;
 
 import org.newdawn.slick.Music;
 import org.newdawn.slick.MusicListener;
@@ -21,6 +21,9 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 
 /**
+ * Utility class for playing sounds. This makes it so sound doesn't have to be
+ * changed when switching between gamestates, instead it can be changed whenever
+ * desired
  *
  * @author Eric
  */
@@ -46,6 +49,7 @@ public class SoundUtil {
     /**
      * Loads all sounds
      *
+     * @author Eric
      * @throws SlickException
      */
     public static void init() throws SlickException {
@@ -86,6 +90,8 @@ public class SoundUtil {
     //==============
     /**
      * Switches the current music to the Alma Mater
+     *
+     * @author Eric
      */
     public static void playAlmaMater() {
         swapMusic(almaMaterMusic, true);
@@ -93,6 +99,8 @@ public class SoundUtil {
 
     /**
      * Switches the current music to the battle music, including the entry sound
+     *
+     * @author Eric
      */
     public static void playEnterBattle() {
         swapMusic(enterBattleMusic, false);
@@ -100,6 +108,8 @@ public class SoundUtil {
 
     /**
      * Switches the current music to the battle victory music
+     *
+     * @author Eric
      */
     public static void playVictory() {
         swapMusic(victoryMusic, true);
@@ -108,6 +118,7 @@ public class SoundUtil {
     /**
      * Switches to a new music, and whether or not to loop it
      *
+     * @author Eric
      * @param newMusic The new music to play
      * @param loop Whether or not the music should be looped
      */
@@ -130,6 +141,8 @@ public class SoundUtil {
     //======================
     /**
      * Play the Pokemon faint sound
+     *
+     * @author Eric
      */
     public static void playFaint() {
         faintSound.play(1.0f, 0.5f);
@@ -137,6 +150,8 @@ public class SoundUtil {
 
     /**
      * Play the Pokemon hit sound
+     *
+     * @author Eric
      */
     public static void playHit() {
         hitSound.play(1.0f, 0.5f);
@@ -144,6 +159,8 @@ public class SoundUtil {
 
     /**
      * Play the Pokemon swap sound
+     *
+     * @author Eric
      */
     public static void playSwap() {
         swapSound.play(1.0f, 0.5f);

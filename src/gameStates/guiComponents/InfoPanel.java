@@ -13,8 +13,9 @@
  *
  * ****************************************
  */
-package guiComponents;
+package gameStates.guiComponents;
 
+import util.FontUtil;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -66,6 +67,7 @@ public class InfoPanel extends MenuButton {
      * This buttons size must be manually set, or managed by a
      * MenuLayoutManager.
      *
+     * @author Eric
      * @param curHP The current HP of the Pokemon
      * @param maxHP The maximum HP of the Pokemon
      * @param name The name of the Pokemon
@@ -79,6 +81,7 @@ public class InfoPanel extends MenuButton {
      * This buttons size must be manually set, or managed by a
      * MenuLayoutManager.
      *
+     * @author Eric
      * @param curHP The current HP of the Pokemon
      * @param maxHP The maximum HP of the Pokemon
      * @param name The name of the Pokemon
@@ -92,6 +95,7 @@ public class InfoPanel extends MenuButton {
      * Constructor for an info panel with a name, image, and health bar in it.
      * The button will be created at (x, y) in the given context
      *
+     * @author Eric
      * @param x The x location of the info panel in pixels
      * @param y The y location of the info panel in pixels
      * @param curHP The current HP of the Pokemon
@@ -171,6 +175,7 @@ public class InfoPanel extends MenuButton {
     /**
      * Updates the currently drawn HP value, incrementing by 'delta' MS
      *
+     * @author Eric
      * @param delta The number of milliseconds since the last update
      */
     public void update(float delta) {
@@ -203,6 +208,7 @@ public class InfoPanel extends MenuButton {
     /**
      * Sets the HP displayed on the health bar
      *
+     * @author Eric
      * @param hp The new HP value
      */
     public void setHP(int hp) {
@@ -220,6 +226,7 @@ public class InfoPanel extends MenuButton {
     /**
      * Gets a copy of the InfoPanel, optionally with the image it has.
      *
+     * @author Eric
      * @param withImage Whether or not to include an image
      * @return A copy of the InfoPanel
      */
@@ -240,6 +247,8 @@ public class InfoPanel extends MenuButton {
      * Recalculates the constants for drawing the InfoPanel, used when the panel
      * is moved or resized. This should greatly reduce the calculations required
      * for rendering the image at runtime.
+     *
+     * @author Eric
      */
     private void recalculate() {
         HPX = (int) (drawArea.getX() + drawArea.getWidth() / 2 - 5);

@@ -7,23 +7,47 @@ package main;
 
 import DatabaseLoaderUtilities.PokemonLoaderUtility;
 import PokeModel.PokeModel;
-import gameStates.BattleState;
-import gameStates.BlackScreenState;
-import gameStates.GameStateType;
-import gameStates.MainMenuState;
-import gameStates.SplashScreenState;
-import gameStates.TeamPickerState;
-import guiComponents.SoundUtil;
+import gameStates.battle.BattleState;
+import gameStates.blackScreen.BlackScreenState;
+import gameStates.mainMenu.MainMenuState;
+import gameStates.splashScreen.SplashScreenState;
+import gameStates.teamPicker.TeamPickerState;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
+import util.SoundUtil;
 
 /**
+ * Creates and runs a Slick2D StateBasedGame for Pokemon Orange & Blue
  *
  * @author Eric
  */
-public class PokemonOB extends StateBasedGame {
+public class Main extends StateBasedGame {
+
+    /**
+     * Enum for each type of game state in the game, represented with an integer
+     *
+     * @author Eric
+     */
+    public enum GameStateType {
+
+        BLACKSCREEN(0),
+        SPLASHSCREEN(1),
+        MAINMENU(2),
+        TEAMPICKER(3),
+        BATTLE(4);
+
+        private int val;
+
+        GameStateType(int val) {
+            this.val = val;
+        }
+
+        public int getValue() {
+            return this.val;
+        }
+    }
 
     // Application Properties
     public static final int WIDTH = 512;
@@ -33,34 +57,29 @@ public class PokemonOB extends StateBasedGame {
     public static PokeModel model;
 
     // Class Constructor
-    public PokemonOB(String appName) {
+    public Main(String appName) {
         super(appName);
         model = new PokeModel();
     }
 
-    // Initialize game states (calls init method of each gamestate, and set's the state ID)
     @Override
     public void initStatesList(GameContainer gc) throws SlickException {
-        // The first state added will be the one that is loaded first, when the application is launched
         this.addState(new BlackScreenState(GameStateType.BLACKSCREEN.getValue()));
-        this.addState(new SplashScreenState(
-            GameStateType.SPLASHSCREEN.getValue()));
-        this.addState(
-            new MainMenuState(GameStateType.MAINMENU.getValue(), model));
-        this.addState(new TeamPickerState(GameStateType.TEAMPICKER.getValue(),
-                                          model));
+        this.addState(new SplashScreenState(GameStateType.SPLASHSCREEN.getValue()));
+        this.addState(new MainMenuState(GameStateType.MAINMENU.getValue(), model));
+        this.addState(new TeamPickerState(GameStateType.TEAMPICKER.getValue(), model));
         this.addState(new BattleState(GameStateType.BATTLE.getValue(), model));
     }
 
     // Main Method
     public static void main(String[] args) {
         try {
+            //load databases and music
             SoundUtil.init();
-
-            //loads databases here so delay is in beginning
             PokemonLoaderUtility.init();
-            AppGameContainer app = new AppGameContainer(new PokemonOB(
-                "Pokémon Orange and Blue v" + VERSION));
+
+            // Run the app
+            AppGameContainer app = new AppGameContainer(new Main("Pokémon Orange and Blue Version"));
             app.setDisplayMode(WIDTH, HEIGHT, false);
             app.setTargetFrameRate(FPS);
             app.setShowFPS(true);
