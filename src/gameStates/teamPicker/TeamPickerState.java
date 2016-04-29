@@ -13,17 +13,16 @@
  *
  * ****************************************
  */
-package gameStates;
+package gameStates.teamPicker;
 
 import PokeModel.PokeModel;
 import PokemonObjects.Pokemon;
 import PokemonObjects.UserTrainer;
 import TrainerCreator.RandomCreatorUtility;
 import TrainerCreator.TeamCreatorUtility;
-import guiComponents.ColorUtil;
-import guiComponents.InfoPanel;
-import guiComponents.MenuButton;
-import guiComponents.MenuLayoutManager;
+import gameStates.guiComponents.InfoPanel;
+import gameStates.guiComponents.MenuButton;
+import gameStates.guiComponents.MenuLayoutManager;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.newdawn.slick.Color;
@@ -37,31 +36,46 @@ import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
+import util.ColorUtil;
 
 /**
+ * A team picking menu state for the game
  *
  * @author Eric
  */
 public class TeamPickerState implements GameState {
 
+    // State info
     private int ID;
     private PokeModel model;
+    private StateBasedGame game;
 
+    // Menu Managers
     private MenuLayoutManager<InfoPanel> teamMgr;
     private MenuLayoutManager<MenuButton> textDisplayMgr;
     private MenuLayoutManager<MenuButton> doneButtonMgr;
 
+    // Pokemon
     private Pokemon[] pkmns;
 
+    // Drawing constants
     private int PADDING = 5;
-
-    private StateBasedGame game;
 
     @Override
     public int getID() {
         return ID;
     }
 
+    //=========================
+    // Mark: - Setup & Teardown
+    //=========================
+    /**
+     * A constructor for a TeamPickerState
+     *
+     * @author Eric
+     * @param TEAMPICKERSTATE The integer representation of the state
+     * @param model The PokeModel for the game
+     */
     public TeamPickerState(int TEAMPICKERSTATE, PokeModel model) {
         this.ID = TEAMPICKERSTATE;
         this.model = model;
@@ -106,6 +120,9 @@ public class TeamPickerState implements GameState {
         teamMgr = null;
     }
 
+    //==================
+    // Mark: - Rendering
+    //==================
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
         g.setBackground(ColorUtil.getBlue());
@@ -114,6 +131,9 @@ public class TeamPickerState implements GameState {
         doneButtonMgr.render(container, g);
     }
 
+    //=================
+    // Mark: - Updating
+    //=================
     @Override
     public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 
@@ -158,6 +178,11 @@ public class TeamPickerState implements GameState {
         }
     }
 
+    /**
+     * Handler for selecting the random team button
+     *
+     * @author Eric
+     */
     private void handleRandomTeamSelection() {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 2; j++) {
@@ -172,6 +197,13 @@ public class TeamPickerState implements GameState {
         }
     }
 
+    /**
+     * Handler for selecting a slot for a given Pokemon in the team view
+     *
+     * @author Eric
+     * @param coords The coordinates of the selected InfoPanel in the matrix
+     * @throws SlickException
+     */
     private void handleSelectedTeamSlot(int[] coords) throws SlickException {;
         Pokemon pkmn = TeamCreatorUtility.getPokemonGUI();
         if (pkmn != null) {
@@ -181,12 +213,23 @@ public class TeamPickerState implements GameState {
         }
     }
 
+    /**
+     * Handler for selecting the "Done" option
+     *
+     * @author Eric
+     */
     private void handleDoneSelection() {
         if (readPkmnIntoUser()) {
-            game.enterState(GameStateType.MAINMENU.getValue(), new FadeOutTransition(Color.black, 500), new FadeInTransition(Color.black, 500));
+            game.enterState(main.Main.GameStateType.MAINMENU.getValue(), new FadeOutTransition(Color.black, 500), new FadeInTransition(Color.black, 500));
         }
     }
 
+    /**
+     * Reads all of the current Pokemon into the model
+     *
+     * @author Eric
+     * @return True if there were Pokemon to read into the user, false otherwise
+     */
     private boolean readPkmnIntoUser() {
         UserTrainer user = new UserTrainer("Player");
         int count = 0;

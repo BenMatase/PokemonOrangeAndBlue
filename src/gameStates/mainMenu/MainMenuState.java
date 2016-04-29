@@ -1,16 +1,25 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* *****************************************
+ * CSCI205 - Software Engineering and Design
+ * Spring 2016
+ *
+ * Name: Benjamin Matase, Jason Corriveau, Eric Marshall, Alexander Murph
+ * Date: Apr 10, 2016
+ * Time: 10:43:29 PM
+ *
+ * Project: csci205FinalProject
+ * Package: gameStates
+ * File: BattleState
+ * Description:
+ *
+ * ****************************************
  */
-package gameStates;
+package gameStates.mainMenu;
 
 import DatabaseLoaderUtilities.TrainerLoaderUtility;
 import PokeModel.PokeModel;
 import TrainerCreator.RandomCreatorUtility;
-import guiComponents.MenuButton;
-import guiComponents.MenuLayoutManager;
-import guiComponents.SoundUtil;
+import gameStates.guiComponents.MenuButton;
+import gameStates.guiComponents.MenuLayoutManager;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -21,8 +30,10 @@ import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
+import util.SoundUtil;
 
 /**
+ * A main menu state for the game
  *
  * @author Eric
  */
@@ -34,11 +45,6 @@ public class MainMenuState implements GameState {
 
     private MenuLayoutManager<MenuButton> menuMgr;
 
-    public MainMenuState(int MAINMENU, PokeModel model) {
-        ID = MAINMENU;
-        this.model = model;
-    }
-
     @Override
     public int getID() {
         return ID;
@@ -47,6 +53,18 @@ public class MainMenuState implements GameState {
     //=========================
     // Mark: - Setup & Teardown
     //=========================
+    /**
+     * A constructor for a TeamPickerState
+     *
+     * @author Eric
+     * @param MAINMENU The integer representation of the state
+     * @param model The PokeModel for the game
+     */
+    public MainMenuState(int MAINMENU, PokeModel model) {
+        ID = MAINMENU;
+        this.model = model;
+    }
+
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
 
@@ -103,18 +121,23 @@ public class MainMenuState implements GameState {
         }
     }
 
+    /**
+     * Handler for selecting an item in the menu
+     *
+     * @author Eric
+     */
     private void handleSelection() {
         if ("Battle Random Trainer".equals(menuMgr.getSelected().getText())) {
             model.setEnemy(RandomCreatorUtility.getRandomNPC(6, "Random Trainer"), false);
             SoundUtil.playEnterBattle();
-            game.enterState(GameStateType.BATTLE.getValue(), new FadeOutTransition(Color.black, 500), new FadeInTransition(Color.black, 500));
+            game.enterState(main.Main.GameStateType.BATTLE.getValue(), new FadeOutTransition(Color.black, 500), new FadeInTransition(Color.black, 500));
         } else if (menuMgr.getSelected().getText().equals("Battle " + TrainerLoaderUtility.loadProfessor(model.getCurProf()).getName())) {
             model.setEnemy(DatabaseLoaderUtilities.TrainerLoaderUtility.loadProfessor(model.getCurProf()), true);
             SoundUtil.playEnterBattle();
-            game.enterState(GameStateType.BATTLE.getValue(), new FadeOutTransition(Color.black, 500), new FadeInTransition(Color.black, 500));
+            game.enterState(main.Main.GameStateType.BATTLE.getValue(), new FadeOutTransition(Color.black, 500), new FadeInTransition(Color.black, 500));
         }
         if ("Restart".equals(menuMgr.getSelected().getText())) {
-            game.enterState(GameStateType.TEAMPICKER.getValue(), new FadeOutTransition(Color.black, 500), new FadeInTransition(Color.black, 500));
+            game.enterState(main.Main.GameStateType.TEAMPICKER.getValue(), new FadeOutTransition(Color.black, 500), new FadeInTransition(Color.black, 500));
         }
     }
 
