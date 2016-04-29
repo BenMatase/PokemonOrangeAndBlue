@@ -61,6 +61,7 @@ public class BattleControl {
         ArrayList<Event> events = new ArrayList<>();
         TextOutputEvent event1 = new TextOutputEvent(String.format(
                 "%s has challenged you to battle!", enemy.getName()));
+        TextOutputEvent event2 = new TextOutputEvent(enemy.getOverworldMessage());
         SwitchPokemonEvent event3 = new SwitchPokemonEvent(enemy.getCurPokemon());
         TextOutputEvent event4 = new TextOutputEvent(
                 String.format(
@@ -72,6 +73,7 @@ public class BattleControl {
                                                                    user.getCurPokemon().getNickname()));
 
         events.add(event1);
+        events.add(event2);
         events.add(event3);
         events.add(event4);
         events.add(event5);
@@ -140,6 +142,15 @@ public class BattleControl {
         return events;
     }
 
+    /**
+     * After a user's pokemon faints and they choose their next pokemon, GUI
+     * calls this function. Function returns events that instruct the GUI what
+     * to do.
+     *
+     * @param mon Pokemon
+     * @return events ArrayList<Event>
+     * @author Murph
+     */
     public ArrayList<Event> userFaintSwitch(Pokemon mon) {
         TextOutputEvent event1 = new TextOutputEvent(String.format(
                 "You sent out %s", mon.getNickname()));
@@ -151,6 +162,14 @@ public class BattleControl {
         return events;
     }
 
+    /**
+     * When a enemy's pokemon faints, this event is called by the GUI. It uses
+     * the AIUtility to get the next enemy pokemon, then returns the events that
+     * tell the GUI what to do.
+     *
+     * @return events ArrayList<Event>
+     * @author Murph
+     */
     public ArrayList<Event> enemyFaintSwitch() {
         Pokemon nextPokemon = AIUtility.getPokemon(enemy);
         enemy.setCurPokemon(nextPokemon);
@@ -208,9 +227,11 @@ public class BattleControl {
         System.out.println("MADE IT HERE");
         TextOutputEvent event1 = new TextOutputEvent(String.format(
                 "You have defeated %s!", enemy.getName()));
+        TextOutputEvent event3 = new TextOutputEvent(enemy.getBattleEndMessage());
         EnemyDefeatEvent event2 = new EnemyDefeatEvent();
         ArrayList<Event> events = new ArrayList<>();
         events.add(event1);
+        events.add(event3);
         events.add(event2);
         return events;
     }

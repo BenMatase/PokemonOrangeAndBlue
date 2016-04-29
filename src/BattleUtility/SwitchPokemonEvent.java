@@ -19,6 +19,7 @@ package BattleUtility;
 import PokemonObjects.Pokemon;
 
 /**
+ * Event for when a pokemon is switched out.
  *
  * @author Murph
  */
@@ -26,10 +27,20 @@ public class SwitchPokemonEvent extends Event {
 
     Pokemon switchPokemon = null;
 
+    /**
+     * Constructor for the abstract of switching a pokemon.
+     *
+     * @param PokeSwitch
+     */
     public SwitchPokemonEvent(Pokemon PokeSwitch) {
         this.switchPokemon = PokeSwitch;
     }
 
+    /**
+     * Gets the pokemon that will be sent out for the switch.
+     *
+     * @return
+     */
     public Pokemon getSwitchPokemon() {
         return switchPokemon;
     }

@@ -1,9 +1,19 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* *****************************************
+ * CSCI205 - Software Engineering and Design
+ * Spring 2016
+ *
+ * Name: Benjamin Matase, Jason Corriveau, Eric Marshall, Alexander Murph
+ * Date: Apr 10, 2016
+ * Time: 10:43:29 PM
+ *
+ * Project: csci205FinalProject
+ * Package: gameStates
+ * File: BlackScreenState
+ * Description:
+ *
+ * ****************************************
  */
-package gameStates;
+package gameStates.blackScreen;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -15,6 +25,7 @@ import org.newdawn.slick.state.transition.FadeInTransition;
 
 /**
  * An empty screen class that allows the game to fade into the splash screen
+ * smoothly
  *
  * @author Eric
  */
