@@ -1,9 +1,19 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* *****************************************
+ * CSCI205 - Software Engineering and Design
+ * Spring 2016
+ *
+ * Name: Benjamin Matase, Jason Corriveau, Eric Marshall, Alexander Murph
+ * Date: Apr 10, 2016
+ * Time: 5:20:47 PM
+ *
+ * Project: csci205FinalProject
+ * Package: guiComponents
+ * File: FontUtil
+ * Description:
+ *
+ * ****************************************
  */
-package guiComponents;
+package util;
 
 import java.awt.Font;
 import java.io.InputStream;
@@ -13,12 +23,13 @@ import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.util.ResourceLoader;
 
 /**
+ * A utility class for getting and working with fonts. Follows the singleton
+ * pattern
  *
  * @author Eric
  */
 public class FontUtil {
 
-    // Store the standard font, so we can use it as a singleton, and won't have to create it every time we use it
     public static TrueTypeFont stdPxFont;
 
     private FontUtil() {

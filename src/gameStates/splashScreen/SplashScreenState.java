@@ -1,12 +1,20 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* *****************************************
+ * CSCI205 - Software Engineering and Design
+ * Spring 2016
+ *
+ * Name: Benjamin Matase, Jason Corriveau, Eric Marshall, Alexander Murph
+ * Date: Apr 10, 2016
+ * Time: 10:43:29 PM
+ *
+ * Project: csci205FinalProject
+ * Package: gameStates
+ * File: BattleState
+ * Description:
+ *
+ * ****************************************
  */
-package gameStates;
+package gameStates.splashScreen;
 
-import guiComponents.FontUtil;
-import guiComponents.SoundUtil;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -18,8 +26,11 @@ import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
+import util.FontUtil;
+import util.SoundUtil;
 
 /**
+ * A splash screen state for the game
  *
  * @author Eric
  */
@@ -31,19 +42,27 @@ public class SplashScreenState implements GameState {
     // Stored for game use
     private int ID;
     private StateBasedGame game;
+
     // Font Rendering
     private TrueTypeFont pixelFont;
     private Color pixelFontColor;
     private float fadeDiff = -0.02f;
+
     // Images
     private Image pokemonLogo;
     private Image splashScreenImage;
     private Image versionImage;
     private Image bgdImage;
 
-    //====================
-    // Mark: - Constructor
-    //====================
+    //=========================
+    // Mark: - Setup & Teardown
+    //=========================
+    /**
+     * Constructor for the SplashScreen
+     *
+     * @author Eric
+     * @param SPLASHSCREEN
+     */
     public SplashScreenState(int SPLASHSCREEN) {
         ID = SPLASHSCREEN;
     }
@@ -71,6 +90,15 @@ public class SplashScreenState implements GameState {
             System.out.println("Error, failed to load font");
         }
         pixelFontColor = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+    }
+
+    @Override
+    public void enter(GameContainer container, StateBasedGame game) throws SlickException {
+        SoundUtil.playAlmaMater();
+    }
+
+    @Override
+    public void leave(GameContainer container, StateBasedGame game) throws SlickException {
     }
 
     //===========================
@@ -115,22 +143,6 @@ public class SplashScreenState implements GameState {
         }
     }
 
-    //=========================
-    // Mark: - Entering/Exiting
-    //=========================
-    @Override
-    public void enter(GameContainer container, StateBasedGame game) throws SlickException {
-        SoundUtil.playAlmaMater();
-    }
-
-    @Override
-    public void leave(GameContainer container, StateBasedGame game) throws SlickException {
-    }
-
-    private void goToMenu() {
-        game.enterState(GameStateType.TEAMPICKER.getValue(), new FadeOutTransition(Color.black, 500), new FadeInTransition(Color.black, 500));
-    }
-
     //=======================
     // Mark: - Input Handlers
     //=======================
@@ -147,6 +159,15 @@ public class SplashScreenState implements GameState {
                 goToMenu();
                 break;
         }
+    }
+
+    /**
+     * Leaves the splash screen and goes to the next screen
+     *
+     * @author Eric
+     */
+    private void goToMenu() {
+        game.enterState(main.Main.GameStateType.TEAMPICKER.getValue(), new FadeOutTransition(Color.black, 500), new FadeInTransition(Color.black, 500));
     }
 
     @Override

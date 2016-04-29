@@ -13,11 +13,12 @@
  *
  * ****************************************
  */
-package guiComponents;
+package util;
 
 import org.newdawn.slick.Color;
 
 /**
+ * A utility class for getting default colors. Follows the singleton pattern
  *
  * @author Eric
  */
@@ -33,6 +34,7 @@ public class ColorUtil {
     /**
      * Gets the singleton Bucknell Orange
      *
+     * @author Eric
      * @return An orange color
      */
     public static Color getOrange() {
@@ -45,6 +47,7 @@ public class ColorUtil {
     /**
      * Gets the singleton Bucknell Blue
      *
+     * @author Eric
      * @return A blue color
      */
     public static Color getBlue() {

@@ -1,9 +1,19 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* *****************************************
+ * CSCI205 - Software Engineering and Design
+ * Spring 2016
+ *
+ * Name: Benjamin Matase, Jason Corriveau, Eric Marshall, Alexander Murph
+ * Date: Apr 10, 2016
+ * Time: 10:43:29 PM
+ *
+ * Project: csci205FinalProject
+ * Package: gameStates
+ * File: BattleState
+ * Description:
+ *
+ * ****************************************
  */
-package gameStates;
+package gameStates.battle;
 
 import BattleUtility.EnemyDefeatEvent;
 import BattleUtility.Event;
@@ -17,12 +27,10 @@ import PokemonController.BattleControl;
 import PokemonObjects.Move;
 import PokemonObjects.Pokemon;
 import PokemonObjects.TrainerType;
-import guiComponents.ColorUtil;
-import guiComponents.InfoPanel;
-import guiComponents.MenuButton;
-import guiComponents.MenuLayoutManager;
-import guiComponents.PokemonImage;
-import guiComponents.SoundUtil;
+import gameStates.guiComponents.InfoPanel;
+import gameStates.guiComponents.MenuButton;
+import gameStates.guiComponents.MenuLayoutManager;
+import gameStates.guiComponents.PokemonImage;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 import org.newdawn.slick.Color;
@@ -36,6 +44,8 @@ import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
+import util.ColorUtil;
+import util.SoundUtil;
 
 /**
  * A game state that simulates a Pokemon battle
@@ -426,7 +436,7 @@ public class BattleState implements GameState {
                         model.getUser().healPokemon();
                         model.getUser().setCurPokemon(model.getUser().getPokmeon(0));
                         SoundUtil.playAlmaMater();
-                        game.enterState(GameStateType.MAINMENU.getValue(), new FadeOutTransition(Color.black, 500), new FadeInTransition(Color.black, 500));
+                        game.enterState(main.Main.GameStateType.MAINMENU.getValue(), new FadeOutTransition(Color.black, 500), new FadeInTransition(Color.black, 500));
                     } else {
                         this.state = BattleStateMenuType.MAIN;
                     }
@@ -785,19 +795,19 @@ public class BattleState implements GameState {
         switch (state) {
             case MAIN:
                 try {
-                    handleMainMenuKeyPress(key, c);
+                    handleMainMenuKeyPress(key);
                 } catch (SlickException e) {
                 }
                 break;
             case FIGHT:
                 try {
-                    handleFightMenuKeyPress(key, c);
+                    handleFightMenuKeyPress(key);
                 } catch (SlickException e) {
                 }
                 break;
             case POKEMON:
                 try {
-                    handlePokemonMenuKeyPress(key, c);
+                    handlePokemonMenuKeyPress(key);
                 } catch (SlickException e) {
                 }
                 break;
@@ -818,7 +828,7 @@ public class BattleState implements GameState {
      *
      * @author Eric
      */
-    private void handleFightMenuKeyPress(int key, char c) throws SlickException {
+    private void handleFightMenuKeyPress(int key) throws SlickException {
         switch (key) {
             case Input.KEY_LEFT:
                 fightMenuMgr.setSelected(fightMenuMgr.getLeft());
@@ -848,7 +858,7 @@ public class BattleState implements GameState {
      *
      * @author Eric
      */
-    private void handleMainMenuKeyPress(int key, char c) throws SlickException {
+    private void handleMainMenuKeyPress(int key) throws SlickException {
         switch (key) {
             case Input.KEY_LEFT:
                 mainMenuMgr.setSelected(mainMenuMgr.getLeft());
@@ -869,7 +879,14 @@ public class BattleState implements GameState {
         }
     }
 
-    private void handlePokemonMenuKeyPress(int key, char c) throws SlickException {
+    /**
+     * Handler for key presses in the Pokemon Menu
+     *
+     * @param key The key pressed
+     * @param c The character selected
+     * @throws SlickException
+     */
+    private void handlePokemonMenuKeyPress(int key) throws SlickException {
         switch (key) {
             case Input.KEY_LEFT:
                 pokemonMenuMgr.setSelected(pokemonMenuMgr.getLeft());
