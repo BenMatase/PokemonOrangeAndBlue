@@ -191,9 +191,9 @@ public class BattleState implements GameState {
     public void loadImages() throws SlickException {
         bgdImage = new Image("res/Images/Battle/BattleGrass.png");
         System.out.println(bgdImage.getHeight());
-        playerImage = new PokemonImage(ptlx, ptly, pbrx, pbry, PokemonImage.FillType.CROP, model.getUser().getCurPokemon().getID(), TrainerType.USER);
+        playerImage = new PokemonImage(ptlx, ptly, pbrx, pbry, PokemonImage.FillType.CROP, model.getImgIndex(TrainerType.USER), TrainerType.USER);
 //        playerImage = new PokemonImage(px, py, bgdImage.getHeight(), tmp, TrainerType.USER);
-        enemyImage = new PokemonImage(etlx, etly, ebrx, ebry, PokemonImage.FillType.SCALE, model.getEnemy().getCurPokemon().getID(), TrainerType.NPC);
+        enemyImage = new PokemonImage(etlx, etly, ebrx, ebry, PokemonImage.FillType.SCALE, model.getImgIndex(TrainerType.NPC), TrainerType.NPC);
     }
 
     /**
@@ -479,12 +479,17 @@ public class BattleState implements GameState {
      */
     private void handleSwitchEvent(SwitchPokemonEvent spe) {
         SoundUtil.playSwap();
-        if (spe.getSwitchPokemon().getTrainer() == TrainerType.NPC) {
-            enemyImage.swap(model.getEnemy().getCurPokemon().getID());
-            hpBarViewMgr.set(0, 0, new InfoPanel(model.getEnemy().getCurPokemon().getCurHealth(), model.getEnemy().getCurPokemon().getHealth(), model.getEnemy().getCurPokemon().getName()));
+        if (spe.getSwitchPokemon() != null) {
+            if (spe.getSwitchPokemon().getTrainer() == TrainerType.NPC) {
+                enemyImage.swap(model.getEnemy().getCurPokemon().getID());
+                hpBarViewMgr.set(0, 0, new InfoPanel(model.getEnemy().getCurPokemon().getCurHealth(), model.getEnemy().getCurPokemon().getHealth(), model.getEnemy().getCurPokemon().getName()));
+            } else {
+                playerImage.swap(model.getUser().getCurPokemon().getID());
+                mainMenuTextDisplay.getSelected().setText("What will " + model.getUser().getCurPokemon().getNickname() + " do?");
+            }
         } else {
-            playerImage.swap(model.getUser().getCurPokemon().getID());
-            mainMenuTextDisplay.getSelected().setText("What will " + model.getUser().getCurPokemon().getNickname() + " do?");
+            playerImage.swap(model.getImgIndex(TrainerType.USER));
+            enemyImage.swap(model.getImgIndex(TrainerType.NPC));
         }
     }
 

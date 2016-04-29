@@ -16,6 +16,7 @@
 package PokeModel;
 
 import PokemonObjects.EnemyTrainer;
+import PokemonObjects.TrainerType;
 import PokemonObjects.UserTrainer;
 
 /**
@@ -86,4 +87,19 @@ public class PokeModel {
         return curProf;
     }
 
+    /**
+     * Gets the index number for the image of given fighter
+     *
+     * @param type
+     * @return
+     */
+    public int getImgIndex(TrainerType type) {
+        switch (type) {
+            case NPC:
+                return curEnemyIsProf ? curProf + 493 : 506;
+            case USER:
+                return 494;
+        }
+        return -1;
+    }
 }
