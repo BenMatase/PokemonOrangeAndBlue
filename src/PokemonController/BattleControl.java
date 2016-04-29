@@ -59,6 +59,7 @@ public class BattleControl {
      */
     public ArrayList<Event> getInitialMessage() {
         ArrayList<Event> events = new ArrayList<>();
+        SwitchPokemonEvent event7 = new SwitchPokemonEvent(null);
         TextOutputEvent event1 = new TextOutputEvent(String.format(
                 "%s has challenged you to battle!", enemy.getName()));
         TextOutputEvent event2 = new TextOutputEvent(enemy.getOverworldMessage());
@@ -72,6 +73,7 @@ public class BattleControl {
         TextOutputEvent event6 = new TextOutputEvent(String.format("Go! %s!",
                                                                    user.getCurPokemon().getNickname()));
 
+        events.add(event7);
         events.add(event1);
         events.add(event2);
         events.add(event3);
@@ -224,12 +226,13 @@ public class BattleControl {
      * @author Murph
      */
     private ArrayList<Event> makeEnemyDefeatEvents() {
-        System.out.println("MADE IT HERE");
+        SwitchPokemonEvent event7 = new SwitchPokemonEvent(null);
         TextOutputEvent event1 = new TextOutputEvent(String.format(
                 "You have defeated %s!", enemy.getName()));
         TextOutputEvent event3 = new TextOutputEvent(enemy.getBattleEndMessage());
         EnemyDefeatEvent event2 = new EnemyDefeatEvent();
         ArrayList<Event> events = new ArrayList<>();
+        events.add(event7);
         events.add(event1);
         events.add(event3);
         events.add(event2);
