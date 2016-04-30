@@ -15,11 +15,12 @@ package DatabaseLoaderUtilities;
  *
  * ****************************************
  */
+import util.DatabaseLoaderUtilities.PokemonLoaderUtility;
 import BattleUtility.PokemonType;
-import PokemonObjects.Move;
-import PokemonObjects.Move.AttackType;
-import PokemonObjects.Pokemon;
-import PokemonObjects.TrainerType;
+import model.PokemonObjects.Move;
+import model.PokemonObjects.Move.AttackType;
+import model.PokemonObjects.Pokemon;
+import model.PokemonObjects.TrainerType;
 import java.util.ArrayList;
 import java.util.List;
 import static org.junit.Assert.assertEquals;

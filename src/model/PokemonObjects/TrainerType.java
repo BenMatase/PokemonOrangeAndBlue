@@ -13,7 +13,7 @@
  *
  * ****************************************
  */
-package PokemonObjects;
+package model.PokemonObjects;
 
 /**
  * Enum type which will be held as an attribute for each pokemon to determine

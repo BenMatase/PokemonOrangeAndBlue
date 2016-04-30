@@ -16,9 +16,9 @@
  */
 package BattleUtility;
 
-import PokemonObjects.Move;
-import PokemonObjects.Move.AttackType;
-import PokemonObjects.Pokemon;
+import model.PokemonObjects.Move;
+import model.PokemonObjects.Move.AttackType;
+import model.PokemonObjects.Pokemon;
 
 /**
  * Abstract of Damage Calculations in Pokemon

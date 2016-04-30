@@ -16,8 +16,8 @@
  */
 package BattleUtility;
 
-import PokemonObjects.Move;
-import PokemonObjects.Pokemon;
+import model.PokemonObjects.Move;
+import model.PokemonObjects.Pokemon;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;

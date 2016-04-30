@@ -15,8 +15,13 @@
  */
 package PokemonObjects;
 
+import model.PokemonObjects.EnemyTrainer;
+import model.PokemonObjects.UserTrainer;
+import model.PokemonObjects.Pokemon;
+import model.PokemonObjects.Move;
+import model.PokemonObjects.TrainerType;
 import BattleUtility.PokemonType;
-import DatabaseLoaderUtilities.PokemonLoaderUtility;
+import util.DatabaseLoaderUtilities.PokemonLoaderUtility;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.After;

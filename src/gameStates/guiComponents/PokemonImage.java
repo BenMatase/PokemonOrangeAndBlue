@@ -15,7 +15,7 @@
  */
 package gameStates.guiComponents;
 
-import PokemonObjects.TrainerType;
+import model.PokemonObjects.TrainerType;
 import java.util.concurrent.LinkedBlockingQueue;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;

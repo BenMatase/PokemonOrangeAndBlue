@@ -13,7 +13,7 @@
  *
  * ****************************************
  */
-package PokemonObjects;
+package model.PokemonObjects;
 
 import BattleUtility.PokemonType;
 import java.util.ArrayList;

@@ -15,11 +15,11 @@
  */
 package gameStates.teamPicker;
 
-import PokeModel.PokeModel;
-import PokemonObjects.Pokemon;
-import PokemonObjects.UserTrainer;
-import TrainerCreator.RandomCreatorUtility;
-import TrainerCreator.TeamCreatorUtility;
+import model.PokeModel;
+import model.PokemonObjects.Pokemon;
+import model.PokemonObjects.UserTrainer;
+import util.TrainerCreator.RandomCreatorUtility;
+import util.TrainerCreator.TeamCreatorUtility;
 import gameStates.guiComponents.InfoPanel;
 import gameStates.guiComponents.MenuButton;
 import gameStates.guiComponents.MenuLayoutManager;

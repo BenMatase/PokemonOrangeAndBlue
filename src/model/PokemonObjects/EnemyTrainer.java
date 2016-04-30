@@ -13,7 +13,7 @@
  *
  * ****************************************
  */
-package PokemonObjects;
+package model.PokemonObjects;
 
 /**
  * Class that is used to represent enemy trainers that a user can battle
