@@ -20,7 +20,7 @@ import java.util.ArrayList;
 /**
  * Class that will be base abstraction for both user and ai pokemon trainers
  *
- * @author Jason
+ * @author Jason Corriveau
  */
 public abstract class Trainer {
 
@@ -44,6 +44,8 @@ public abstract class Trainer {
      * Helper method used to determine if trainer has any living pokemon left
      *
      * @return boolean: true if trainer has any pokemon that are living
+     *
+     * @author Jason Corriveau
      */
     public boolean pokemonLiving() {
         for (int x = 0; x < pokemon.size(); x++) {

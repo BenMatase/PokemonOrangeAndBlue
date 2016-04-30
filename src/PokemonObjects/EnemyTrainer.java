@@ -41,6 +41,8 @@ public class EnemyTrainer extends Trainer {
      * adds pokemon to the enemy and sets pokmeon type to NPC
      *
      * @param pkmn The pokemon that is addded to the enemy trainer
+     *
+     * @author Jason
      */
     @Override
     public void addPokemon(Pokemon pkmn) {
