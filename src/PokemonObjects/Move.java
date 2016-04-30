@@ -41,6 +41,8 @@ public class Move {
      * @param damage
      * @param accuracy
      * @param name
+     *
+     * @author Jason Corriveau
      */
     public Move(AttackType type, PokemonType damageType, int damage,
                 float accuracy, String name) {

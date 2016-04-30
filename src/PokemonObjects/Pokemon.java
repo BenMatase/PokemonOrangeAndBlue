@@ -50,6 +50,8 @@ public class Pokemon {
      * @param speed
      * @param pokemonType1
      * @param pokemonType2
+     *
+     * @author Jason Corriveau
      */
     public Pokemon(int ID, int health, int attack, int spcAttack, int defense,
                    int spcDefense, int speed,
@@ -149,6 +151,8 @@ public class Pokemon {
      * Method that returns true if pokmeon has health greater than 0
      *
      * @return true if pokemon has current health remaining
+     *
+     * @author Jason Corriveau
      */
     public boolean isAlive() {
         return this.curHealth > 0;
@@ -158,6 +162,8 @@ public class Pokemon {
      * Sets pokemon current health to right amount, never less than 0
      *
      * @param healthLoss The amount of health a pokemon will lose
+     *
+     * @author Jason Corriveau
      */
     public void reduceHealth(int healthLoss) {
         if (this.curHealth < healthLoss) {
