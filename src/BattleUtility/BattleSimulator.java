@@ -64,11 +64,24 @@ public class BattleSimulator {
             this.pokeMove1 = move1;
             this.secondPokemon = poke2;
             this.pokeMove2 = move2;
-        } else {
+        } else if (poke1.getSpeed() < poke2.getSpeed()) {
             this.firstPokemon = poke2;
             this.pokeMove1 = move2;
             this.secondPokemon = poke1;
             this.pokeMove2 = move1;
+        } else {
+            double random = Math.random();
+            if (random > 0.5) {
+                this.firstPokemon = poke1;
+                this.pokeMove1 = move1;
+                this.secondPokemon = poke2;
+                this.pokeMove2 = move2;
+            } else {
+                this.firstPokemon = poke2;
+                this.pokeMove1 = move2;
+                this.secondPokemon = poke1;
+                this.pokeMove2 = move1;
+            }
         }
 
     }

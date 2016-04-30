@@ -157,19 +157,12 @@ public class BattleCalculator {
         double attack = AtkPoke.getSpcAttack();
         double defense = DefPoke.getSpcDefense();
 
-        System.out.println("The Special Attack is" + attack);
-        System.out.println("The Special Defense is" + defense);
-
         //gets base damage from move
         double moveDmg = move.getDamage();
-
-        System.out.println("The Damage of the move is" + moveDmg);
 
         //incorporates all mulipliers and factors to find actual damange
         double damage = ((1.0 / 2.0) * (attack / defense) * (moveDmg) * modifier
                          * stab * criticalModifier * accuracyModifier);
-
-        System.out.println("The Damage is:" + damage);
 
         return damage;
     }
@@ -289,11 +282,9 @@ public class BattleCalculator {
     private double getAccuracyModifier(Move move) {
         double random = Math.random();
         double accMod = 1.0;
-        System.out.println("The Move's Accuracy is:" + move.getAccuracy());
         if ((move.getAccuracy()) <= random) {
             accMod = 0.0;
         }
-        System.out.println("The Accuracy Mod is:" + accMod);
         return accMod;
     }
 }
