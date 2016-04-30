@@ -34,6 +34,8 @@ public class UserTrainer extends Trainer {
      * adds pokemon to the user
      *
      * @param pkmn The pokemon to add
+     *
+     * @author Jason Corriveau
      */
     @Override
     public void addPokemon(Pokemon pkmn) {
