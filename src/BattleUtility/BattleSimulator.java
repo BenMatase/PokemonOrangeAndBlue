@@ -161,8 +161,8 @@ public class BattleSimulator {
             TextOutputEvent event3 = new TextOutputEvent(deadString);
             PokemonFaintEvent event4 = new PokemonFaintEvent(
                     secondPokemon.getTrainer());
-            battleEvents.add(event3);
             battleEvents.add(event4);
+            battleEvents.add(event3);
         }
 
         return battleEvents;
@@ -188,8 +188,8 @@ public class BattleSimulator {
             TextOutputEvent event3 = new TextOutputEvent(deadString);
             PokemonFaintEvent event4 = new PokemonFaintEvent(
                     secondPokemon.getTrainer());
-            battleEvents.add(event3);
             battleEvents.add(event4);
+            battleEvents.add(event3);
             return battleEvents;
         }
 
@@ -203,8 +203,8 @@ public class BattleSimulator {
             TextOutputEvent event3 = new TextOutputEvent(deadString);
             PokemonFaintEvent event4 = new PokemonFaintEvent(
                     firstPokemon.getTrainer());
-            battleEvents.add(event3);
             battleEvents.add(event4);
+            battleEvents.add(event3);
         }
 
         return battleEvents;
