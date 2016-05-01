@@ -15,8 +15,8 @@
  */
 package gameStates.guiComponents;
 
-import model.PokemonObjects.TrainerType;
 import java.util.concurrent.LinkedBlockingQueue;
+import model.PokemonObjects.TrainerType;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -66,7 +66,7 @@ public class PokemonImage {
     private float attackXOffset = 30f;
     private float defendXOffset = 10f;
     private static final float fightActionDurationMS = 200f;
-    private static final float appearanceDurationMS = 300;
+    private static final float appearanceDurationMS = 300f;
     private static final float defendDelay = fightActionDurationMS * 2;
 
     // Variable constraints and positions
