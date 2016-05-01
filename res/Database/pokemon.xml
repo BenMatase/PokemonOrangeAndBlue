@@ -2638,6 +2638,10 @@
         <name>Harden</name>
         <lvl>7</lvl>
       </move>
+      <move type='level-up'>
+        <name>Headbutt</name>
+        <lvl>12</lvl>
+      </move>
     </moves>
   </pokemon>
   <pokemon id='12'>
@@ -2994,6 +2998,10 @@
       <move type='level-up'>
         <name>Harden</name>
         <lvl>7</lvl>
+      </move>
+      <move type='level-up'>
+        <name>Headbutt</name>
+        <lvl>12</lvl>
       </move>
     </moves>
   </pokemon>
@@ -3490,7 +3498,7 @@
         <name>Brave Bird</name>
       </move>
       <move type='egg'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
       </move>
       <move type='egg'>
         <name>Foresight</name>
@@ -4762,7 +4770,7 @@
         <name>Astonish</name>
       </move>
       <move type='egg'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
       </move>
       <move type='egg'>
         <name>False Swipe</name>
@@ -9297,7 +9305,7 @@
         <name>Extrasensory</name>
       </move>
       <move type='egg'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
       </move>
       <move type='egg'>
         <name>Flail</name>
@@ -10417,7 +10425,7 @@
         <name>Curse</name>
       </move>
       <move type='egg'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
       </move>
       <move type='egg'>
         <name>Gust</name>
@@ -12656,7 +12664,7 @@
         <name>Beat Up</name>
       </move>
       <move type='egg'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
       </move>
       <move type='egg'>
         <name>Mud Bomb</name>
@@ -12986,7 +12994,7 @@
         <lvl>17</lvl>
       </move>
       <move type='level-up'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
         <lvl>22</lvl>
       </move>
       <move type='level-up'>
@@ -13304,7 +13312,7 @@
         <lvl>17</lvl>
       </move>
       <move type='level-up'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
         <lvl>22</lvl>
       </move>
       <move type='level-up'>
@@ -21955,7 +21963,7 @@
         <name>Endeavor</name>
       </move>
       <move type='egg'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
       </move>
       <move type='egg'>
         <name>Flail</name>
@@ -33785,7 +33793,7 @@
         <lvl>10</lvl>
       </move>
       <move type='level-up'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
         <lvl>16</lvl>
       </move>
       <move type='level-up'>
@@ -34262,7 +34270,7 @@
         <name>Close Combat</name>
       </move>
       <move type='egg'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
       </move>
       <move type='egg'>
         <name>False Swipe</name>
@@ -35228,6 +35236,10 @@
     <moves>
       <move type='level-up'>
         <name>Transform</name>
+        <lvl>1</lvl>
+      </move>
+      <move type='level-up'>
+        <name>Tackle</name>
         <lvl>1</lvl>
       </move>
     </moves>
@@ -44417,7 +44429,7 @@
         <name>Agility</name>
       </move>
       <move type='egg'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
       </move>
       <move type='egg'>
         <name>Featherdance</name>
@@ -47282,7 +47294,7 @@
         <name>Covet</name>
       </move>
       <move type='egg'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
       </move>
       <move type='egg'>
         <name>Fake Tears</name>
@@ -48220,7 +48232,7 @@
         <name>Drill Peck</name>
       </move>
       <move type='egg'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
       </move>
       <move type='egg'>
         <name>Featherdance</name>
@@ -50107,7 +50119,7 @@
         <lvl>22</lvl>
       </move>
       <move type='level-up'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
         <lvl>25</lvl>
       </move>
       <move type='level-up'>
@@ -52728,7 +52740,7 @@
         <lvl>5</lvl>
       </move>
       <move type='egg'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
       </move>
       <move type='egg'>
         <name>Feint</name>
@@ -53671,7 +53683,7 @@
         <lvl>29</lvl>
       </move>
       <move type='level-up'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
         <lvl>36</lvl>
       </move>
       <move type='level-up'>
@@ -53923,7 +53935,7 @@
         <lvl>31</lvl>
       </move>
       <move type='level-up'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
         <lvl>35</lvl>
       </move>
       <move type='level-up'>
@@ -54126,7 +54138,7 @@
         <name>Drill Peck</name>
       </move>
       <move type='egg'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
       </move>
       <move type='egg'>
         <name>Featherdance</name>
@@ -54849,6 +54861,10 @@
         <name>Hidden Power</name>
         <lvl>1</lvl>
       </move>
+      <move type='level-up'>
+        <name>Secret Power</name>
+        <lvl>1</lvl>
+      </move>
     </moves>
   </pokemon>
   <pokemon id='202'>
@@ -54893,6 +54909,10 @@
       </move>
       <move type='level-up'>
         <name>Destiny Bond</name>
+        <lvl>1</lvl>
+      </move>
+      <move type='level-up'>
+        <name>Pound</name>
         <lvl>1</lvl>
       </move>
     </moves>
@@ -56170,7 +56190,7 @@
         <lvl>20</lvl>
       </move>
       <move type='level-up'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
         <lvl>23</lvl>
       </move>
       <move type='level-up'>
@@ -57090,7 +57110,7 @@
         <name>Crunch</name>
       </move>
       <move type='egg'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
       </move>
       <move type='egg'>
         <name>Fire Fang</name>
@@ -58602,7 +58622,7 @@
         <lvl>10</lvl>
       </move>
       <move type='level-up'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
         <lvl>14</lvl>
       </move>
       <move type='level-up'>
@@ -58964,7 +58984,7 @@
         <lvl>8</lvl>
       </move>
       <move type='level-up'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
         <lvl>15</lvl>
       </move>
       <move type='level-up'>
@@ -59271,7 +59291,7 @@
         <lvl>8</lvl>
       </move>
       <move type='level-up'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
         <lvl>15</lvl>
       </move>
       <move type='level-up'>
@@ -62312,7 +62332,7 @@
         <lvl>30</lvl>
       </move>
       <move type='level-up'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
         <lvl>35</lvl>
       </move>
       <move type='level-up'>
@@ -62622,7 +62642,7 @@
         <lvl>32</lvl>
       </move>
       <move type='level-up'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
         <lvl>38</lvl>
       </move>
       <move type='level-up'>
@@ -64190,6 +64210,10 @@
         <lvl>31</lvl>
       </move>
       <move type='level-up'>
+        <name>Pound</name>
+        <lvl>31</lvl>
+      </move>
+      <move type='level-up'>
         <name>Sketch</name>
         <lvl>41</lvl>
       </move>
@@ -65249,7 +65273,7 @@
         <lvl>10</lvl>
       </move>
       <move type='level-up'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
         <lvl>16</lvl>
       </move>
       <move type='level-up'>
@@ -72405,6 +72429,10 @@
         <name>Harden</name>
         <lvl>7</lvl>
       </move>
+      <move type='level-up'>
+        <name>Headbutt</name>
+        <lvl>7</lvl>
+      </move>
     </moves>
   </pokemon>
   <pokemon id='267'>
@@ -72700,6 +72728,10 @@
       </move>
       <move type='level-up'>
         <name>Harden</name>
+        <lvl>7</lvl>
+      </move>
+      <move type='level-up'>
+        <name>Headbutt</name>
         <lvl>7</lvl>
       </move>
     </moves>
@@ -74018,7 +74050,7 @@
         <lvl>25</lvl>
       </move>
       <move type='level-up'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
         <lvl>31</lvl>
       </move>
       <move type='level-up'>
@@ -74275,7 +74307,7 @@
     <description>By flapping its leafy fan, it can whip up gusts of 100 ft/second that can level houses.</description>
     <moves>
       <move type='level-up'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
         <lvl>1</lvl>
       </move>
       <move type='level-up'>
@@ -77537,7 +77569,7 @@
         <lvl>13</lvl>
       </move>
       <move type='level-up'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
         <lvl>19</lvl>
       </move>
       <move type='level-up'>
@@ -78139,7 +78171,7 @@
         <lvl>13</lvl>
       </move>
       <move type='level-up'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
         <lvl>19</lvl>
       </move>
       <move type='level-up'>
@@ -78614,7 +78646,7 @@
         <name>Endure</name>
       </move>
       <move type='egg'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
       </move>
       <move type='egg'>
         <name>Gust</name>
@@ -80261,7 +80293,7 @@
         <name>Dynamicpunch</name>
       </move>
       <move type='egg'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
       </move>
       <move type='egg'>
         <name>Foresight</name>
@@ -81095,7 +81127,7 @@
         <lvl>22</lvl>
       </move>
       <move type='level-up'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
         <lvl>25</lvl>
       </move>
       <move type='level-up'>
@@ -81659,7 +81691,7 @@
         <lvl>29</lvl>
       </move>
       <move type='level-up'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
         <lvl>32</lvl>
       </move>
       <move type='level-up'>
@@ -81973,7 +82005,7 @@
         <lvl>21</lvl>
       </move>
       <move type='level-up'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
         <lvl>26</lvl>
       </move>
       <move type='level-up'>
@@ -88759,7 +88791,7 @@
         <lvl>10</lvl>
       </move>
       <move type='level-up'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
         <lvl>14</lvl>
       </move>
       <move type='level-up'>
@@ -89079,7 +89111,7 @@
         <lvl>9</lvl>
       </move>
       <move type='level-up'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
         <lvl>17</lvl>
       </move>
       <move type='level-up'>
@@ -89312,7 +89344,7 @@
         <lvl>1</lvl>
       </move>
       <move type='level-up'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
         <lvl>1</lvl>
       </move>
       <move type='level-up'>
@@ -89324,7 +89356,7 @@
         <lvl>9</lvl>
       </move>
       <move type='level-up'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
         <lvl>17</lvl>
       </move>
       <move type='level-up'>
@@ -89565,7 +89597,7 @@
         <lvl>1</lvl>
       </move>
       <move type='level-up'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
         <lvl>1</lvl>
       </move>
       <move type='level-up'>
@@ -89577,7 +89609,7 @@
         <lvl>9</lvl>
       </move>
       <move type='level-up'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
         <lvl>17</lvl>
       </move>
       <move type='level-up'>
@@ -89877,7 +89909,7 @@
         <lvl>25</lvl>
       </move>
       <move type='level-up'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
         <lvl>29</lvl>
       </move>
       <move type='level-up'>
@@ -90177,7 +90209,7 @@
         <lvl>25</lvl>
       </move>
       <move type='level-up'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
         <lvl>29</lvl>
       </move>
       <move type='level-up'>
@@ -95707,7 +95739,7 @@
         <lvl>4</lvl>
       </move>
       <move type='level-up'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
         <lvl>7</lvl>
       </move>
       <move type='level-up'>
@@ -96083,7 +96115,7 @@
         <lvl>23</lvl>
       </move>
       <move type='level-up'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
         <lvl>28</lvl>
       </move>
       <move type='level-up'>
@@ -96403,7 +96435,7 @@
         <lvl>23</lvl>
       </move>
       <move type='level-up'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
         <lvl>28</lvl>
       </move>
       <move type='level-up'>
@@ -97274,7 +97306,7 @@
         <name>Destiny Bond</name>
       </move>
       <move type='egg'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
       </move>
       <move type='egg'>
         <name>Grudge</name>
@@ -98269,7 +98301,7 @@
         <name>Double-edge</name>
       </move>
       <move type='egg'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
       </move>
       <move type='egg'>
         <name>Magic Coat</name>
@@ -98340,6 +98372,10 @@
       <move type='level-up'>
         <name>Mirror Coat</name>
         <lvl>15</lvl>
+      </move>
+      <move type='level-up'>
+        <name>Pound</name>
+        <lvl>17</lvl>
       </move>
       <move type='level-up'>
         <name>Safeguard</name>
@@ -109447,6 +109483,10 @@
         <name>Bide</name>
         <lvl>1</lvl>
       </move>
+      <move type='level-up'>
+        <name>Headbutt</name>
+        <lvl>7</lvl>
+      </move>
     </moves>
   </pokemon>
   <pokemon id='402'>
@@ -116693,7 +116733,7 @@
         <lvl>13</lvl>
       </move>
       <move type='level-up'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
         <lvl>17</lvl>
       </move>
       <move type='level-up'>
@@ -116982,7 +117022,7 @@
         <lvl>13</lvl>
       </move>
       <move type='level-up'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
         <lvl>17</lvl>
       </move>
       <move type='level-up'>
@@ -118110,7 +118150,7 @@
         <lvl>37</lvl>
       </move>
       <move type='level-up'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
         <lvl>41</lvl>
       </move>
       <move type='level-up'>
@@ -118413,7 +118453,7 @@
         <lvl>43</lvl>
       </move>
       <move type='level-up'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
         <lvl>50</lvl>
       </move>
       <move type='level-up'>
@@ -118707,7 +118747,7 @@
         <lvl>22</lvl>
       </move>
       <move type='level-up'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
         <lvl>25</lvl>
       </move>
       <move type='level-up'>
@@ -119784,7 +119824,7 @@
         <lvl>1</lvl>
       </move>
       <move type='level-up'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
         <lvl>7</lvl>
       </move>
       <move type='level-up'>
@@ -122579,7 +122619,7 @@
         <name>Confuse Ray</name>
       </move>
       <move type='egg'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
       </move>
       <move type='egg'>
         <name>Night Slash</name>
@@ -122972,7 +123012,7 @@
         <lvl>15</lvl>
       </move>
       <move type='level-up'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
         <lvl>17</lvl>
       </move>
       <move type='level-up'>
@@ -123305,7 +123345,7 @@
         <lvl>15</lvl>
       </move>
       <move type='level-up'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
         <lvl>17</lvl>
       </move>
       <move type='level-up'>
@@ -123621,7 +123661,7 @@
         <lvl>21</lvl>
       </move>
       <move type='level-up'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
         <lvl>27</lvl>
       </move>
       <move type='level-up'>
@@ -125231,7 +125271,7 @@
         <lvl>10</lvl>
       </move>
       <move type='level-up'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
         <lvl>14</lvl>
       </move>
       <move type='level-up'>
@@ -127191,7 +127231,7 @@
         <lvl>10</lvl>
       </move>
       <move type='level-up'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
         <lvl>16</lvl>
       </move>
       <move type='level-up'>
@@ -128619,7 +128659,7 @@
         <lvl>20</lvl>
       </move>
       <move type='level-up'>
-        <name>Faint Attack</name>
+        <name>Feint Attack</name>
         <lvl>23</lvl>
       </move>
       <move type='level-up'>

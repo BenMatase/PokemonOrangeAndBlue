@@ -16,9 +16,9 @@
  */
 package BattleUtility;
 
-import PokemonObjects.Move;
-import PokemonObjects.Move.AttackType;
-import PokemonObjects.Pokemon;
+import model.PokemonObjects.Move;
+import model.PokemonObjects.Move.AttackType;
+import model.PokemonObjects.Pokemon;
 
 /**
  * Abstract of Damage Calculations in Pokemon
@@ -130,7 +130,7 @@ public class BattleCalculator {
 
         //incorporates all mulipliers and factors to find actual damange
         double damage = ((attack / defense) * (moveDmg) * modifier
-                         * stab * criticalModifier);
+                         * stab * criticalModifier * accuracyModifier);
 
         return damage;
     }
@@ -161,7 +161,8 @@ public class BattleCalculator {
         double moveDmg = move.getDamage();
 
         //incorporates all mulipliers and factors to find actual damange
-        double damage = ((attack / defense) * (moveDmg) * modifier * stab * criticalModifier * accuracyModifier);
+        double damage = ((1.0 / 2.0) * (attack / defense) * (moveDmg) * modifier
+                         * stab * criticalModifier * accuracyModifier);
 
         return damage;
     }
@@ -181,17 +182,17 @@ public class BattleCalculator {
             modifier = modifier * modifier2;
         }
 
-        if (modifier >= 2.0) {
-            response += "It's super effective! \n";
-        } else if (accuracyModifier == 0.0) {
+        if (accuracyModifier == 0.0) {
             response += "But it missed!";
+        } else if (modifier >= 2.0) {
+            response += "It's super effective! \n";
+        } else if (modifier < 1.0 && modifier > 0.0) {
+            response += "It's not very effective... \n";
         } else if (modifier == 0.0) {
             response += String.format("It doesn't affect %s...",
                                       DefPoke.getName());
         } else if (criticalModifier == 1.5 && accuracyModifier != 0.0 && modifier != 0.0) {
             response += "It's a critical hit!";
-        } else if (modifier < 1.0 && modifier > 0.0) {
-            response += "It's not very effective... \n";
         }
 
         return response;

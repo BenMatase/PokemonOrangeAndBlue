@@ -15,9 +15,9 @@
  */
 package BattleUtility;
 
-import DatabaseLoaderUtilities.PokemonLoaderUtility;
-import PokemonObjects.Move;
-import PokemonObjects.Pokemon;
+import util.DatabaseLoaderUtilities.PokemonLoaderUtility;
+import model.PokemonObjects.Move;
+import model.PokemonObjects.Pokemon;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.After;
@@ -64,7 +64,6 @@ public class BattleCalculatorTest {
      */
     @Test
     public void testDamageCalculator() {
-        System.out.println("damageCalculator");
 
 //        //get a base damage calculation based on a move with no type adv
 //        BattleCalculator batCalc = new BattleCalculator(gengar, bulbasaur,
@@ -104,7 +103,6 @@ public class BattleCalculatorTest {
      */
     @Test
     public void testGetOutcome() {
-        System.out.println("getOutcome");
         BattleCalculator instance = null;
         String expResult = "";
         String result = instance.getOutcome();
@@ -118,7 +116,6 @@ public class BattleCalculatorTest {
      */
     @Test
     public void testAIMoveAdvantage() {
-        System.out.println("AIMoveAdvantage");
         BattleCalculator instance = null;
         double expResult = 0.0;
         double result = instance.AIMoveAdvantage();

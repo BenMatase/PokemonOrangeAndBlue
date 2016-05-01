@@ -15,10 +15,10 @@
  */
 package BattleUtility;
 
-import PokemonObjects.EnemyTrainer;
-import PokemonObjects.Move;
-import PokemonObjects.Pokemon;
-import PokemonObjects.UserTrainer;
+import model.PokemonObjects.EnemyTrainer;
+import model.PokemonObjects.Move;
+import model.PokemonObjects.Pokemon;
+import model.PokemonObjects.UserTrainer;
 import java.util.Random;
 
 /**
@@ -31,9 +31,11 @@ public class AIUtility {
      * Gets the move that will be selected by an AI trainer based on its current
      * moves and user pokemon
      *
-     * @param usr
-     * @param npc
-     * @return
+     * @param usr the user trainer
+     * @param npc the enemy trainer
+     * @return Move the move that the enemy will use.
+     *
+     * @author Jason
      */
     public static Move getMove(UserTrainer usr, EnemyTrainer npc) {
         //need to evaluate how much damage for each move
@@ -59,6 +61,8 @@ public class AIUtility {
      * @param doubleArray The array of double values to get a random index
      * choice of
      * @return The index the random value is selected from
+     *
+     * @author Jason
      */
     private static int randomFromArray(double[] doubleArray) {
         double totValues = 0;
@@ -76,6 +80,14 @@ public class AIUtility {
         return arrayChoice;
     }
 
+    /**
+     * Method used by AI to choose next pokemon if they have another available.
+     *
+     * @param npc The enemy trainer
+     * @return The next pokemon available; null if all pokemon are dead.
+     *
+     * @author Jason
+     */
     public static Pokemon getPokemon(EnemyTrainer npc) {
         for (Pokemon pkmn : npc.getPokemon()) {
             if (pkmn.isAlive()) {

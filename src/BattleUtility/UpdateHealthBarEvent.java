@@ -16,7 +16,7 @@
  */
 package BattleUtility;
 
-import PokemonObjects.TrainerType;
+import model.PokemonObjects.TrainerType;
 
 /**
  * Abstract of changing the health bar
@@ -28,15 +28,30 @@ public class UpdateHealthBarEvent extends Event {
     TrainerType trainerType;
     int newCurrHealth;
 
+    /**
+     *
+     * @param type
+     * @param healthLeft
+     */
     public UpdateHealthBarEvent(TrainerType type, int healthLeft) {
         this.trainerType = type;
         this.newCurrHealth = healthLeft;
     }
 
+    /**
+     * Gets which pokemon that needs to have its health updated.
+     *
+     * @return
+     */
     public TrainerType getTrainerType() {
         return trainerType;
     }
 
+    /**
+     * Gets the health to set that pokemon's health visual to.
+     *
+     * @return
+     */
     public int getNewCurrHealth() {
         return newCurrHealth;
     }

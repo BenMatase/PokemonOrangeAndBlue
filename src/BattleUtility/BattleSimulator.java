@@ -16,8 +16,8 @@
  */
 package BattleUtility;
 
-import PokemonObjects.Move;
-import PokemonObjects.Pokemon;
+import model.PokemonObjects.Move;
+import model.PokemonObjects.Pokemon;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
@@ -64,11 +64,24 @@ public class BattleSimulator {
             this.pokeMove1 = move1;
             this.secondPokemon = poke2;
             this.pokeMove2 = move2;
-        } else {
+        } else if (poke1.getSpeed() < poke2.getSpeed()) {
             this.firstPokemon = poke2;
             this.pokeMove1 = move2;
             this.secondPokemon = poke1;
             this.pokeMove2 = move1;
+        } else {
+            double random = Math.random();
+            if (random > 0.5) {
+                this.firstPokemon = poke1;
+                this.pokeMove1 = move1;
+                this.secondPokemon = poke2;
+                this.pokeMove2 = move2;
+            } else {
+                this.firstPokemon = poke2;
+                this.pokeMove1 = move2;
+                this.secondPokemon = poke1;
+                this.pokeMove2 = move1;
+            }
         }
 
     }
@@ -148,8 +161,8 @@ public class BattleSimulator {
             TextOutputEvent event3 = new TextOutputEvent(deadString);
             PokemonFaintEvent event4 = new PokemonFaintEvent(
                     secondPokemon.getTrainer());
-            battleEvents.add(event3);
             battleEvents.add(event4);
+            battleEvents.add(event3);
         }
 
         return battleEvents;
@@ -175,8 +188,8 @@ public class BattleSimulator {
             TextOutputEvent event3 = new TextOutputEvent(deadString);
             PokemonFaintEvent event4 = new PokemonFaintEvent(
                     secondPokemon.getTrainer());
-            battleEvents.add(event3);
             battleEvents.add(event4);
+            battleEvents.add(event3);
             return battleEvents;
         }
 
@@ -190,8 +203,8 @@ public class BattleSimulator {
             TextOutputEvent event3 = new TextOutputEvent(deadString);
             PokemonFaintEvent event4 = new PokemonFaintEvent(
                     firstPokemon.getTrainer());
-            battleEvents.add(event3);
             battleEvents.add(event4);
+            battleEvents.add(event3);
         }
 
         return battleEvents;

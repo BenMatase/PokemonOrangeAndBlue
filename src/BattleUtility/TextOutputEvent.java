@@ -17,6 +17,7 @@
 package BattleUtility;
 
 /**
+ * Abstraction for the event of text being displayed on the screen.
  *
  * @author Murph
  */
@@ -24,10 +25,20 @@ public class TextOutputEvent extends Event {
 
     String message;
 
+    /**
+     * Constructs the message by taking in a string.
+     *
+     * @param message
+     */
     public TextOutputEvent(String message) {
         this.message = message;
     }
 
+    /**
+     * Gets the string message from the event.
+     *
+     * @return
+     */
     public String getMessage() {
         return message;
     }
