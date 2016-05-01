@@ -22,17 +22,17 @@ import BattleUtility.SwitchPokemonEvent;
 import BattleUtility.TextOutputEvent;
 import BattleUtility.UpdateHealthBarEvent;
 import BattleUtility.UserDefeatEvent;
-import model.PokeModel;
 import PokemonController.BattleControl;
-import model.PokemonObjects.Move;
-import model.PokemonObjects.Pokemon;
-import model.PokemonObjects.TrainerType;
 import gameStates.guiComponents.InfoPanel;
 import gameStates.guiComponents.MenuButton;
 import gameStates.guiComponents.MenuLayoutManager;
 import gameStates.guiComponents.PokemonImage;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
+import model.PokeModel;
+import model.PokemonObjects.Move;
+import model.PokemonObjects.Pokemon;
+import model.PokemonObjects.TrainerType;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -513,7 +513,6 @@ public class BattleState implements GameState {
                 }
                 break;
             case USER:
-                playerImage.disappear();
                 if (model.getUser().pokemonLiving()) {
                     updatePokemonMenuOptions();
                     pokemonFainted = true;
@@ -522,7 +521,6 @@ public class BattleState implements GameState {
                 }
                 break;
         }
-        delay += 2000;
     }
 
     /**
