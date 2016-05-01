@@ -55,9 +55,9 @@ public class SoundUtil {
     public static void init() throws SlickException {
         // Load Music
 
-        almaMaterMusic = new Music("./res/Sounds/Music/AlmaMater.ogg");
+        almaMaterMusic = new Music("res/Sounds/Music/AlmaMater.ogg");
         System.out.print("Loading Sounds");
-        enterBattleMusic = new Music("./res/Sounds/Music/BattleIntro.ogg");
+        enterBattleMusic = new Music("res/Sounds/Music/BattleIntro.ogg");
         System.out.print(".");
         enterBattleMusic.addListener(new MusicListener() {
 
@@ -71,17 +71,17 @@ public class SoundUtil {
             public void musicSwapped(Music music, Music newMusic) {
             }
         });
-        battleMusic = new Music("./res/Sounds/Music/BattleLoop.ogg");
+        battleMusic = new Music("res/Sounds/Music/BattleLoop.ogg");
         System.out.print(".");
-        victoryMusic = new Music("./res/Sounds/Music/Victory.ogg");
+        victoryMusic = new Music("res/Sounds/Music/Victory.ogg");
         System.out.print(".");
 
         // Load Sounds
-        faintSound = new Sound("./res/Sounds/Effects/Faint.ogg");
+        faintSound = new Sound("res/Sounds/Effects/Faint.ogg");
         System.out.print(".");
-        hitSound = new Sound("./res/Sounds/Effects/Hit.ogg");
+        hitSound = new Sound("res/Sounds/Effects/Hit.ogg");
         System.out.print(".");
-        swapSound = new Sound("./res/Sounds/Effects/Swap.ogg");
+        swapSound = new Sound("res/Sounds/Effects/Swap.ogg");
         System.out.println("Done.");
     }
 

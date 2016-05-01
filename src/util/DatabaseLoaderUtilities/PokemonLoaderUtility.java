@@ -17,13 +17,13 @@
 package util.DatabaseLoaderUtilities;
 
 import BattleUtility.PokemonType;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import model.PokemonObjects.Move;
 import model.PokemonObjects.Move.AttackType;
 import model.PokemonObjects.Pokemon;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
@@ -46,14 +46,15 @@ import org.jdom2.input.SAXBuilder;
  * @author Benjamin Matase
  */
 public class PokemonLoaderUtility {
+
     /**
      * Relative path to pokemon.xml database file in project
      */
-    private static final String POKEMON_FILE_PATH = "./res/Database/pokemon.xml";
+    private static final String POKEMON_FILE_PATH = "/res/Database/pokemon.xml";
     /**
      * Relative path to moves.xml database file in project
      */
-    private static final String MOVES_FILE_PATH = "./res/Database/moves.xml";
+    private static final String MOVES_FILE_PATH = "/res/Database/moves.xml";
 
     private static Element pokemonNode;
     private static Element moveNode;
@@ -110,8 +111,8 @@ public class PokemonLoaderUtility {
      */
     private static Element loadNode(String filePath) {
         SAXBuilder builder = new SAXBuilder();
-        File xmlFile = new File(filePath);
-
+        InputStream xmlFile = PokemonLoaderUtility.class.getResourceAsStream(filePath);
+//        File xmlFile = new File(filePath);
         try {
             Document document = (Document) builder.build(xmlFile);
             return document.getRootElement();
@@ -182,7 +183,7 @@ public class PokemonLoaderUtility {
 
             //filters out non-existant, non-damaging, and repeat moves
             if (move != null && move.getDamage() > 1 && !movesStr.contains(
-                    name)) {
+                name)) {
                 movesStr.add(name);
             }
         }
@@ -209,11 +210,11 @@ public class PokemonLoaderUtility {
 
         //get the type of the move from the xml and make into enum
         PokemonType type = PokemonType.valueOf(
-                moveNode.getChildText("type").toUpperCase());
+            moveNode.getChildText("type").toUpperCase());
 
         //get the type of attack from the xml and make into enum
         AttackType attType = AttackType.valueOf(
-                moveNode.getChildText("class").toUpperCase());
+            moveNode.getChildText("class").toUpperCase());
 
         //get the damage as an integer
         int damage = Integer.parseInt(moveNode.getChildText("power"));
@@ -315,7 +316,7 @@ public class PokemonLoaderUtility {
 
         //fill Pokemon nation dex number
         int natDexNum = Integer.parseInt(
-                pokemonNode.getAttribute("id").getValue());
+            pokemonNode.getAttribute("id").getValue());
 
         //get Pokemon's stats node
         Element stats = pokemonNode.getChild("stats");
@@ -333,12 +334,12 @@ public class PokemonLoaderUtility {
 
         //every pokemon has at least one type
         PokemonType type1 = PokemonType.valueOf(
-                typesNodes.get(0).getText().toUpperCase());
+            typesNodes.get(0).getText().toUpperCase());
 
         //optional second type handled with ternary operator for now
         PokemonType type2 = typesNodes.size() == 2
                             ? PokemonType.valueOf(
-                        typesNodes.get(1).getText().toUpperCase())
+                typesNodes.get(1).getText().toUpperCase())
                             : null;
 
         Move[] moves = new Move[4];

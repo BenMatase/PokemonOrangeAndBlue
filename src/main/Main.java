@@ -5,17 +5,17 @@
  */
 package main;
 
-import util.DatabaseLoaderUtilities.PokemonLoaderUtility;
-import model.PokeModel;
 import gameStates.battle.BattleState;
 import gameStates.blackScreen.BlackScreenState;
 import gameStates.mainMenu.MainMenuState;
 import gameStates.splashScreen.SplashScreenState;
 import gameStates.teamPicker.TeamPickerState;
+import model.PokeModel;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
+import util.DatabaseLoaderUtilities.PokemonLoaderUtility;
 import util.SoundUtil;
 
 /**
@@ -83,7 +83,6 @@ public class Main extends StateBasedGame {
             app.setDisplayMode(WIDTH, HEIGHT, false);
             app.setTargetFrameRate(FPS);
             app.setShowFPS(true);
-            app.setIcon("./res/Images/GreatBall.png");
             app.start();
         } catch (SlickException e) {
             e.printStackTrace();

@@ -629,7 +629,7 @@ public class BattleState implements GameState {
         InfoPanel pnl;
         pokemonMenuMgr.clear();
         for (Pokemon pkmn : model.getUser().getPokemon()) {
-            img = new Image("./res/Images/Sprites/front/" + pkmn.getID() + ".png");
+            img = new Image("res/Images/Sprites/front/" + pkmn.getID() + ".png");
             pnl = new InfoPanel(pkmn.getCurHealth(), pkmn.getHealth(), pkmn.getNickname(), img);
             pnl.setEnabled(true);
             pokemonMenuMgr.set(places[i][0], places[i][1], pnl);

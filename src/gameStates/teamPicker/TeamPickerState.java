@@ -15,16 +15,14 @@
  */
 package gameStates.teamPicker;
 
-import model.PokeModel;
-import model.PokemonObjects.Pokemon;
-import model.PokemonObjects.UserTrainer;
-import util.TrainerCreator.RandomCreatorUtility;
-import util.TrainerCreator.TeamCreatorUtility;
 import gameStates.guiComponents.InfoPanel;
 import gameStates.guiComponents.MenuButton;
 import gameStates.guiComponents.MenuLayoutManager;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.PokeModel;
+import model.PokemonObjects.Pokemon;
+import model.PokemonObjects.UserTrainer;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -37,6 +35,8 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 import util.ColorUtil;
+import util.TrainerCreator.RandomCreatorUtility;
+import util.TrainerCreator.TeamCreatorUtility;
 
 /**
  * A team picking menu state for the game
@@ -188,7 +188,7 @@ public class TeamPickerState implements GameState {
             for (int j = 0; j < 2; j++) {
                 Pokemon pkmn = RandomCreatorUtility.getRandomPokemon();
                 try {
-                    teamMgr.set(j, i, new InfoPanel(pkmn.getCurHealth(), pkmn.getHealth(), pkmn.getName(), new Image("./res/Images/Sprites/front/" + pkmn.getID() + ".png")));
+                    teamMgr.set(j, i, new InfoPanel(pkmn.getCurHealth(), pkmn.getHealth(), pkmn.getName(), new Image("res/Images/Sprites/front/" + pkmn.getID() + ".png")));
                     pkmns[j + i * 2] = pkmn;
                 } catch (SlickException ex) {
                     Logger.getLogger(TeamPickerState.class.getName()).log(Level.SEVERE, null, ex);
@@ -208,7 +208,7 @@ public class TeamPickerState implements GameState {
         Pokemon pkmn = TeamCreatorUtility.getPokemonGUI();
         if (pkmn != null) {
             int[] pnlLoc = teamMgr.find(teamMgr.getSelected());
-            teamMgr.set(coords[0], coords[1], new InfoPanel(pkmn.getCurHealth(), pkmn.getHealth(), pkmn.getName(), new Image("./res/Images/Sprites/front/" + pkmn.getID() + ".png")));
+            teamMgr.set(coords[0], coords[1], new InfoPanel(pkmn.getCurHealth(), pkmn.getHealth(), pkmn.getName(), new Image("res/Images/Sprites/front/" + pkmn.getID() + ".png")));
             pkmns[pnlLoc[0] + pnlLoc[1] * 2] = pkmn;
         }
     }
