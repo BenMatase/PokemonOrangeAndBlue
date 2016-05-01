@@ -15,11 +15,11 @@
  */
 package BattleUtility;
 
-import DatabaseLoaderUtilities.PokemonLoaderUtility;
-import PokemonObjects.EnemyTrainer;
-import PokemonObjects.Move;
-import PokemonObjects.Pokemon;
-import PokemonObjects.UserTrainer;
+import util.DatabaseLoaderUtilities.PokemonLoaderUtility;
+import model.PokemonObjects.EnemyTrainer;
+import model.PokemonObjects.Move;
+import model.PokemonObjects.Pokemon;
+import model.PokemonObjects.UserTrainer;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.After;

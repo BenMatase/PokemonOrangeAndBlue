@@ -15,9 +15,9 @@
  */
 package BattleUtility;
 
-import DatabaseLoaderUtilities.PokemonLoaderUtility;
-import PokemonObjects.Move;
-import PokemonObjects.Pokemon;
+import util.DatabaseLoaderUtilities.PokemonLoaderUtility;
+import model.PokemonObjects.Move;
+import model.PokemonObjects.Pokemon;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.After;

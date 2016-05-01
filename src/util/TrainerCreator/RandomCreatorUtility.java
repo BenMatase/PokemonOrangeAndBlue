@@ -13,13 +13,13 @@
  *
  * ****************************************
  */
-package TrainerCreator;
+package util.TrainerCreator;
 
-import DatabaseLoaderUtilities.PokemonLoaderUtility;
-import PokemonObjects.EnemyTrainer;
-import PokemonObjects.Pokemon;
-import PokemonObjects.Trainer;
-import PokemonObjects.UserTrainer;
+import util.DatabaseLoaderUtilities.PokemonLoaderUtility;
+import model.PokemonObjects.EnemyTrainer;
+import model.PokemonObjects.Pokemon;
+import model.PokemonObjects.Trainer;
+import model.PokemonObjects.UserTrainer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;

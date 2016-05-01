@@ -15,6 +15,7 @@
  */
 package PokemonObjects;
 
+import model.PokemonObjects.Move;
 import BattleUtility.PokemonType;
 import org.junit.After;
 import static org.junit.Assert.assertEquals;

@@ -13,7 +13,7 @@
  *
  * ****************************************
  */
-package PokemonObjects;
+package model.PokemonObjects;
 
 /**
  * Class that will represent the UserTrainer and hold its pokemon

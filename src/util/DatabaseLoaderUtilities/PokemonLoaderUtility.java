@@ -14,12 +14,12 @@
  *
  * ****************************************
  */
-package DatabaseLoaderUtilities;
+package util.DatabaseLoaderUtilities;
 
 import BattleUtility.PokemonType;
-import PokemonObjects.Move;
-import PokemonObjects.Move.AttackType;
-import PokemonObjects.Pokemon;
+import model.PokemonObjects.Move;
+import model.PokemonObjects.Move.AttackType;
+import model.PokemonObjects.Pokemon;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;

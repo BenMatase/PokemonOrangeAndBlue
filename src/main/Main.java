@@ -5,8 +5,8 @@
  */
 package main;
 
-import DatabaseLoaderUtilities.PokemonLoaderUtility;
-import PokeModel.PokeModel;
+import util.DatabaseLoaderUtilities.PokemonLoaderUtility;
+import model.PokeModel;
 import gameStates.battle.BattleState;
 import gameStates.blackScreen.BlackScreenState;
 import gameStates.mainMenu.MainMenuState;

@@ -15,9 +15,9 @@
  */
 package gameStates.mainMenu;
 
-import DatabaseLoaderUtilities.TrainerLoaderUtility;
-import PokeModel.PokeModel;
-import TrainerCreator.RandomCreatorUtility;
+import util.DatabaseLoaderUtilities.TrainerLoaderUtility;
+import model.PokeModel;
+import util.TrainerCreator.RandomCreatorUtility;
 import gameStates.guiComponents.MenuButton;
 import gameStates.guiComponents.MenuLayoutManager;
 import org.newdawn.slick.Color;
@@ -132,7 +132,7 @@ public class MainMenuState implements GameState {
             SoundUtil.playEnterBattle();
             game.enterState(main.Main.GameStateType.BATTLE.getValue(), new FadeOutTransition(Color.black, 500), new FadeInTransition(Color.black, 500));
         } else if (menuMgr.getSelected().getText().equals("Battle " + TrainerLoaderUtility.loadProfessor(model.getCurProf()).getName())) {
-            model.setEnemy(DatabaseLoaderUtilities.TrainerLoaderUtility.loadProfessor(model.getCurProf()), true);
+            model.setEnemy(util.DatabaseLoaderUtilities.TrainerLoaderUtility.loadProfessor(model.getCurProf()), true);
             SoundUtil.playEnterBattle();
             game.enterState(main.Main.GameStateType.BATTLE.getValue(), new FadeOutTransition(Color.black, 500), new FadeInTransition(Color.black, 500));
         }

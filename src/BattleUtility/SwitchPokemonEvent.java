@@ -16,7 +16,7 @@
  */
 package BattleUtility;
 
-import PokemonObjects.Pokemon;
+import model.PokemonObjects.Pokemon;
 
 /**
  * Event for when a pokemon is switched out.

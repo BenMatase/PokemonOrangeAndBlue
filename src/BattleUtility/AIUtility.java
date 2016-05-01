@@ -15,10 +15,10 @@
  */
 package BattleUtility;
 
-import PokemonObjects.EnemyTrainer;
-import PokemonObjects.Move;
-import PokemonObjects.Pokemon;
-import PokemonObjects.UserTrainer;
+import model.PokemonObjects.EnemyTrainer;
+import model.PokemonObjects.Move;
+import model.PokemonObjects.Pokemon;
+import model.PokemonObjects.UserTrainer;
 import java.util.Random;
 
 /**

@@ -23,11 +23,11 @@ import BattleUtility.Event;
 import BattleUtility.SwitchPokemonEvent;
 import BattleUtility.TextOutputEvent;
 import BattleUtility.UserDefeatEvent;
-import PokeModel.PokeModel;
-import PokemonObjects.EnemyTrainer;
-import PokemonObjects.Move;
-import PokemonObjects.Pokemon;
-import PokemonObjects.UserTrainer;
+import model.PokeModel;
+import model.PokemonObjects.EnemyTrainer;
+import model.PokemonObjects.Move;
+import model.PokemonObjects.Pokemon;
+import model.PokemonObjects.UserTrainer;
 import java.util.ArrayList;
 
 /**

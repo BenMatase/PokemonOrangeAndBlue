@@ -13,10 +13,10 @@
  *
  * ****************************************
  */
-package TrainerCreator;
+package util.TrainerCreator;
 
-import DatabaseLoaderUtilities.PokemonLoaderUtility;
-import PokemonObjects.Pokemon;
+import util.DatabaseLoaderUtilities.PokemonLoaderUtility;
+import model.PokemonObjects.Pokemon;
 import java.util.List;
 import javax.swing.JOptionPane;
 

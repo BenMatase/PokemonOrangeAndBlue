@@ -16,7 +16,7 @@
  */
 package BattleUtility;
 
-import PokemonObjects.TrainerType;
+import model.PokemonObjects.TrainerType;
 
 /**
  * Abstract of a single pokemon fainting.

@@ -16,7 +16,7 @@
  */
 package BattleUtility;
 
-import PokemonObjects.TrainerType;
+import model.PokemonObjects.TrainerType;
 
 /**
  * Abstract of changing the health bar

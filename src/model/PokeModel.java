@@ -13,11 +13,11 @@
  *
  * ****************************************
  */
-package PokeModel;
+package model;
 
-import PokemonObjects.EnemyTrainer;
-import PokemonObjects.TrainerType;
-import PokemonObjects.UserTrainer;
+import model.PokemonObjects.EnemyTrainer;
+import model.PokemonObjects.TrainerType;
+import model.PokemonObjects.UserTrainer;
 
 /**
  * Class that holds the model of the game such as the enemy trainers and user
