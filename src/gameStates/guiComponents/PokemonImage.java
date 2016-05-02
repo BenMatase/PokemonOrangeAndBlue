@@ -102,7 +102,7 @@ public class PokemonImage {
      * @throws SlickException
      */
     public PokemonImage(int tlx, int tly, int brx, int bry, FillType fillType, int id, TrainerType trainerType) throws SlickException {
-        this(tlx, tly, brx, bry, fillType, "./res/Images/Sprites/" + (trainerType == TrainerType.NPC ? "front/" : "back/") + id + ".png", trainerType);
+        this(tlx, tly, brx, bry, fillType, "res/Images/Sprites/" + (trainerType == TrainerType.NPC ? "front/" : "back/") + id + ".png", trainerType);
     }
 
     /**
@@ -330,7 +330,7 @@ public class PokemonImage {
      */
     public void swap(int id) {
         try {
-            tmpImage = new Image("./res/Images/Sprites/" + (type == TrainerType.NPC ? "front/" : "back/") + id + ".png");
+            tmpImage = new Image("res/Images/Sprites/" + (type == TrainerType.NPC ? "front/" : "back/") + id + ".png");
         } catch (SlickException ex) {
             tmpImage = image;
         }

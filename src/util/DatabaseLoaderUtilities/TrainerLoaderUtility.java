@@ -15,11 +15,11 @@
  */
 package util.DatabaseLoaderUtilities;
 
-import model.PokemonObjects.EnemyTrainer;
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import model.PokemonObjects.EnemyTrainer;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
@@ -33,10 +33,11 @@ import org.jdom2.input.SAXBuilder;
  * @author Benjamin Matase
  */
 public class TrainerLoaderUtility {
+
     /**
      * Relative path to trainers.xml database in project
      */
-    private static final String TRAINERS_FILE_PATH = "./res/Database/trainers.xml";
+    private static final String TRAINERS_FILE_PATH = "/res/Database/trainers.xml";
 
     private static Element trainerRootNode;
 
@@ -57,13 +58,13 @@ public class TrainerLoaderUtility {
 
         //get all of the professor nodes
         List<Element> professorNodes = trainerRootNode.getChild("professors").getChildren(
-                "professor");
+            "professor");
 
         //get professor node with specified profNum as id
         Element profNode = null;
         for (Element professorNode : professorNodes) {
             if (professorNode.getAttributeValue("id").equals(String.valueOf(
-                    profNum))) {
+                profNum))) {
                 profNode = professorNode;
             }
         }
@@ -78,7 +79,7 @@ public class TrainerLoaderUtility {
 
         //get all pokemon nodes
         List<Element> pkmnNodes = profNode.getChild("team").getChildren(
-                "pokemon");
+            "pokemon");
 
         //go through each pokemon and add to enemy
         for (Element pkmnNode : pkmnNodes) {
@@ -95,8 +96,8 @@ public class TrainerLoaderUtility {
 
             //create and add pokemon using PokemonLoaderUtility
             enemy.addPokemon(
-                    PokemonLoaderUtility.createPokemon(species, species,
-                                                       moves));
+                PokemonLoaderUtility.createPokemon(species, species,
+                                                   moves));
         }
 
         return enemy;
@@ -128,8 +129,8 @@ public class TrainerLoaderUtility {
      */
     private static Element loadNode(String filePath) {
         SAXBuilder builder = new SAXBuilder();
-        File xmlFile = new File(filePath);
-
+//        File xmlFile = new File(filePath);
+        InputStream xmlFile = PokemonLoaderUtility.class.getResourceAsStream(filePath);
         try {
             Document document = (Document) builder.build(xmlFile);
             return document.getRootElement();
