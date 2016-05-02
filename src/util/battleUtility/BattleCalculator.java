@@ -14,7 +14,7 @@
  *
  * ****************************************
  */
-package BattleUtility;
+package util.battleUtility;
 
 import model.PokemonObjects.Move;
 import model.PokemonObjects.Move.AttackType;
@@ -64,9 +64,9 @@ public class BattleCalculator {
      * Takes in Attacking and Defending Pokemon, and the move used and sets them
      * as attributes for calculations later.
      *
-     * @param AtkPoke Pokemon
-     * @param DefPoke Pokemon
-     * @param move Move
+     * @param AtkPoke Pokemon Attacking pokemon object
+     * @param DefPoke Pokemon Defending pokemon object
+     * @param move Move Move used by the attacking pokemon
      * @author Murph
      */
     public BattleCalculator(Pokemon AtkPoke, Pokemon DefPoke, Move move) {
@@ -81,7 +81,7 @@ public class BattleCalculator {
      * Allows outside sources to set a new move to the same calculator. Added to
      * make things easier for the AI Utility.
      *
-     * @param move
+     * @param move move used by attacking pokemon
      * @author Murph
      */
     public void setMove(Move move) {
@@ -91,6 +91,7 @@ public class BattleCalculator {
     /**
      * Called on a damage calculator object to gather the amount of damage.
      *
+     * @see <http://bulbapedia.bulbagarden.net/wiki/Damage>
      * @return damage double
      * @author Murph
      */
@@ -110,8 +111,6 @@ public class BattleCalculator {
      * @author Murph
      */
     private double calculatePhysicalDamage() {
-        //TODO: modifier might need a rename
-        //gets the damage multiplier based on pokemon move type and opponent type(s)
         double modifier = getModifier1();
         if (DefPoke.getPokemonType2() != null) {
             double modifier2 = getModifier2();
@@ -142,8 +141,6 @@ public class BattleCalculator {
      * @author Murph
      */
     private double calculateSpecialDamage() {
-        //TODO: modifier might need a rename
-        //gets the damage multiplier based on pokemon move type and opponent type(s)
         double modifier = getModifier1();
         if (DefPoke.getPokemonType2() != null) {
             double modifier2 = getModifier2();

@@ -15,13 +15,13 @@
  */
 package gameStates.guiComponents;
 
-import util.FontUtil;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.RoundedRectangle;
+import util.FontUtil;
 
 /**
  * A subclass of button that displays the name, current health, maximum health,
@@ -151,7 +151,7 @@ public class InfoPanel extends MenuButton {
             // Draw image if needed
             g.drawImage(img, IX, IY, IX + IW, IY + IH, 0, 0, img.getWidth(), img.getHeight());
 
-            g.drawString(text[0], (int) (drawArea.getX() + IW + 2 * PAD), (int) (drawArea.getY() + PAD * 2));
+            g.drawString(text[0], (int) (IX + IW + 2 * PAD), (int) (drawArea.getY() + PAD * 2));
         } else {
             g.drawString(text[0], (int) (drawArea.getX() + PAD * 2), (int) (drawArea.getY() + PAD * 2));
         }

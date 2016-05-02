@@ -4,45 +4,45 @@
  *
  * Name: Benjamin Matase, Jason Corriveau, Eric Marshall, Alexander Murph
  * Date: Apr 13, 2016
- * Time: 5:09:51 PM
+ * Time: 5:09:09 PM
  *
  * Project: csci205FinalProject
  * Package: BattleUtility
- * File: SwitchPokemonEvent
+ * File: PokemonFaintEvent
  * Description: An event to be passed the GUI.  Updates things to show an
  * animation based off the fact that a pokemon has fainted.
  *
  * ****************************************
  */
-package BattleUtility;
+package util.battleUtility;
 
-import model.PokemonObjects.Pokemon;
+import model.PokemonObjects.TrainerType;
 
 /**
- * Event for when a pokemon is switched out.
+ * Abstract of a single pokemon fainting.
  *
  * @author Murph
  */
-public class SwitchPokemonEvent extends Event {
+public class PokemonFaintEvent extends Event {
 
-    Pokemon switchPokemon = null;
+    TrainerType trainerType;
 
     /**
-     * Constructor for the abstract of switching a pokemon.
+     * Constructor for a pokemon faint event.
      *
-     * @param PokeSwitch
+     * @param type
      */
-    public SwitchPokemonEvent(Pokemon PokeSwitch) {
-        this.switchPokemon = PokeSwitch;
+    public PokemonFaintEvent(TrainerType type) {
+        this.trainerType = type;
     }
 
     /**
-     * Gets the pokemon that will be sent out for the switch.
+     * Gets which pokemon in a fight faints by returning if it was a user or
+     * enemy.
      *
      * @return
      */
-    public Pokemon getSwitchPokemon() {
-        return switchPokemon;
+    public TrainerType getTrainerType() {
+        return trainerType;
     }
-
 }

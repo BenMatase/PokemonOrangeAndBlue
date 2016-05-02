@@ -15,13 +15,14 @@
  */
 package util.TrainerCreator;
 
-import util.DatabaseLoaderUtilities.PokemonLoaderUtility;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JComboBox;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import util.DatabaseLoaderUtilities.PokemonLoaderUtility;
 
 /**
  * Panel for the user to choose a Pokemon and up to four moves to create.
@@ -29,7 +30,7 @@ import javax.swing.SwingUtilities;
  * @author Benjamin Matase
  */
 public class PokemonCreatorPanel extends javax.swing.JPanel implements
-        ActionListener {
+    ActionListener {
 
     /**
      * The string to be the default, empty choice for all the drop down lists
@@ -42,6 +43,12 @@ public class PokemonCreatorPanel extends javax.swing.JPanel implements
      * @author Benjamin Matase
      */
     public PokemonCreatorPanel() {
+
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {
+        }
+
         initComponents();
 
         //hide panel with moves stuff originally
@@ -227,7 +234,7 @@ public class PokemonCreatorPanel extends javax.swing.JPanel implements
      */
     public boolean hasChosenAMove() {
         return isNotEmpty(cbxMove1) || isNotEmpty(cbxMove2) || isNotEmpty(
-                cbxMove3) || isNotEmpty(cbxMove4);
+            cbxMove3) || isNotEmpty(cbxMove4);
     }
 
     /**
@@ -298,7 +305,7 @@ public class PokemonCreatorPanel extends javax.swing.JPanel implements
     private void populateMoves() {
         //get all of the move names for the specified Pokemon
         List<String> moveNames = PokemonLoaderUtility.getMovesForPokemon(
-                getPkmnName());
+            getPkmnName());
 
         //reset all of the combo boxes
         resetMoveCbxs();

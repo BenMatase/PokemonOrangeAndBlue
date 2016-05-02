@@ -16,7 +16,7 @@ package DatabaseLoaderUtilities;
  * ****************************************
  */
 import util.DatabaseLoaderUtilities.PokemonLoaderUtility;
-import BattleUtility.PokemonType;
+import util.battleUtility.PokemonType;
 import model.PokemonObjects.Move;
 import model.PokemonObjects.Move.AttackType;
 import model.PokemonObjects.Pokemon;

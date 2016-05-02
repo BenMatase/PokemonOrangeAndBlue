@@ -14,7 +14,7 @@
  *
  * ****************************************
  */
-package BattleUtility;
+package util.battleUtility;
 
 /**
  * Abstraction for the event of text being displayed on the screen.

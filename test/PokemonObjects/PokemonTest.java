@@ -20,7 +20,7 @@ import model.PokemonObjects.UserTrainer;
 import model.PokemonObjects.Pokemon;
 import model.PokemonObjects.Move;
 import model.PokemonObjects.TrainerType;
-import BattleUtility.PokemonType;
+import util.battleUtility.PokemonType;
 import util.DatabaseLoaderUtilities.PokemonLoaderUtility;
 import java.util.ArrayList;
 import java.util.List;

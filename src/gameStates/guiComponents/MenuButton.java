@@ -5,14 +5,14 @@
  */
 package gameStates.guiComponents;
 
-import util.FontUtil;
-import util.ColorUtil;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.geom.RoundedRectangle;
+import util.ColorUtil;
+import util.FontUtil;
 
 /**
  * A MenuButton draws and represents a button in a menu. It can be either drawn
@@ -211,7 +211,11 @@ public class MenuButton {
     }
 
     public String getText() {
-        return String.join(" ", text);
+        String str = "";
+        for (String s : text) {
+            str += s + " ";
+        }
+        return str.substring(0, str.length() - 1);
     }
 
     public boolean isEnabled() {
@@ -253,7 +257,7 @@ public class MenuButton {
      */
     private void updateWrapSize() {
         try {
-            this.text = FontUtil.wrapString(String.join(" ", text), this.drawArea.getWidth() - 10);
+            this.text = FontUtil.wrapString(getText(), this.drawArea.getWidth() - 10);
         } catch (Exception ex) {
         }
     }

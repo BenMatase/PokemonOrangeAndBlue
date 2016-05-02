@@ -14,14 +14,14 @@
  *
  * ****************************************
  */
-package BattleUtility;
+package util.battleUtility;
 
-import model.PokemonObjects.Move;
-import model.PokemonObjects.Pokemon;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
+import model.PokemonObjects.Move;
+import model.PokemonObjects.Pokemon;
 
 /**
  * Abstract of a round in a pokemon battle.
@@ -42,10 +42,10 @@ public class BattleSimulator {
      * switched in, but place a null for its move. If both switch, place two
      * nulls.
      *
-     * @param poke1 Pokemon
-     * @param poke2 Pokemon
-     * @param move1 Move
-     * @param move2 Move
+     * @param poke1 Pokemon User Pokemon
+     * @param poke2 Pokemon Enemy Pokemon
+     * @param move1 Move User chosen pokemon move
+     * @param move2 Move AI chosen pokemon move
      * @author Murph
      */
     public BattleSimulator(Pokemon poke1, Pokemon poke2, Move move1, Move move2) {
