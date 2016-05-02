@@ -23,12 +23,12 @@ import BattleUtility.Event;
 import BattleUtility.SwitchPokemonEvent;
 import BattleUtility.TextOutputEvent;
 import BattleUtility.UserDefeatEvent;
+import java.util.ArrayList;
 import model.PokeModel;
 import model.PokemonObjects.EnemyTrainer;
 import model.PokemonObjects.Move;
 import model.PokemonObjects.Pokemon;
 import model.PokemonObjects.UserTrainer;
-import java.util.ArrayList;
 
 /**
  * Controller for a given Pokemon battle abstract. Takes in a pokemon model.
@@ -43,7 +43,7 @@ public class BattleControl {
     /**
      * Constructor takes in a pokemon model and extracts the Trainers.
      *
-     * @param myModel
+     * @param myModel the Model for the battle
      * @author Murph
      */
     public BattleControl(PokeModel myModel) {
@@ -87,7 +87,7 @@ public class BattleControl {
      * Called on the controller to get events for when user chooses to switch
      * their pokemon.
      *
-     * @param newCurrPokemon
+     * @param newCurrPokemon the pokemon the user wishes to switch to.
      * @return battle events ArrayList<Event>
      * @author Murph
      */
@@ -110,7 +110,7 @@ public class BattleControl {
     /**
      * Called on the controller to get events for when user chooses to fight.
      *
-     * @param chosenMove
+     * @param chosenMove The move the user wishes to attack with.
      * @return battle events ArrayList<Event>
      * @author Murph
      */
@@ -149,7 +149,8 @@ public class BattleControl {
      * calls this function. Function returns events that instruct the GUI what
      * to do.
      *
-     * @param mon Pokemon
+     * @param mon Pokemon The pokemon the user wishes to switch in for a
+     * recently fainted pokemon.
      * @return events ArrayList<Event>
      * @author Murph
      */
