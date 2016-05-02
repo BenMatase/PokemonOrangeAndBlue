@@ -14,7 +14,7 @@
  *
  * ****************************************
  */
-package BattleUtility;
+package util.battleUtility;
 
 import java.io.BufferedReader;
 import java.io.IOException;

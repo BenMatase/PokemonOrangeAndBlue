@@ -13,7 +13,7 @@
  *
  * ****************************************
  */
-package BattleUtility;
+package util.battleUtility;
 
 /**
  * Enum of all types of pokemon

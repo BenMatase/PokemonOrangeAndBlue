@@ -13,7 +13,7 @@
  *
  * ****************************************
  */
-package BattleUtility;
+package util.battleUtility;
 
 import model.PokemonObjects.EnemyTrainer;
 import model.PokemonObjects.Move;

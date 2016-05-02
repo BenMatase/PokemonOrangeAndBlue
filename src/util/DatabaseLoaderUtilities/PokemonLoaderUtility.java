@@ -16,7 +16,7 @@
  */
 package util.DatabaseLoaderUtilities;
 
-import BattleUtility.PokemonType;
+import util.battleUtility.PokemonType;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;

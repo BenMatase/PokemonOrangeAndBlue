@@ -14,7 +14,7 @@
  *
  * ****************************************
  */
-package BattleUtility;
+package util.battleUtility;
 
 /**
  * Abstract of you losing the game.

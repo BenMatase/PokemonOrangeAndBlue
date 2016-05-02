@@ -15,6 +15,7 @@
  */
 package BattleUtility;
 
+import util.battleUtility.AIUtility;
 import util.DatabaseLoaderUtilities.PokemonLoaderUtility;
 import model.PokemonObjects.EnemyTrainer;
 import model.PokemonObjects.Move;

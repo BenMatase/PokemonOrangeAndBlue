@@ -15,14 +15,14 @@
  */
 package gameStates.battle;
 
-import BattleUtility.EnemyDefeatEvent;
-import BattleUtility.Event;
-import BattleUtility.PokemonFaintEvent;
-import BattleUtility.SwitchPokemonEvent;
-import BattleUtility.TextOutputEvent;
-import BattleUtility.UpdateHealthBarEvent;
-import BattleUtility.UserDefeatEvent;
-import PokemonController.BattleControl;
+import util.battleUtility.EnemyDefeatEvent;
+import util.battleUtility.Event;
+import util.battleUtility.PokemonFaintEvent;
+import util.battleUtility.SwitchPokemonEvent;
+import util.battleUtility.TextOutputEvent;
+import util.battleUtility.UpdateHealthBarEvent;
+import util.battleUtility.UserDefeatEvent;
+import controller.BattleControl;
 import gameStates.guiComponents.InfoPanel;
 import gameStates.guiComponents.MenuButton;
 import gameStates.guiComponents.MenuLayoutManager;

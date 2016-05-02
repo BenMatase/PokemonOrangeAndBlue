@@ -14,15 +14,15 @@
  *
  * ****************************************
  */
-package PokemonController;
+package controller;
 
-import BattleUtility.AIUtility;
-import BattleUtility.BattleSimulator;
-import BattleUtility.EnemyDefeatEvent;
-import BattleUtility.Event;
-import BattleUtility.SwitchPokemonEvent;
-import BattleUtility.TextOutputEvent;
-import BattleUtility.UserDefeatEvent;
+import util.battleUtility.AIUtility;
+import util.battleUtility.BattleSimulator;
+import util.battleUtility.EnemyDefeatEvent;
+import util.battleUtility.Event;
+import util.battleUtility.SwitchPokemonEvent;
+import util.battleUtility.TextOutputEvent;
+import util.battleUtility.UserDefeatEvent;
 import java.util.ArrayList;
 import model.PokeModel;
 import model.PokemonObjects.EnemyTrainer;

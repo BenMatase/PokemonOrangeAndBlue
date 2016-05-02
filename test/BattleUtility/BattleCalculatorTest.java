@@ -15,6 +15,7 @@
  */
 package BattleUtility;
 
+import util.battleUtility.BattleCalculator;
 import util.DatabaseLoaderUtilities.PokemonLoaderUtility;
 import model.PokemonObjects.Move;
 import model.PokemonObjects.Pokemon;

@@ -14,7 +14,7 @@
  *
  * ****************************************
  */
-package BattleUtility;
+package util.battleUtility;
 
 import model.PokemonObjects.TrainerType;
 

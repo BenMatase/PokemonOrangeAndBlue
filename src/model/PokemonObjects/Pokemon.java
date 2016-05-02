@@ -15,7 +15,7 @@
  */
 package model.PokemonObjects;
 
-import BattleUtility.PokemonType;
+import util.battleUtility.PokemonType;
 import java.util.ArrayList;
 
 /**
