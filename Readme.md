@@ -1,11 +1,6 @@
-
-
 # Pokémon Orange and Blue
 
-<!-- Image will show if viewed with a markdown viewer -->
-![Great Ball](./res/Images/GreatBall.png)
-
-Created by _Jason Corriveau, Eric Marshall, Ben Matase, Alexander Murph_
+Created by Jason Corriveau, Eric Marshall, Ben Matase, Alexander Murph_
 
 April, 2016
 
