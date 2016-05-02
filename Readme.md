@@ -9,6 +9,15 @@ __Started:__ April, 2016
 
 __Readme.md last updated:__ 5/2/16
 
+## Jump To...
+- [Controls](#controls "Go to Controls")
+- [Compiling](#compiling "Go to Compiling")
+- [Running](#running "Go to Running")
+- [Features](#features "Go to Features")
+- [Credits](#credits "Go to Credits")
+- [Disclaimer](#disclaimer "Go to Disclaimer")
+
+
 ## Description
 
 The final project for Software Engineering and Design (CSCI205).  Our take
@@ -83,7 +92,7 @@ with Pokemon left is considered the winner.
 4. Clone the repository in the directory of your choice
 5. In Netbeans, select 'Run > Clean and Build Project'
 6. Open JarSplice
-    1. Select __ADD JARS__ and add the following Jar files (paths are relative to the Project folder):
+    1. Select __ADD JARS__ and add the following Jar files _(Note: paths are relative to the project folder)_:
         - dist/__csci205FinalProject.jar__
         - dist/lib/__commons-lang3-3.4.jar__
         - dist/lib/__ibxm.jar__
@@ -97,9 +106,9 @@ with Pokemon left is considered the winner.
         - externals/Slick/native/
     - Select __MAIN CLASS__
         - Under __Enter Main Class__ enter:
-            - main.Main
+            - `main.Main`
         - Select __Show Options__ and under __Set VM Arguments__ enter:
-            - -Djava.library.path="./externals/Slick/native"
+            - `-Djava.library.path="./externals/Slick/native"`
     - Select __CREATE FAT JAR__ and select the __Create Fat Jar__ button
     - Choose where you would like to save the game
 
