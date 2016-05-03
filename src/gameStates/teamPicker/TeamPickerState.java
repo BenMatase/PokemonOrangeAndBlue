@@ -15,6 +15,7 @@
  */
 package gameStates.teamPicker;
 
+import gameStates.GameStateType;
 import gameStates.guiComponents.InfoPanel;
 import gameStates.guiComponents.MenuButton;
 import gameStates.guiComponents.MenuLayoutManager;
@@ -220,7 +221,7 @@ public class TeamPickerState implements GameState {
      */
     private void handleDoneSelection() {
         if (readPkmnIntoUser()) {
-            game.enterState(main.Main.GameStateType.MAINMENU.getValue(), new FadeOutTransition(Color.black, 500), new FadeInTransition(Color.black, 500));
+            game.enterState(GameStateType.MAINMENU.getValue(), new FadeOutTransition(Color.black, 500), new FadeInTransition(Color.black, 500));
         }
     }
 

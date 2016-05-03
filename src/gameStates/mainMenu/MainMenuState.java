@@ -15,11 +15,10 @@
  */
 package gameStates.mainMenu;
 
-import util.DatabaseLoaderUtilities.TrainerLoaderUtility;
-import model.PokeModel;
-import util.TrainerCreator.RandomCreatorUtility;
+import gameStates.GameStateType;
 import gameStates.guiComponents.MenuButton;
 import gameStates.guiComponents.MenuLayoutManager;
+import model.PokeModel;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -30,7 +29,9 @@ import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
+import util.DatabaseLoaderUtilities.TrainerLoaderUtility;
 import util.SoundUtil;
+import util.TrainerCreator.RandomCreatorUtility;
 
 /**
  * A main menu state for the game
@@ -130,14 +131,14 @@ public class MainMenuState implements GameState {
         if ("Battle Random Trainer".equals(menuMgr.getSelected().getText())) {
             model.setEnemy(RandomCreatorUtility.getRandomNPC(6, "Random Trainer"), false);
             SoundUtil.playEnterBattle();
-            game.enterState(main.Main.GameStateType.BATTLE.getValue(), new FadeOutTransition(Color.black, 500), new FadeInTransition(Color.black, 500));
+            game.enterState(GameStateType.BATTLE.getValue(), new FadeOutTransition(Color.black, 500), new FadeInTransition(Color.black, 500));
         } else if (menuMgr.getSelected().getText().equals("Battle " + TrainerLoaderUtility.loadProfessor(model.getCurProf()).getName())) {
             model.setEnemy(util.DatabaseLoaderUtilities.TrainerLoaderUtility.loadProfessor(model.getCurProf()), true);
             SoundUtil.playEnterBattle();
-            game.enterState(main.Main.GameStateType.BATTLE.getValue(), new FadeOutTransition(Color.black, 500), new FadeInTransition(Color.black, 500));
+            game.enterState(GameStateType.BATTLE.getValue(), new FadeOutTransition(Color.black, 500), new FadeInTransition(Color.black, 500));
         }
         if ("Restart".equals(menuMgr.getSelected().getText())) {
-            game.enterState(main.Main.GameStateType.TEAMPICKER.getValue(), new FadeOutTransition(Color.black, 500), new FadeInTransition(Color.black, 500));
+            game.enterState(GameStateType.TEAMPICKER.getValue(), new FadeOutTransition(Color.black, 500), new FadeInTransition(Color.black, 500));
         }
     }
 
