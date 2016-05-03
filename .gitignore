@@ -9,6 +9,7 @@
 # Package Files #
 *.jar
 !externals/*/*.jar
+!Pokemon\ Orange\ and\ Blue.jar
 *.war
 *.ear
 
@@ -25,7 +26,7 @@ nbactions.xml
 nb-configuration.xml
 
 # Eclipse configuration files
-# NOTE: If you want to use the Git plugin for Eclipse, then 
+# NOTE: If you want to use the Git plugin for Eclipse, then
 # do NOT exclude .classpath and .project!
 .settings/
 .metadata/

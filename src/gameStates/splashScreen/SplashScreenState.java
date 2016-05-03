@@ -15,6 +15,7 @@
  */
 package gameStates.splashScreen;
 
+import gameStates.GameStateType;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -167,7 +168,7 @@ public class SplashScreenState implements GameState {
      * @author Eric
      */
     private void goToMenu() {
-        game.enterState(main.Main.GameStateType.TEAMPICKER.getValue(), new FadeOutTransition(Color.black, 500), new FadeInTransition(Color.black, 500));
+        game.enterState(GameStateType.TEAMPICKER.getValue(), new FadeOutTransition(Color.black, 500), new FadeInTransition(Color.black, 500));
     }
 
     @Override

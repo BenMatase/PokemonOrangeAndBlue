@@ -106,7 +106,7 @@ with Pokemon left is considered the winner.
         - externals/Slick/native/
     - Select __MAIN CLASS__
         - Under __Enter Main Class__ enter:
-            - `main.Main`
+            - `Main`
         - Select __Show Options__ and under __Set VM Arguments__ enter:
             - `-Djava.library.path="./externals/Slick/native"`
     - Select __CREATE FAT JAR__ and select the __Create Fat Jar__ button
@@ -149,6 +149,8 @@ with Pokemon left is considered the winner.
     [moves Database](https://github.com/cathyjf/PokemonLabBot/blob/master/moves.xml "Moves Database on Github")
     and [Pokémon Database](https://github.com/r4vi/zipper-demo/blob/master/resources/pokemon.xml "Pokémon Database on Github")
     respectively
+
+- Trainer Sprites were found on [Psypokes.com](http://i32.tinypic.com/n4blzt.jpg "Psypokes")
 
 ## Disclaimer
 This game does not represent the views of Bucknell University or Nintendo Co., Ltd.

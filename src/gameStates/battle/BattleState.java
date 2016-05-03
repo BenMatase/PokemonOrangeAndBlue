@@ -15,14 +15,8 @@
  */
 package gameStates.battle;
 
-import util.battleUtility.EnemyDefeatEvent;
-import util.battleUtility.Event;
-import util.battleUtility.PokemonFaintEvent;
-import util.battleUtility.SwitchPokemonEvent;
-import util.battleUtility.TextOutputEvent;
-import util.battleUtility.UpdateHealthBarEvent;
-import util.battleUtility.UserDefeatEvent;
 import controller.BattleControl;
+import gameStates.GameStateType;
 import gameStates.guiComponents.InfoPanel;
 import gameStates.guiComponents.MenuButton;
 import gameStates.guiComponents.MenuLayoutManager;
@@ -46,6 +40,13 @@ import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 import util.ColorUtil;
 import util.SoundUtil;
+import util.battleUtility.EnemyDefeatEvent;
+import util.battleUtility.Event;
+import util.battleUtility.PokemonFaintEvent;
+import util.battleUtility.SwitchPokemonEvent;
+import util.battleUtility.TextOutputEvent;
+import util.battleUtility.UpdateHealthBarEvent;
+import util.battleUtility.UserDefeatEvent;
 
 /**
  * A game state that simulates a Pokemon battle
@@ -436,7 +437,7 @@ public class BattleState implements GameState {
                         model.getUser().healPokemon();
                         model.getUser().setCurPokemon(model.getUser().getPokmeon(0));
                         SoundUtil.playAlmaMater();
-                        game.enterState(main.Main.GameStateType.MAINMENU.getValue(), new FadeOutTransition(Color.black, 500), new FadeInTransition(Color.black, 500));
+                        game.enterState(GameStateType.MAINMENU.getValue(), new FadeOutTransition(Color.black, 500), new FadeInTransition(Color.black, 500));
                     } else {
                         this.state = BattleStateMenuType.MAIN;
                     }
